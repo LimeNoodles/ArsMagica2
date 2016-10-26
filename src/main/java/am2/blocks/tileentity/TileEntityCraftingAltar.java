@@ -448,7 +448,6 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 	@Override
 	public void update(){
 		super.update();
-		this.worldObj.markAndNotifyBlock(pos, this.worldObj.getChunkFromBlockCoords(pos), this.worldObj.getBlockState(pos), this.worldObj.getBlockState(pos), 3);
 		checkStructure();
 		checkForStartCondition();
 		updateLecternInformation();
