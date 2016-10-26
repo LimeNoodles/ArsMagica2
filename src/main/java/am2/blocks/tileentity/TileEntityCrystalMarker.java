@@ -459,6 +459,8 @@ public class TileEntityCrystalMarker extends TileEntity implements IInventory, I
 	
 	@Override
 	public void update() {
+		if (!worldObj.isRemote && worldObj.getBlockState(pos).getValue(BlockCrystalMarker.FACING) != facing)
+			 worldObj.setBlockState(pos, worldObj.getBlockState(pos).withProperty(BlockCrystalMarker.FACING, facing));
 	}
 	
 	@Override
