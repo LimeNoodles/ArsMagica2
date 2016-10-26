@@ -1,7 +1,5 @@
 package am2.blocks.render;
 
-import org.lwjgl.opengl.GL11;
-
 import am2.blocks.BlockCrystalMarker;
 import am2.blocks.tileentity.TileEntityCrystalMarker;
 import am2.defs.BlockDefs;
@@ -45,44 +43,44 @@ public class TileCrystalMarkerRenderer extends TileEntitySpecialRenderer<TileEnt
 			facing = tileentity.getFacing();
 		}
 
-		GL11.glPushMatrix();
-		GL11.glPushAttrib(GL11.GL_LIGHTING_BIT);
+		GlStateManager.pushMatrix();
+		GlStateManager.pushAttrib();
 		Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-		GL11.glDisable(GL11.GL_CULL_FACE);
+		GlStateManager.disableCull();
 		RenderHelper.disableStandardItemLighting();
 
 		if (tileentity.getPos() != BlockPos.ORIGIN){
 			switch (facing){
 			case UP: //Bottom, Inventory is above
-				GL11.glTranslated(x + 0.5, y + 1.0 + tileentity.GetConnectedBoundingBox().minY, z + 0.5);
-				GL11.glRotated(90, 1, 0, 0);
+				GlStateManager.translate(x + 0.5, y + 1.0 + tileentity.GetConnectedBoundingBox().minY, z + 0.5);
+				GlStateManager.rotate(90, 1, 0, 0);
 				break;
 			case DOWN: //Top, Inventory is below
-				GL11.glTranslated(x + 0.5, y - (1.0 - tileentity.GetConnectedBoundingBox().maxY), z + 0.5);
-				GL11.glRotated(270, 1, 0, 0);
+				GlStateManager.translate(x + 0.5, y - (1.0 - tileentity.GetConnectedBoundingBox().maxY), z + 0.5);
+				GlStateManager.rotate(270, 1, 0, 0);
 				break;
 			case SOUTH: //North, Inventory is to the south
-				GL11.glTranslated(x + 0.5, y + 0.5, z + 1.0 + (1.0 - tileentity.GetConnectedBoundingBox().maxZ));
-				GL11.glRotated(180, 0, 1, 0);
+				GlStateManager.translate(x + 0.5, y + 0.5, z + 1.0 + (1.0 - tileentity.GetConnectedBoundingBox().maxZ));
+				GlStateManager.rotate(180, 0, 1, 0);
 				break;
 			case NORTH: //South, Inventory is to the north
-				GL11.glTranslated(x + 0.5, y + 0.5, z - tileentity.GetConnectedBoundingBox().minZ);
+				GlStateManager.translate(x + 0.5, y + 0.5, z - tileentity.GetConnectedBoundingBox().minZ);
 				break;
 			case EAST: //West, Inventory is to the east
-				GL11.glTranslated(x + 1 + tileentity.GetConnectedBoundingBox().minX, y + 0.5, z + 0.5);
-				GL11.glRotated(270, 0, 1, 0);
+				GlStateManager.translate(x + 1 + tileentity.GetConnectedBoundingBox().minX, y + 0.5, z + 0.5);
+				GlStateManager.rotate(270, 0, 1, 0);
 				break;
 			case WEST: //East, Inventory is to the west
-				GL11.glTranslated(x - (1.0 - tileentity.GetConnectedBoundingBox().maxX), y + 0.5, z + 0.5);
-				GL11.glRotated(90, 0, 1, 0);
+				GlStateManager.translate(x - (1.0 - tileentity.GetConnectedBoundingBox().maxX), y + 0.5, z + 0.5);
+				GlStateManager.rotate(90, 0, 1, 0);
 				break;
 			}
 
-			GL11.glScalef(0.5f, 0.5f, 0.5f);
+			GlStateManager.scale(0.5f, 0.5f, 0.5f);
 		}else{
-			GL11.glTranslated(0.5, 0.5, 0.5);
-			GL11.glScalef(1.4f, 1.4f, 1.4f);
-			GL11.glRotated(180, 0, 1, 0);
+			GlStateManager.translate(0.5, 0.5, 0.5);
+			GlStateManager.scale(1.4f, 1.4f, 1.4f);
+			GlStateManager.rotate(180, 0, 1, 0);
 		}
 
 		int blockType = 0;
@@ -101,10 +99,10 @@ public class TileCrystalMarkerRenderer extends TileEntitySpecialRenderer<TileEnt
 		tesselator.draw();
 		GlStateManager.popMatrix();
 		RenderHelper.enableStandardItemLighting();
-		GL11.glPopAttrib();
-		GL11.glEnable(GL11.GL_CULL_FACE);
+		GlStateManager.popAttrib();
+		GlStateManager.enableCull();
 		GlStateManager.enableBlend();
-		GL11.glPopMatrix();
+		GlStateManager.popMatrix();
 	}
 
 }

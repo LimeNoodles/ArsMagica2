@@ -8,6 +8,8 @@ import am2.defs.BlockDefs;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.GlStateManager.DestFactor;
+import net.minecraft.client.renderer.GlStateManager.SourceFactor;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.block.model.IBakedModel;
@@ -44,14 +46,14 @@ public class TileCelestialPrismRenderer extends TileEntitySpecialRenderer<TileEn
 		GlStateManager.translate(x, y, z);
 		GlStateManager.disableRescaleNormal();
 		GlStateManager.pushMatrix();
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		GL11.glDisable(GL11.GL_CULL_FACE);
+		GlStateManager.enableBlend();
+		GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
+		GlStateManager.disableCull();
 		RenderHelper.disableStandardItemLighting();
 		if (x != 0 || y != 0 || z != 0) {
 			GlStateManager.translate(-1f, 0, 1F);
-			GL11.glTranslated(1.5, 0, -0.5);
-			GL11.glScalef(2, 2, 2);
+			GlStateManager.translate(1.5, 0, -0.5);
+			GlStateManager.scale(2, 2, 2);
 			IBlockState state = te.getWorld().getBlockState(te.getPos());
 			EnumFacing facing = state.getValue(BlockEssenceGenerator.FACING);
 			GlStateManager.rotate(180 - facing.getHorizontalAngle(), 0, 1, 0);
@@ -72,8 +74,8 @@ public class TileCelestialPrismRenderer extends TileEntitySpecialRenderer<TileEn
 		}
 		tessellator.draw();
 		RenderHelper.enableStandardItemLighting();
-		GL11.glEnable(GL11.GL_CULL_FACE);
-		GL11.glDisable(GL11.GL_BLEND);
+		GlStateManager.enableCull();
+		GlStateManager.disableBlend();
 		GlStateManager.popMatrix();
 		GlStateManager.popMatrix();
 		GlStateManager.popAttrib();

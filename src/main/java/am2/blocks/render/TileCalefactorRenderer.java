@@ -1,11 +1,10 @@
 package am2.blocks.render;
 
-import org.lwjgl.opengl.GL11;
-
 import am2.blocks.tileentity.TileEntityCalefactor;
 import am2.gui.AMGuiHelper;
 import am2.models.ModelCalefactor;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderEntityItem;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
@@ -32,7 +31,7 @@ public class TileCalefactorRenderer extends TileEntitySpecialRenderer<TileEntity
 			i = tile.getBlockMetadata();
 		}
 
-		GL11.glPushMatrix(); //start
+		GlStateManager.pushMatrix(); //start
 
 		int meta = i;
 
@@ -45,43 +44,43 @@ public class TileCalefactorRenderer extends TileEntitySpecialRenderer<TileEntity
 
 		switch (meta){
 		case 1:
-			GL11.glTranslatef((float)x + 0.5f, (float)y - 0.5F, (float)z + 0.5F); //size
-			GL11.glRotatef(180, 1.0F, 0.0F, 0.0F); //rotate based on metadata
+			GlStateManager.translate((float)x + 0.5f, (float)y - 0.5F, (float)z + 0.5F); //size
+			GlStateManager.rotate(180, 1.0F, 0.0F, 0.0F); //rotate based on metadata
 			offsetX = 0.5;
 			offsetY = -1.5;
 			offsetZ = 0.5;
 			break;
 		case 0:
 		case 2:
-			GL11.glTranslatef((float)x + 0.5f, (float)y + 1.5F, (float)z + 0.5F); //size
+			GlStateManager.translate((float)x + 0.5f, (float)y + 1.5F, (float)z + 0.5F); //size
 			offsetX = 0.5;
 			offsetY = 0.0;
 			offsetZ = 0.5;
 			break;
 		case 3:
-			GL11.glTranslatef((float)x + 0.5f, (float)y + 0.5F, (float)z - 0.5F); //size
-			GL11.glRotatef(270, 1.0F, 0.0F, 0.0F); //rotate based on metadata
+			GlStateManager.translate((float)x + 0.5f, (float)y + 0.5F, (float)z - 0.5F); //size
+			GlStateManager.rotate(270, 1.0F, 0.0F, 0.0F); //rotate based on metadata
 			offsetX = 0.5;
 			offsetY = -0.8;
 			offsetZ = -0.2;
 			break;
 		case 4:
-			GL11.glTranslatef((float)x + 0.5f, (float)y + 0.5F, (float)z + 1.5F); //size
-			GL11.glRotatef(90, 1.0F, 0.0F, 0.0F); //rotate based on metadata
+			GlStateManager.translate((float)x + 0.5f, (float)y + 0.5F, (float)z + 1.5F); //size
+			GlStateManager.rotate(90, 1.0F, 0.0F, 0.0F); //rotate based on metadata
 			offsetX = 0.5;
 			offsetY = -0.8;
 			offsetZ = 1.2;
 			break;
 		case 5:
-			GL11.glTranslatef((float)x - 0.5f, (float)y + 0.5F, (float)z + 0.5F); //size
-			GL11.glRotatef(90, 0.0F, 0.0F, 1.0F); //rotate based on metadata
+			GlStateManager.translate((float)x - 0.5f, (float)y + 0.5F, (float)z + 0.5F); //size
+			GlStateManager.rotate(90, 0.0F, 0.0F, 1.0F); //rotate based on metadata
 			offsetX = -0.2;
 			offsetY = -0.8;
 			offsetZ = 0.5;
 			break;
 		case 6:
-			GL11.glTranslatef((float)x + 1.5F, (float)y + 0.5F, (float)z + 0.5F); //size
-			GL11.glRotatef(270, 0.0F, 0.0F, 1.0F); //rotate based on metadata
+			GlStateManager.translate((float)x + 1.5F, (float)y + 0.5F, (float)z + 0.5F); //size
+			GlStateManager.rotate(270, 0.0F, 0.0F, 1.0F); //rotate based on metadata
 			offsetX = 1.2;
 			offsetY = -0.8;
 			offsetZ = 0.5;
@@ -89,22 +88,22 @@ public class TileCalefactorRenderer extends TileEntitySpecialRenderer<TileEntity
 		}
 
 
-		GL11.glScalef(1.0F, -1F, -1F); //if you read this comment out this line and you can see what happens
+		GlStateManager.scale(1.0F, -1F, -1F); //if you read this comment out this line and you can see what happens
 		bindTexture(rLoc);
 
 		if (destroyStage == -10)
-			GL11.glTranslatef(0, 0.2f, 0);
+			GlStateManager.translate(0, 0.2f, 0);
 
 		model.renderModel(tile.getRotationX(), tile.getRotationY(), tile.getRotationZ(), 0.0625F); //renders and yes 0.0625 is a random number
-		GL11.glPopMatrix(); //end
+		GlStateManager.popMatrix(); //end
 
 		//render item being cooked, if any
 		ItemStack item = tile.getItemBeingCooked();
 		if (item != null){
-			GL11.glPushMatrix();
-			GL11.glTranslatef(0, 1f, 0);
+			GlStateManager.pushMatrix();
+			GlStateManager.translate(0, 1f, 0);
 			RenderItemAtCoords(item, x + offsetX, y + offsetY, z + offsetZ, partialTicks);
-			GL11.glPopMatrix();
+			GlStateManager.popMatrix();
 		}
 
 	}

@@ -3,8 +3,6 @@
  */
 package am2.blocks.render;
 
-import org.lwjgl.opengl.GL11;
-
 import am2.blocks.tileentity.TileEntityFlickerHabitat;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -42,12 +40,12 @@ public class TileFlickerHabitatRenderer extends TileEntitySpecialRenderer<TileEn
 
 	public void renderTileEntityAt(TileEntityFlickerHabitat tileentity, double x, double y, double z, float partialTicks, int destroyStage){
 		createModels();
-		GL11.glPushMatrix();
-		GL11.glPushAttrib(GL11.GL_COLOR_BUFFER_BIT);
-		GL11.glDisable(GL11.GL_CULL_FACE);
+		GlStateManager.pushMatrix();
+		GlStateManager.pushAttrib();
+		GlStateManager.disableCull();
 		Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 		RenderHelper.disableStandardItemLighting();
-		GL11.glTranslated(x + 0.5, y, z + 0.5);
+		GlStateManager.translate(x + 0.5, y, z + 0.5);
 		try{
 			GlStateManager.pushMatrix();
 			GlStateManager.translate(-tileentity.getPos().getX(), -tileentity.getPos().getY(), -tileentity.getPos().getZ());
@@ -64,39 +62,39 @@ public class TileFlickerHabitatRenderer extends TileEntitySpecialRenderer<TileEn
 			if (tileentity.isUpgrade()){
 				switch (tileentity.getMainHabitatDirection()){
 				case DOWN:
-					GL11.glRotatef(180.0f, 0.0f, 0.0f, 1.0f);
-					GL11.glTranslatef(0.0f, -0.9f, 0.0f);
+					GlStateManager.rotate(180.0f, 0.0f, 0.0f, 1.0f);
+					GlStateManager.translate(0.0f, -0.9f, 0.0f);
 					break;
 				case EAST:
-					GL11.glRotatef(-90.0f, 0.0f, 0.0f, 1.0f);
-					GL11.glTranslatef(-0.5f, -0.45f, 0.0f);
+					GlStateManager.rotate(-90.0f, 0.0f, 0.0f, 1.0f);
+					GlStateManager.translate(-0.5f, -0.45f, 0.0f);
 					break;
 				case NORTH:
-					GL11.glRotatef(-90.0f, 1.0f, 0.0f, 0.0f);
-					GL11.glTranslatef(0.0f, -0.45f, 0.5f);
+					GlStateManager.rotate(-90.0f, 1.0f, 0.0f, 0.0f);
+					GlStateManager.translate(0.0f, -0.45f, 0.5f);
 					break;
 				case SOUTH:
-					GL11.glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-					GL11.glTranslatef(0.0f, -0.45f, -0.5f);
+					GlStateManager.rotate(90.0f, 1.0f, 0.0f, 0.0f);
+					GlStateManager.translate(0.0f, -0.45f, -0.5f);
 					break;
 				case UP:
 					break;
 				case WEST:
-					GL11.glRotatef(90.0f, 0.0f, 0.0f, 1.0f);
-					GL11.glTranslatef(0.5f, -0.45f, 0.0f);
+					GlStateManager.rotate(90.0f, 0.0f, 0.0f, 1.0f);
+					GlStateManager.translate(0.5f, -0.45f, 0.0f);
 					break;
 				default:
 					break;
 				}
 
-				GL11.glScalef(0.85f, 0.85f, 0.85f);
+				GlStateManager.scale(0.85f, 0.85f, 0.85f);
 			}
 
-			GL11.glRotatef(tileentity.getRotateOffset(), 0.0f, 1.0f, 0.0f);
-			GL11.glTranslatef(0.0f, tileentity.getFloatOffset(), 0.0f);
+			GlStateManager.rotate(tileentity.getRotateOffset(), 0.0f, 1.0f, 0.0f);
+			GlStateManager.translate(0.0f, tileentity.getFloatOffset(), 0.0f);
 			try{
 				int color = tileentity.getCrystalColor();
-				GL11.glColor3f(
+				GlStateManager.color(
 						((color >> 16) & 0xFF) / 255.0f, //isolate red  & convert to normalized float
 						((color >> 8) & 0xFF) / 255.0f, //isolate green & convert to normalized float
 						(color & 0xFF) / 255.0f //isolate blue & convert to normalized float
@@ -111,11 +109,11 @@ public class TileFlickerHabitatRenderer extends TileEntitySpecialRenderer<TileEn
 			}catch (Throwable t){
 			}
 		}
-		GL11.glEnable(GL11.GL_CULL_FACE);
+		GlStateManager.enableCull();
 		GlStateManager.disableAlpha();
 		RenderHelper.enableStandardItemLighting();
-		GL11.glPopAttrib();
-		GL11.glPopMatrix();
+		GlStateManager.popAttrib();
+		GlStateManager.popMatrix();
 	}
 
 }

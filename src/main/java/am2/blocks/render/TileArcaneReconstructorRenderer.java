@@ -1,7 +1,5 @@
 package am2.blocks.render;
 
-import org.lwjgl.opengl.GL11;
-
 import com.google.common.base.Function;
 
 import am2.api.math.AMVector3;
@@ -12,11 +10,11 @@ import am2.gui.AMGuiHelper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.GlStateManager.DestFactor;
+import net.minecraft.client.renderer.GlStateManager.SourceFactor;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
-import net.minecraft.client.renderer.GlStateManager.DestFactor;
-import net.minecraft.client.renderer.GlStateManager.SourceFactor;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.entity.RenderEntityItem;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -88,23 +86,23 @@ public class TileArcaneReconstructorRenderer extends TileEntitySpecialRenderer<T
 		bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 
 		GlStateManager.pushMatrix(); //start
-		GL11.glTranslatef((float)x + 0.5f, (float)y + 0.22f, (float)z + 0.5f);
+		GlStateManager.translate((float)x + 0.5f, (float)y + 0.22f, (float)z + 0.5f);
 		
 		renderGroup(te, mainBakedModel);
 		
-		GL11.glTranslatef(0, 0.22f + floatingOffset, 0);
+		GlStateManager.translate(0, 0.22f + floatingOffset, 0);
 		RenderRotatedModelGroup(te, ring3BakedModel, te.getInnerRingRotation());
 		RenderRotatedModelGroup(te, ring1BakedModel, te.getMiddleRingRotation());
 		RenderRotatedModelGroup(te, ring2BakedModel, te.getOuterRingRotation());
 
 		if (te.shouldRenderRotateOffset()){
 
-			GL11.glColor4f(1.0f, 1.0f, 1.0f, 0.4f);
+			GlStateManager.color(1.0f, 1.0f, 1.0f, 0.4f);
 			RenderRotatedModelGroup(te, ring3BakedModel, te.getInnerRingRotation().copy().sub(te.getInnerRingRotationSpeed().copy().scale(te.getRotateOffset())));
 			RenderRotatedModelGroup(te, ring1BakedModel, te.getMiddleRingRotation().copy().sub(te.getMiddleRingRotationSpeed().copy().scale(te.getRotateOffset())));
 			RenderRotatedModelGroup(te, ring2BakedModel, te.getOuterRingRotation().copy().sub(te.getOuterRingRotationSpeed().copy().scale(te.getRotateOffset())));
 
-			GL11.glColor4f(1.0f, 1.0f, 1.0f, 0.15f);
+			GlStateManager.color(1.0f, 1.0f, 1.0f, 0.15f);
 
 			RenderRotatedModelGroup(te, ring3BakedModel, te.getInnerRingRotation().copy().sub(te.getInnerRingRotationSpeed().copy().scale(te.getRotateOffset() * 2)));
 			RenderRotatedModelGroup(te, ring1BakedModel, te.getMiddleRingRotation().copy().sub(te.getMiddleRingRotationSpeed().copy().scale(te.getRotateOffset() * 2)));

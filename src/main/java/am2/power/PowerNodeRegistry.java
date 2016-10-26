@@ -83,7 +83,7 @@ public class PowerNodeRegistry{
 		}
 
 		Vec3d nodeLoc = new Vec3d(((TileEntity)node).getPos());
-
+		
 		//prevent duplicate registrations
 		if (nodeList.containsKey(nodeLoc))
 			return nodeList.get(nodeLoc);
@@ -91,7 +91,7 @@ public class PowerNodeRegistry{
 		PowerNodeEntry pnd = new PowerNodeEntry();
 
 		nodeList.put(nodeLoc, pnd);
-		LogHelper.trace("Successfully registered power node at {%d, %d, %d}", ((TileEntity)node).getPos().getX(), ((TileEntity)node).getPos().getY(), ((TileEntity)node).getPos().getZ());
+		LogHelper.debug("Successfully registered power node at {%d, %d, %d}", ((TileEntity)node).getPos().getX(), ((TileEntity)node).getPos().getY(), ((TileEntity)node).getPos().getZ());
 
 		return pnd;
 	}
@@ -336,7 +336,6 @@ public class PowerNodeRegistry{
 				continue;
 			TileEntity te = world.getTileEntity(new BlockPos(vector));
 			if (te == null || !(te instanceof IPowerNode)){
-				//opportune time to remove dead power nodes
 				removePowerNode(chunk.getChunkCoordIntPair(), vector);
 				deadNodesRemoved++;
 				continue;

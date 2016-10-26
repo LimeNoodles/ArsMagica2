@@ -221,7 +221,6 @@ public abstract class AStar<T>{
 				T last = p.getPoint();
 
 				lastCost = p.g;
-
 				if (isGoal(last)){
 					LinkedList<T> retPath = new LinkedList<T>();
 

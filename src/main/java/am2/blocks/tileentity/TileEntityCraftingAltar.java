@@ -108,11 +108,8 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 	private static final byte COMPONENT_ADDED = 2;
 	private static final byte FULL_UPDATE = 3;
 
-//	private static final int augmatl_mutex = 2;
-//	private static final int lectern_mutex = 4;
-
 	private String currentSpellName = "";
-private IBlockState mimicState;
+	private IBlockState mimicState;
 
 	public TileEntityCraftingAltar(){
 		super(500);
@@ -148,54 +145,6 @@ private IBlockState mimicState;
 	}
 	
 	private void setupMultiblock(){
-		
-//		capsPower.put(Blocks.GLASS.getDefaultState(), 1);
-//		capsPower.put(Blocks.COAL_BLOCK.getDefaultState(), 2);
-//		capsPower.put(Blocks.REDSTONE_BLOCK.getDefaultState(), 3);
-//		capsPower.put(Blocks.IRON_BLOCK.getDefaultState(), 4);
-//		capsPower.put(Blocks.LAPIS_BLOCK.getDefaultState(), 5);
-//		capsPower.put(Blocks.GOLD_BLOCK.getDefaultState(), 6);
-//		capsPower.put(Blocks.DIAMOND_BLOCK.getDefaultState(), 7);
-//		capsPower.put(Blocks.EMERALD_BLOCK.getDefaultState(), 8);
-//		capsPower.put(BlockDefs.blocks.getDefaultState().withProperty(BlockArsMagicaBlock.BLOCK_TYPE, BlockArsMagicaBlock.EnumBlockType.MOONSTONE), 9);
-//		capsPower.put(BlockDefs.blocks.getDefaultState().withProperty(BlockArsMagicaBlock.BLOCK_TYPE, BlockArsMagicaBlock.EnumBlockType.SUNSTONE), 10);
-		
-//		structurePower.put(Blocks.PLANKS.getDefaultState(), 1);
-//		structurePower.put(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.ACACIA), 1);
-//		structurePower.put(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.BIRCH), 1);
-//		structurePower.put(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.SPRUCE), 1);
-//		structurePower.put(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.JUNGLE), 1);
-//		structurePower.put(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.DARK_OAK), 1);
-//		structurePower.put(Blocks.NETHER_BRICK.getDefaultState(), 3);
-//		structurePower.put(Blocks.QUARTZ_BLOCK.getDefaultState(), 3);
-//		structurePower.put(Blocks.STONEBRICK.getDefaultState(), 1);
-//		structurePower.put(Blocks.SANDSTONE.getDefaultState(), 1);
-//		structurePower.put(Blocks.PURPUR_BLOCK.getDefaultState(), 4);
-//		structurePower.put(Blocks.BRICK_BLOCK.getDefaultState(), 2);
-//		structurePower.put(Blocks.RED_SANDSTONE.getDefaultState(), 2);
-
-		
-//		HashMap<Integer, IBlockState> glass = new HashMap<>();
-//		HashMap<Integer, IBlockState> coal = new HashMap<>();
-//		HashMap<Integer, IBlockState> redstone = new HashMap<>();
-//		HashMap<Integer, IBlockState> iron = new HashMap<>();
-//		HashMap<Integer, IBlockState> lapis = new HashMap<>();
-//		HashMap<Integer, IBlockState> gold = new HashMap<>();
-//		HashMap<Integer, IBlockState> diamond = new HashMap<>();
-//		HashMap<Integer, IBlockState> emerald = new HashMap<>();
-//		HashMap<Integer, IBlockState> moonstone = new HashMap<>();
-//		HashMap<Integer, IBlockState> sunstone = new HashMap<>();
-//		glass.put(0, Blocks.GLASS.getDefaultState());
-//		coal.put(0, Blocks.COAL_BLOCK.getDefaultState());
-//		redstone.put(0, Blocks.REDSTONE_BLOCK.getDefaultState());
-//		iron.put(0, Blocks.IRON_BLOCK.getDefaultState());
-//		lapis.put(0, Blocks.LAPIS_BLOCK.getDefaultState());
-//		gold.put(0, Blocks.GOLD_BLOCK.getDefaultState());
-//		diamond.put(0, Blocks.DIAMOND_BLOCK.getDefaultState());
-//		emerald.put(0, Blocks.EMERALD_BLOCK.getDefaultState());
-//		moonstone.put(0, BlockDefs.blocks.getDefaultState().withProperty(BlockArsMagicaBlock.BLOCK_TYPE, BlockArsMagicaBlock.EnumBlockType.MOONSTONE));
-//		sunstone.put(0, BlockDefs.blocks.getDefaultState().withProperty(BlockArsMagicaBlock.BLOCK_TYPE, BlockArsMagicaBlock.EnumBlockType.SUNSTONE));
-		
 		
 		ArrayList<HashMap<Integer, IBlockState>> structureMaterials = new ArrayList<>();
 		for (Entry<KeyValuePair<IBlockState, IBlockState>, Integer> entry : CraftingAltarMaterials.getMainMap().entrySet()) {
@@ -500,10 +449,10 @@ private IBlockState mimicState;
 	public void update(){
 		super.update();
 		this.worldObj.markAndNotifyBlock(pos, this.worldObj.getChunkFromBlockCoords(pos), this.worldObj.getBlockState(pos), this.worldObj.getBlockState(pos), 3);
-		
 		checkStructure();
 		checkForStartCondition();
 		updateLecternInformation();
+		if (ticksExisted == 0) this.setWorldObj(worldObj);
 		this.ticksExisted++;
 		if (isCrafting){
 			checkForEndCondition();

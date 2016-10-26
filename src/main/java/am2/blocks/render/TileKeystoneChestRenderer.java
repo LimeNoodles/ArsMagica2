@@ -1,7 +1,5 @@
 package am2.blocks.render;
 
-import org.lwjgl.opengl.GL11;
-
 import am2.blocks.tileentity.TileEntityKeystoneChest;
 import net.minecraft.client.model.ModelChest;
 import net.minecraft.client.renderer.GlStateManager;
@@ -38,19 +36,19 @@ public class TileKeystoneChestRenderer extends TileEntitySpecialRenderer<TileEnt
 		}
 
 		bindTexture(rLoc);
-		GL11.glPushMatrix(); //start
+		GlStateManager.pushMatrix(); //start
 
 		if (i == 2){
-			GL11.glTranslatef((float)d + 1f, (float)d1 + 1f, (float)d2); //size
+			GlStateManager.translate((float)d + 1f, (float)d1 + 1f, (float)d2); //size
 		}else if (i == 1){
-			GL11.glTranslatef((float)d, (float)d1 + 1f, (float)d2); //size
+			GlStateManager.translate((float)d, (float)d1 + 1f, (float)d2); //size
 		}else if (i == 0){
-			GL11.glTranslatef((float)d, (float)d1 + 1f, (float)d2 + 1f); //size
+			GlStateManager.translate((float)d, (float)d1 + 1f, (float)d2 + 1f); //size
 		}else{
-			GL11.glTranslatef((float)d + 1f, (float)d1 + 1f, (float)d2 + 1f); //size
+			GlStateManager.translate((float)d + 1f, (float)d1 + 1f, (float)d2 + 1f); //size
 		}
-		GL11.glRotatef(j, 0.0F, 1.0F, 0.0F); //rotate based on metadata
-		GL11.glScalef(1.0F, -1F, -1F); //if you read this comment out this line and you can see what happens
+		GlStateManager.rotate(j, 0.0F, 1.0F, 0.0F); //rotate based on metadata
+		GlStateManager.scale(1.0F, -1F, -1F); //if you read this comment out this line and you can see what happens
 
 		float f1 = chest.getPrevLidAngle() + (chest.getLidAngle() - chest.getPrevLidAngle()) * var8;
 		f1 = 1.0F - f1;
@@ -59,7 +57,7 @@ public class TileKeystoneChestRenderer extends TileEntitySpecialRenderer<TileEnt
 		model.renderAll();
 		bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 		GlStateManager.enableBlend();
-		GL11.glPopMatrix(); //end
+		GlStateManager.popMatrix(); //end
 	}
 
 }

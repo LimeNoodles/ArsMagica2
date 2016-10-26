@@ -7,8 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.TreeMap;
 
-import org.lwjgl.opengl.GL11;
-
 import am2.api.blocks.MultiblockGroup;
 import am2.api.blocks.MultiblockStructureDefinition;
 import am2.api.blocks.TypedMultiblockGroup;
@@ -178,11 +176,11 @@ public class PageMultiblock extends CompendiumPage<MultiblockStructureDefinition
 			IBlockState bd = layerBlocksSorted.get(bc).get(AMGuiHelper.instance.getSlowTicker() % layerBlocksSorted.get(bc).size());
 			float x = px + ((bc.getX() - bc.getZ()) * step_x);
 			float y = py + ((bc.getZ() + bc.getX()) * step_z) + (step_y * layer);
-			GL11.glPushMatrix();
-			GL11.glTranslatef(0, 0, 15 * bc.getX());
+			GlStateManager.pushMatrix();
+			GlStateManager.translate(0, 0, 15 * bc.getX());
 			boolean picked = pickedBlock != null && bc.equals(pickedBlock);
 			renderBlock(bd, x, y, bc.getX(), bc.getY(), bc.getZ(), picked);
-			GL11.glPopMatrix();
+			GlStateManager.popMatrix();
 
 			if (picked){
 				ItemStack stack = new ItemStack(bd.getBlock(), 1, bd.getBlock().getMetaFromState(bd));

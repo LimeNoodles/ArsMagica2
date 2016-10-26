@@ -1,7 +1,5 @@
 package am2.blocks.render;
 
-import org.lwjgl.opengl.GL11;
-
 import am2.blocks.tileentity.TileEntityEverstone;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -50,7 +48,7 @@ public class TileEverstoneRenderer extends TileEntitySpecialRenderer<TileEntityE
 		float minV = (sprite != null ? sprite.getMinV() : 0F);
 		float maxV = (sprite != null ? sprite.getMaxV() : 1F);
 		//LogHelper.info(sprite);
-		GL11.glPushMatrix();
+		GlStateManager.pushMatrix();
 		RenderHelper.disableStandardItemLighting();
 		//GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		Tessellator tessellator = Tessellator.getInstance();
@@ -92,7 +90,7 @@ public class TileEverstoneRenderer extends TileEntitySpecialRenderer<TileEntityE
 		tessellator.draw();
 		
 		RenderHelper.enableStandardItemLighting();
-		GL11.glPopMatrix();
+		GlStateManager.popMatrix();
 	}
 
 }

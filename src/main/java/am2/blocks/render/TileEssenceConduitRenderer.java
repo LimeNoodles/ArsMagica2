@@ -1,7 +1,5 @@
 package am2.blocks.render;
 
-import org.lwjgl.opengl.GL11;
-
 import am2.blocks.BlockEssenceConduit;
 import am2.blocks.tileentity.TileEntityEssenceConduit;
 import am2.models.ModelEssenceConduit;
@@ -59,33 +57,33 @@ public class TileEssenceConduitRenderer extends TileEntitySpecialRenderer<TileEn
 
 		switch (i){
 		case UP:
-			GL11.glTranslatef((float)d + 0.5f, (float)d1 - 0.5F, (float)d2 + 0.5F); //size
-			GL11.glRotatef(180, 1.0F, 0.0F, 0.0F); //rotate based on metadata
+			GlStateManager.translate((float)d + 0.5f, (float)d1 - 0.5F, (float)d2 + 0.5F); //size
+			GlStateManager.rotate(180, 1.0F, 0.0F, 0.0F); //rotate based on metadata
 			break;
 		//case UP:
 		case DOWN:
-			GL11.glTranslatef((float)d + 0.5f, (float)d1 + 1.5F, (float)d2 + 0.5F); //size
+			GlStateManager.translate((float)d + 0.5f, (float)d1 + 1.5F, (float)d2 + 0.5F); //size
 			break;
 		case SOUTH:
-			GL11.glTranslatef((float)d + 0.5f, (float)d1 + 0.5F, (float)d2 - 0.5F); //size
-			GL11.glRotatef(270, 1.0F, 0.0F, 0.0F); //rotate based on metadata
+			GlStateManager.translate((float)d + 0.5f, (float)d1 + 0.5F, (float)d2 - 0.5F); //size
+			GlStateManager.rotate(270, 1.0F, 0.0F, 0.0F); //rotate based on metadata
 			break;
 		case NORTH:
-			GL11.glTranslatef((float)d + 0.5f, (float)d1 + 0.5F, (float)d2 + 1.5F); //size
-			GL11.glRotatef(90, 1.0F, 0.0F, 0.0F); //rotate based on metadata
+			GlStateManager.translate((float)d + 0.5f, (float)d1 + 0.5F, (float)d2 + 1.5F); //size
+			GlStateManager.rotate(90, 1.0F, 0.0F, 0.0F); //rotate based on metadata
 			break;
 		case EAST:
-			GL11.glTranslatef((float)d - 0.5f, (float)d1 + 0.5F, (float)d2 + 0.5F); //size
-			GL11.glRotatef(90, 0.0F, 0.0F, 1.0F); //rotate based on metadata
+			GlStateManager.translate((float)d - 0.5f, (float)d1 + 0.5F, (float)d2 + 0.5F); //size
+			GlStateManager.rotate(90, 0.0F, 0.0F, 1.0F); //rotate based on metadata
 			break;
 		case WEST:
-			GL11.glTranslatef((float)d + 1.5F, (float)d1 + 0.5F, (float)d2 + 0.5F); //size
-			GL11.glRotatef(270, 0.0F, 0.0F, 1.0F); //rotate based on metadata
+			GlStateManager.translate((float)d + 1.5F, (float)d1 + 0.5F, (float)d2 + 0.5F); //size
+			GlStateManager.rotate(270, 0.0F, 0.0F, 1.0F); //rotate based on metadata
 			break;
 		}
 
 
-		GL11.glScalef(1.0F, -1F, -1F); //if you read this, comment out this line and you can see what happens
+		GlStateManager.scale(1.0F, -1F, -1F); //if you read this, comment out this line and you can see what happens
 		//if (tile.hasNexusPath()){
 		bindTexture(powered);
 		//}else{
@@ -97,9 +95,9 @@ public class TileEssenceConduitRenderer extends TileEntitySpecialRenderer<TileEn
 		GlStateManager.pushMatrix();
 		GlStateManager.enableBlend();
 		RenderHelper.disableStandardItemLighting();
-		GL11.glTranslatef(0f, 1f, 0f);
-		GL11.glScalef(5f, -5f, 5f);
-		GL11.glRotatef(tile.getRotationZ(), 0, 1, 0);
+		GlStateManager.translate(0f, 1f, 0f);
+		GlStateManager.scale(5f, -5f, 5f);
+		GlStateManager.rotate(tile.getRotationZ(), 0, 1, 0);
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(-tile.getPos().getX(), -tile.getPos().getY(), -tile.getPos().getZ());
 		bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);

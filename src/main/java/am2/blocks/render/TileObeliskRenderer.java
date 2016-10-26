@@ -89,9 +89,9 @@ public class TileObeliskRenderer extends TileEntitySpecialRenderer<TileEntityObe
 			Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelRenderer().renderModel(Minecraft.getMinecraft().theWorld, getBakedModel(te), BlockDefs.obelisk.getDefaultState(), new BlockPos(0, 0, 0), tessellator.getBuffer(), false);
 		tessellator.draw();
 		if (te.isActive()) {
-			GL11.glMatrixMode(GL11.GL_TEXTURE);
-			GL11.glPushMatrix();
-			GL11.glLoadIdentity();
+			GlStateManager.matrixMode(GL11.GL_TEXTURE);
+			GlStateManager.pushMatrix();
+			GlStateManager.loadIdentity();
 			GlStateManager.enableBlend();
 			TextureAtlasSprite sprite = Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite("arsmagica2:blocks/custom/obelisk_runes");
 			GlStateManager.scale(1/(sprite.getMaxU() - sprite.getMinU()), 1/(sprite.getMaxV() - sprite.getMinV()), 1);
@@ -99,14 +99,14 @@ public class TileObeliskRenderer extends TileEntitySpecialRenderer<TileEntityObe
 			tessellator.getBuffer().begin(GL11.GL_QUADS, DefaultVertexFormats.BLOCK);
 			float normx = (System.currentTimeMillis() % 32000) / 32000.0f;
 			float normy = (System.currentTimeMillis() % 28000) / 28000.0f;
-			GL11.glTranslatef(normx, normy, 0);
+			GlStateManager.translate(normx, normy, 0);
 			float transp = (float)Math.abs(Math.sin(System.currentTimeMillis() / 1000.0));
-			GL11.glColor4f(1, 1, 1, transp);
+			GlStateManager.color(1, 1, 1, transp);
 			Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelRenderer().renderModel(te.getWorld(), runesBakedModel, te.getWorld().getBlockState(te.getPos()), te.getPos(), tessellator.getBuffer(), false);
 			tessellator.draw();
-			GL11.glPopMatrix();
+			GlStateManager.popMatrix();
 			GlStateManager.disableBlend();
-			GL11.glMatrixMode(GL11.GL_MODELVIEW);
+			GlStateManager.matrixMode(GL11.GL_MODELVIEW);
 		}
 		
 		RenderHelper.enableStandardItemLighting();

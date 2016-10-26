@@ -6,6 +6,9 @@ import am2.blocks.tileentity.TileEntityKeystoneRecepticle;
 import am2.entity.render.RenderManaVortex;
 import am2.gui.AMGuiIcons;
 import am2.models.ModelKeystoneRecepticle;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.GlStateManager.DestFactor;
+import net.minecraft.client.renderer.GlStateManager.SourceFactor;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
@@ -49,48 +52,48 @@ public class TileKeystoneReceptacleRenderer extends TileEntitySpecialRenderer<Ti
 		}
 
 		bindTexture(rLoc);
-		GL11.glPushMatrix(); //start
-		GL11.glTranslatef((float)x + 0.5F, (float)y + 1.5F, (float)z + 0.5F); //size
-		GL11.glRotatef(j, 0.0F, 1.0F, 0.0F); //rotate based on metadata
-		GL11.glScalef(1.0F, -1F, -1F); //if you read this comment out this line and you can see what happens
+		GlStateManager.pushMatrix(); //start
+		GlStateManager.translate((float)x + 0.5F, (float)y + 1.5F, (float)z + 0.5F); //size
+		GlStateManager.rotate(j, 0.0F, 1.0F, 0.0F); //rotate based on metadata
+		GlStateManager.scale(1.0F, -1F, -1F); //if you read this comment out this line and you can see what happens
 		model.renderModel(0.0625F); //renders and yes 0.0625 is a random number
-		GL11.glPopMatrix(); //end	
+		GlStateManager.popMatrix(); //end	
 
 		if (tile.isActive()){
 			bindTexture(portal);
 
-			GL11.glPushMatrix();
+			GlStateManager.pushMatrix();
 
-			GL11.glPushAttrib(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
+			GlStateManager.pushAttrib();
 
-			GL11.glTranslatef((float)x + 0.5f, (float)y - 2.5F, (float)z + 0.5f);
-			GL11.glScaled(4, 4, 4);
-			GL11.glEnable(GL11.GL_BLEND);
-			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-			GL11.glAlphaFunc(GL11.GL_GREATER, 0.003921569F);
-			GL11.glDepthMask(false);
+			GlStateManager.translate((float)x + 0.5f, (float)y - 2.5F, (float)z + 0.5f);
+			GlStateManager.scale(4, 4, 4);
+			GlStateManager.enableBlend();
+			GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
+			GlStateManager.alphaFunc(GL11.GL_GREATER, 0.003921569F);
+			GlStateManager.depthMask(false);
 			Tessellator tessellator = Tessellator.getInstance();
 
-			GL11.glRotatef(j, 0.0F, 1.0F, 0.0F); //rotate based on metadata
+			GlStateManager.rotate(j, 0.0F, 1.0F, 0.0F); //rotate based on metadata
 
 			//apply portal colors here
-			GL11.glColor4f(1, 1, 1, 1);
+			GlStateManager.color(1, 1, 1, 1);
 
 			renderArsMagicaEffect(tessellator);
 
-			GL11.glDisable(GL11.GL_BLEND);
+			GlStateManager.disableBlend();
 
-			GL11.glPopAttrib();
-			GL11.glPopMatrix();
+			GlStateManager.popAttrib();
+			GlStateManager.popMatrix();
 		}
 	}
 
 	private void renderArsMagicaEffect(Tessellator tessellator){
-		GL11.glPushMatrix();
-		GL11.glDisable(GL11.GL_LIGHTING);
+		GlStateManager.pushMatrix();
+		GlStateManager.disableLighting();
 		renderSprite(tessellator);
-		GL11.glEnable(GL11.GL_LIGHTING);
-		GL11.glPopMatrix();
+		GlStateManager.enableLighting();
+		GlStateManager.popMatrix();
 	}
 
 	private void renderSprite(Tessellator tessellator){
@@ -115,7 +118,7 @@ public class TileKeystoneReceptacleRenderer extends TileEntitySpecialRenderer<Ti
 		tessellator.getBuffer().pos(0.0F - f5, f4 - f6, 0.0D).tex(min_u, min_v).lightmap(j, k).endVertex();
 		tessellator.draw();
 
-		GL11.glRotatef(180, 0, 1, 0);
+		GlStateManager.rotate(180, 0, 1, 0);
 
 		tessellator.getBuffer().begin(7, RenderManaVortex.POS_TEX_LIGHTMAP);
 		tessellator.getBuffer().pos(0.0F - f5, 0.0F - f6, 0.0D).tex(min_u, max_v).lightmap(j, k).endVertex();

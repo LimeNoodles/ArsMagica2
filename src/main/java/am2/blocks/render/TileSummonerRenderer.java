@@ -1,9 +1,8 @@
 package am2.blocks.render;
 
-import org.lwjgl.opengl.GL11;
-
 import am2.blocks.tileentity.TileEntitySummoner;
 import am2.models.ModelSummoner;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.util.ResourceLocation;
 
@@ -36,17 +35,17 @@ public class TileSummonerRenderer extends TileEntitySpecialRenderer<TileEntitySu
 		}
 
 		bindTexture(rLoc);
-		GL11.glPushMatrix(); //start
-		GL11.glTranslatef((float)x + 0.5f, (float)y + 1.5f, (float)z + 0.5f); //size
-		GL11.glRotatef(j, 0.0F, 1.0F, 0.0F); //rotate based on metadata
-		GL11.glTranslatef(0, -1f, 0);
-		GL11.glRotatef(n, 0.0f, 0.0f, 1.0f);
-		GL11.glTranslatef(0, 1f, 0);
-		GL11.glScalef(1.0F, -1F, -1F);
+		GlStateManager.pushMatrix(); //start
+		GlStateManager.translate((float)x + 0.5f, (float)y + 1.5f, (float)z + 0.5f); //size
+		GlStateManager.rotate(j, 0.0F, 1.0F, 0.0F); //rotate based on metadata
+		GlStateManager.translate(0, -1f, 0);
+		GlStateManager.rotate(n, 0.0f, 0.0f, 1.0f);
+		GlStateManager.translate(0, 1f, 0);
+		GlStateManager.scale(1.0F, -1F, -1F);
 		model.renderModel(0.0625F);
 		bindTexture(powered);
 		model.renderCrystal(tile, 0.0625f);
-		GL11.glPopMatrix(); //end
+		GlStateManager.popMatrix(); //end
 	}
 
 }

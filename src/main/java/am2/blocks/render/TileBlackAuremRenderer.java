@@ -1,11 +1,11 @@
 package am2.blocks.render;
 
-import org.lwjgl.opengl.GL11;
-
 import am2.ArsMagica2;
 import am2.blocks.tileentity.TileEntityBlackAurem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.GlStateManager.DestFactor;
+import net.minecraft.client.renderer.GlStateManager.SourceFactor;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -28,19 +28,19 @@ public class TileBlackAuremRenderer extends TileEntitySpecialRenderer<TileEntity
 	
 	private void renderArsMagicaEffect(Tessellator tessellator, float offset, float scale){
 		if (offset != 0){
-			GL11.glRotatef(180 - Minecraft.getMinecraft().getRenderManager().playerViewY, 0.0F, 1.0F, 0.0F);
-			GL11.glRotatef(-Minecraft.getMinecraft().getRenderManager().playerViewX, 1.0F, 0.0F, 0.0F);
+			GlStateManager.rotate(180 - Minecraft.getMinecraft().getRenderManager().playerViewY, 0.0F, 1.0F, 0.0F);
+			GlStateManager.rotate(-Minecraft.getMinecraft().getRenderManager().playerViewX, 1.0F, 0.0F, 0.0F);
 		}else{
-			GL11.glRotatef(35, 0, 1, 0);
-			GL11.glTranslatef(0, -0.75f, 0);
+			GlStateManager.rotate(35, 0, 1, 0);
+			GlStateManager.translate(0, -0.75f, 0);
 		}
 
 		Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation("arsmagica2:textures/blocks/custom/black_aurem.png"));
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		GL11.glTranslatef(0.0f, 0.25f, 0.0f);
-		GL11.glRotatef(ArsMagica2.proxy.getLocalPlayer().ticksExisted, 0, 0, 1);
-		GL11.glScalef(scale * 2, scale * 2, scale * 2);
-		GL11.glTranslatef(0.0f, -0.25f, 0.0f);
+		GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
+		GlStateManager.translate(0.0f, 0.25f, 0.0f);
+		GlStateManager.rotate(ArsMagica2.proxy.getLocalPlayer().ticksExisted, 0, 0, 1);
+		GlStateManager.scale(scale * 2, scale * 2, scale * 2);
+		GlStateManager.translate(0.0f, -0.25f, 0.0f);
 		renderSprite(tessellator);
 	}
 	
