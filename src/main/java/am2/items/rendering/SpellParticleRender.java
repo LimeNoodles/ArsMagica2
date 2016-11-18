@@ -9,6 +9,8 @@ import org.lwjgl.opengl.GL11;
 
 import com.google.common.collect.Lists;
 
+import am2.ArsMagica2;
+import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
 import am2.items.ItemSpellBase;
 import am2.items.ItemSpellBook;
@@ -178,6 +180,10 @@ public class SpellParticleRender extends ItemOverrideList{
 	}
 
 	private void setupAffinityIcons(){
+		for (Affinity aff : ArsMagicaAPI.getAffinityRegistry()) {
+			String name = (aff.getRegistryName().getResourceDomain().equals(ArsMagica2.MODID) ? "" : (aff.getRegistryName().getResourceDomain() + ":")) + aff.getRegistryName().getResourcePath() + "_hand";
+			icons.put(aff, AMParticleIcons.instance.getIconByName(name));
+		}
 		icons.put(Affinity.AIR, AMParticleIcons.instance.getIconByName("air_hand"));
 		icons.put(Affinity.ARCANE, AMParticleIcons.instance.getIconByName("arcane_hand"));
 		icons.put(Affinity.EARTH, AMParticleIcons.instance.getIconByName("earth_hand"));

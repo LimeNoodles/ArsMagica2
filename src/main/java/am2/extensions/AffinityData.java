@@ -40,10 +40,17 @@ public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabi
 	}
 	
 	public double getAffinityDepth(Affinity aff) {
+		if (aff.isComposedAffinity()) {
+			float addedDepth = 0f;
+			for (ResourceLocation rl : aff.getComponents())
+				addedDepth += getAffinityDepth(ArsMagicaAPI.getAffinityRegistry().getObject(rl));
+			return addedDepth / aff.getComponents().size();
+		}
 		return DataSyncExtension.For(player).get(DataDefinitions.AFFINITY_DATA).get(aff) / MAX_DEPTH;
 	}
 	
 	public void setAffinityDepth (Affinity name, double value) {
+		if (name == null || name.isComposedAffinity()) return;
 		value = MathHelper.clamp_double(value, 0, MAX_DEPTH);
 		HashMap<Affinity, Double> map = DataSyncExtension.For(player).get(DataDefinitions.AFFINITY_DATA);
 		map.put(name, value);
@@ -219,11 +226,15 @@ public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabi
 		existingAmt += amt;
 		if (existingAmt > MAX_DEPTH) existingAmt = MAX_DEPTH;
 		else if (existingAmt < 0) existingAmt = 0;
-		setAffinityDepth(affinity, existingAmt);
+		if (affinity.isComposedAffinity())
+			for (ResourceLocation aff : affinity.getComponents())
+				setAffinityDepth(ArsMagicaAPI.getAffinityRegistry().getObject(aff), existingAmt);
+		else
+			setAffinityDepth(affinity, existingAmt);
 	}
 	
 	private void subtractFromAffinity(Affinity affinity, float amt){
-		if (affinity == Affinity.NONE) return;
+		if (affinity == Affinity.NONE || affinity.isComposedAffinity()) return;
 		double existingAmt = getAffinityDepth(affinity)  * MAX_DEPTH;
 		existingAmt -= amt;
 		if (existingAmt > MAX_DEPTH) existingAmt = MAX_DEPTH;

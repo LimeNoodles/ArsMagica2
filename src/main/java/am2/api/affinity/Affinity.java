@@ -2,8 +2,14 @@ package am2.api.affinity;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 
+import com.google.common.collect.Lists;
+
+import am2.ArsMagica2;
+import am2.LogHelper;
 import am2.api.ArsMagicaAPI;
+import am2.utils.ListUtils;
 import am2.utils.NBTUtils;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -11,6 +17,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Affinity :<BR>
@@ -97,10 +105,21 @@ public class Affinity extends IForgeRegistryEntry.Impl<Affinity> implements Comp
 	private ResourceLocation directOpposite;
 	private ArrayList<ResourceLocation> majorOpposites = new ArrayList<>();
 	private ArrayList<ResourceLocation> minorOpposites = new ArrayList<>();
+	private ArrayList<ResourceLocation> components;
+	private boolean isComposedAffinity;
 	
-	public Affinity (String name, int color) {
+	public Affinity (String name, int color, ResourceLocation... components) {
 		this.color = color;
 		this.name = name;
+		if (components == null || components.length < 2) {
+			this.components = null;
+			this.isComposedAffinity = false;
+			if (components != null && components.length != 0)
+				LogHelper.error("Affinity %s is supposed to be a composed affinity but only has one component %s", name, components[0].toString());
+		} else {
+			this.components = Lists.newArrayList(components);
+			this.isComposedAffinity = true;
+		}
 	}
 	
 	/**
@@ -113,8 +132,25 @@ public class Affinity extends IForgeRegistryEntry.Impl<Affinity> implements Comp
 		return color;
 	}
 	
+	/**
+	 * Name of this affinity, probably best if unique.
+	 * 
+	 * @return the name of this affinity
+	 */
 	public String getName() {
 		return name;
+	}
+	
+	
+	public boolean isComposedAffinity() {
+		return isComposedAffinity && components != null && components.size() > 0;
+	}
+	
+	public ArrayList<ResourceLocation> getComponents() {
+		if (isComposedAffinity())
+			return components;
+		else
+			return Lists.newArrayList();
 	}
 	
 	@Override
@@ -212,7 +248,13 @@ public class Affinity extends IForgeRegistryEntry.Impl<Affinity> implements Comp
 		ArrayList<Affinity> returnList = new ArrayList<>();
 		for (ResourceLocation rl : ArsMagicaAPI.getAffinityRegistry().getKeys()) {
 			Affinity aff = ArsMagicaAPI.getAffinityRegistry().getObject(rl);
-			if (aff == NONE || majorOpposites.contains(rl) || minorOpposites.contains(rl) || directOpposite == rl || aff == this)
+			if (aff == NONE ||
+					majorOpposites.contains(rl) ||
+					minorOpposites.contains(rl) ||
+					directOpposite == rl ||
+					aff == this ||
+					(aff.isComposedAffinity && aff.getComponents().contains(rl)) ||
+					(this.isComposedAffinity && this.getComponents().contains(rl)))
 				continue;
 			returnList.add(aff);
 		}
@@ -238,6 +280,53 @@ public class Affinity extends IForgeRegistryEntry.Impl<Affinity> implements Comp
 		for (ResourceLocation rl : rls)
 			minorOpposites.add(rl);
 		return this;
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public boolean shouldDisplayInOcculus() {
+		return !isComposedAffinity;
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public static int getOcculusAffinityCount() {
+		int i = 0;
+		for (Affinity aff : ArsMagicaAPI.getAffinityRegistry().getValues())
+			if (aff.shouldDisplayInOcculus() && aff != NONE)
+				i++;
+		return i;
+	}
+	
+	public static Affinity merge(Affinity... affs) {
+		if (!ArsMagica2.config.isExperimentalAllowed() || affs.length < 2) return NONE;
+		for (Affinity aff : ArsMagicaAPI.getAffinityRegistry().getValues()) {
+			if (!aff.isComposedAffinity || aff.getComponents().size() != affs.length) continue;
+			boolean shouldSkip = true;
+			for (ResourceLocation rl : aff.getComponents()) {
+				shouldSkip = true;
+				for (Affinity check : affs) {
+					if (check.getRegistryName().equals(rl)) {
+						shouldSkip = false;
+						break;
+					}
+				}
+				if (shouldSkip) break;
+			}
+			if (!shouldSkip) return aff;
+		}
+		return NONE;
+	}
+	
+	public static ArrayList<Affinity> getAllCombinedAffinitiesFor(Affinity... affs) {
+		ArrayList<Affinity> output = new ArrayList<>();
+		for (int i = affs.length; i > 1; i++) {
+			List<List<Affinity>> data = ListUtils.getAllCombinationsOf(i, affs);
+			for (List<Affinity> aff : data) {
+				Affinity merged = merge(aff.toArray(new Affinity[aff.size()]));
+				if (merged != NONE && !output.contains(merged))
+					output.add(merged);
+			}
+		}
+		return output;
 	}
 	
 	public static class AffinityComparator implements Comparator<Affinity> {

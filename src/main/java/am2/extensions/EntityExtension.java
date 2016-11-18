@@ -570,7 +570,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 
 	@Override
 	public boolean shouldReverseInput() {
-		return getFlipRotation() > 0 || this.entity.isPotionActive(PotionEffectsDefs.scrambleSynapses);
+		return this.entity.isPotionActive(PotionEffectsDefs.scrambleSynapses);
 	}
 
 	@Override

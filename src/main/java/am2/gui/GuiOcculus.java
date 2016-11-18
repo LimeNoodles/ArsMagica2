@@ -378,7 +378,7 @@ public class GuiOcculus extends GuiScreen {
 		} else {
 			boolean isShiftDown = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT);
 			RenderUtils.drawBox(posX + 7, posY + 7, 196, 196, zLevel, 0, 0, 1, 1);
-			int affNum = ArsMagicaAPI.getAffinityRegistry().getValues().size() - 1;
+			int affNum = Affinity.getOcculusAffinityCount();
 			int portion = 360 / affNum;
 			int currentID = 0;
 			int cX = posX + xSize/2;
@@ -386,7 +386,7 @@ public class GuiOcculus extends GuiScreen {
 			//float finalPercentage = AffinityData.For(player).getAffinityDepth(SkillDefs.NONE) * 100;
 			ArrayList<String> drawString = new ArrayList<>();
 			for (Affinity aff : ArsMagicaAPI.getAffinityRegistry().getValues()) {
-				if (aff == Affinity.NONE)
+				if (aff == Affinity.NONE || !aff.shouldDisplayInOcculus())
 					continue;
 				double depth = AffinityData.For(player).getAffinityDepth(aff);
 				double affEndX = Math.cos(Math.toRadians(portion*currentID)) * 10F + Math.cos(Math.toRadians(portion*currentID)) * depth * 60F;
@@ -412,7 +412,6 @@ public class GuiOcculus extends GuiScreen {
 				}
 				
 				Minecraft.getMinecraft().fontRendererObj.drawString("" + (float)Math.round(depth * 10000) / 100F, (int)((affDrawTextX *0.9) + cX), (int)((affDrawTextY*0.9) + cY), aff.getColor());
-				//Minecraft.getMinecraft().fontRendererObj.drawString("" + (float)Math.round(depth * 10000) / 100F, , aff.getColor());
 				int xMovement = affDrawTextX > 0 ? 5 : -5;
 				xMovement = affDrawTextX == 0 ? 0 : xMovement;
 				int yMovement = affDrawTextY > 0 ? 5 : -5;
@@ -456,25 +455,6 @@ public class GuiOcculus extends GuiScreen {
 			GlStateManager.color(1, 1, 1);
 			RenderHelper.disableStandardItemLighting();
 		}
-		
-		//Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation("missingno"));
-//		
-//		int tier0 = SkillData.For(player).getSkillPoint(SkillPoint.SKILL_POINT_1);
-//		int tier1 = SkillData.For(player).getSkillPoint(SkillPoint.SKILL_POINT_2);
-//		int tier2 = SkillData.For(player).getSkillPoint(SkillPoint.SKILL_POINT_3);
-//		int tier3 = SkillData.For(player).getSkillPoint(SkillPoint.SKILL_POINT_4);
-//		int tier4 = SkillData.For(player).getSkillPoint(SkillPoint.SKILL_POINT_5);
-//		int tier5 = SkillData.For(player).getSkillPoint(SkillPoint.SKILL_POINT_6);
-//		GlStateManager.disableDepth();
-//		fontRendererObj.drawString("" + tier0, posX + 191, posY - 19, SkillPointRegistry.getPointForTier(0).getColor());
-//		fontRendererObj.drawString("" + tier1, posX + 203, posY - 19, SkillPointRegistry.getPointForTier(1).getColor());
-//		fontRendererObj.drawString("" + tier2, posX + 197, posY - 9, SkillPointRegistry.getPointForTier(2).getColor());
-//		if (SkillPointRegistry.getPointForTier(3) != null)
-//			fontRendererObj.drawString("" + tier3, posX + 191, posY + 210 + 2, SkillPointRegistry.getPointForTier(3).getColor());
-//		if (SkillPointRegistry.getPointForTier(4) != null)
-//			fontRendererObj.drawString("" + tier4, posX + 203, posY + 210 + 2, SkillPointRegistry.getPointForTier(4).getColor());
-//		if (SkillPointRegistry.getPointForTier(5) != null)
-//			fontRendererObj.drawString("" + tier5, posX + 197, posY + 210 + 12, SkillPointRegistry.getPointForTier(5).getColor());
 		
 		GlStateManager.color(1, 1, 1);
 

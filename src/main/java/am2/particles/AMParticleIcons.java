@@ -3,6 +3,8 @@ package am2.particles;
 import java.util.HashMap;
 import java.util.Random;
 
+import am2.ArsMagica2;
+import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
@@ -53,18 +55,26 @@ public class AMParticleIcons{
 		loadAndInitIcon("water_ball", "water_ball", textureMap);
 		loadAndInitIcon("wind", "wind", textureMap);
 
-		loadAndInitIcon("air_hand", "air_hand", textureMap);
-		loadAndInitIcon("arcane_hand", "arcane_hand", textureMap);
-		loadAndInitIcon("earth_hand", "earth_hand", textureMap);
-		loadAndInitIcon("ender_hand", "ender_hand", textureMap);
-		loadAndInitIcon("fire_hand", "fire_hand", textureMap);
-		loadAndInitIcon("ice_hand", "ice_hand", textureMap);
-		loadAndInitIcon("life_hand", "life_hand", textureMap);
-		loadAndInitIcon("lightning_hand", "lightning_hand", textureMap);
-		loadAndInitIcon("nature_hand", "nature_hand", textureMap);
-		loadAndInitIcon("none_hand", "none_hand", textureMap);
-		loadAndInitIcon("water_hand", "water_hand", textureMap);
-
+//		loadAndInitIcon("air_hand", "air_hand", textureMap);
+//		loadAndInitIcon("arcane_hand", "arcane_hand", textureMap);
+//		loadAndInitIcon("earth_hand", "earth_hand", textureMap);
+//		loadAndInitIcon("ender_hand", "ender_hand", textureMap);
+//		loadAndInitIcon("fire_hand", "fire_hand", textureMap);
+//		loadAndInitIcon("ice_hand", "ice_hand", textureMap);
+//		loadAndInitIcon("life_hand", "life_hand", textureMap);
+//		loadAndInitIcon("lightning_hand", "lightning_hand", textureMap);
+//		loadAndInitIcon("nature_hand", "nature_hand", textureMap);
+//		loadAndInitIcon("none_hand", "none_hand", textureMap);
+//		loadAndInitIcon("water_hand", "water_hand", textureMap);
+		
+		for (Affinity aff : ArsMagicaAPI.getAffinityRegistry()) {
+			ResourceLocation rl = new ResourceLocation(aff.getRegistryName().getResourceDomain(), "items/particles/" + aff.getRegistryName().getResourcePath() + "_hand");
+			textureMap.registerSprite(rl);
+			TextureAtlasSprite icon = textureMap.getAtlasSprite(rl.toString());
+			String name = (aff.getRegistryName().getResourceDomain().equals(ArsMagica2.MODID) ? "" : (aff.getRegistryName().getResourceDomain() + ":")) + aff.getRegistryName().getResourcePath() + "_hand";
+			icons.put(name, icon);
+		}
+		
 		loadAndInitIcon("beam", "beam", textureMap, false);
 		loadAndInitIcon("beam1", "beam1", textureMap, false);
 		loadAndInitIcon("beam2", "beam2", textureMap, false);

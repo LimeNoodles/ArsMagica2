@@ -234,6 +234,7 @@ public class AMConfig extends Configuration{
 	private boolean allowCompendiumUpdates;
 	private boolean allowVersionChecks;
 	private boolean canDryadsDespawn;
+	private boolean allowExperimental;
 
 	public static final String DEFAULT_LANGUAGE = "en_US";
 
@@ -334,6 +335,8 @@ public class AMConfig extends Configuration{
 		canDryadsDespawn = get(CATEGORY_MOBS, KEY_CanDryadsDespawn, true, "Set this to false if you don't want dryads to despawn.").getBoolean(true);
 
 		enderAffinityAbilityCooldown = get(CATEGORY_GENERAL, KEY_EnderAffinityAbilityCooldown, 100, "Set this to the number of ticks between ender affinity teleports.").getInt();
+		
+		allowExperimental = get(CATEGORY_GENERAL, "AllowExperimental", false, "Set this to true to allow experimental stuff to be added. Experimental means unstable").setRequiresMcRestart(true).getBoolean();
 
 		String digBlacklistString = get(CATEGORY_GENERAL, KEY_DigDisabledBlocks, "", "Comma-separated list of block IDs that dig cannot break.  If a block is flagged as unbreackable in code, Dig will already be unable to break it.  There is no need to set it here (eg, bedrock, etc.).  Dig also makes use of Forge block harvest checks.  This is mainly for fine-tuning.").getString();
 		digBlacklist = digBlacklistString.split(",");
@@ -971,5 +974,9 @@ public class AMConfig extends Configuration{
 
 	public AMVector2 getManaShieldingPosition() {
 		return manaShieldingPosition;
+	}
+
+	public boolean isExperimentalAllowed() {
+		return allowExperimental;
 	}
 }

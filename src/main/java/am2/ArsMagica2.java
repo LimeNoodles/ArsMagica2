@@ -7,6 +7,7 @@ import am2.api.affinity.Affinity;
 import am2.commands.CommandArsMagica;
 import am2.config.AMConfig;
 import am2.config.SpellPartConfiguration;
+import am2.experimental.AM2Experimental;
 import am2.extensions.DataDefinitions;
 import am2.packet.MessageBoolean;
 import am2.packet.MessageCapabilities;
@@ -26,7 +27,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 
 
-@Mod(modid=ArsMagica2.MODID, version=ArsMagica2.VERSION, guiFactory=ArsMagica2.GUIFACTORY, canBeDeactivated=false)
+@Mod(modid=ArsMagica2.MODID, version=ArsMagica2.VERSION, guiFactory=ArsMagica2.GUIFACTORY, canBeDeactivated=false, modLanguage="java")
 public class ArsMagica2 {
 	
 	public static final String MODID = "arsmagica2";
@@ -56,6 +57,8 @@ public class ArsMagica2 {
 		config = new AMConfig(new File(e.getModConfigurationDirectory() + "\\ArsMagica2\\am2.cfg"));
 		disabledSkills = new SpellPartConfiguration(new File(e.getModConfigurationDirectory() + "\\ArsMagica2\\skills.cfg"));
 		proxy.preInit();
+		if (config.isExperimentalAllowed()) 
+			new AM2Experimental();
 		network = NetworkRegistry.INSTANCE.newSimpleChannel("AM2");
 		network.registerMessage(MessageBoolean.IceBridgeHandler.class, MessageBoolean.class, 1, Side.SERVER);
 		network.registerMessage(MessageCapabilities.class, MessageCapabilities.class, 3, Side.SERVER);

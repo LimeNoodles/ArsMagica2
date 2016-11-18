@@ -389,7 +389,7 @@ public class AMIngameGUI{
 
 		IAffinityData ad = AffinityData.For(Minecraft.getMinecraft().thePlayer);
 		for (Affinity affinity : ad.getHighestAffinities()){
-			if (affinity == null || affinity == Affinity.NONE) continue;
+			if (affinity == null || affinity == Affinity.NONE || AffinityData.For(mc.thePlayer).getAffinityDepth(affinity) < 0.01f) continue;
 			GlStateManager.color(1.0f, 1.0f, 1.0f);
 			AMGuiHelper.DrawIconAtXY(mc.getRenderItem().getItemModelMesher().getParticleIcon(ItemDefs.essence, AffinityShiftUtils.getEssenceForAffinity(affinity).getItemDamage()), x, y, j, 12, 12, true);
 

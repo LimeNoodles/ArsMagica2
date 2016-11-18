@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import am2.ArsMagica2;
 import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
 import am2.api.event.AffinityChangingEvent;
@@ -63,7 +64,8 @@ public class AffinityShiftUtils {
 	}
 	
 	public static Affinity getMainShiftForStack(ItemStack stack) {
-		Affinity aff = Affinity.NONE;
+		ArrayList<Affinity> affs = new ArrayList<>();
+		affs.add(Affinity.NONE);
 		float maxDepth = 0F;
 		HashMap<Affinity, Float> customDepthMap = new HashMap<>();
 		ArrayList<SpellComponent> components = SpellUtils.getComponentsForStage(stack, -1);
@@ -80,10 +82,19 @@ public class AffinityShiftUtils {
 		for (Entry<Affinity, Float> entry : customDepthMap.entrySet()) {
 			if (entry.getValue() > maxDepth) {
 				maxDepth = entry.getValue();
-				aff = entry.getKey();
+				affs.clear();
+				affs.add(entry.getKey());
+			} else if (entry.getValue() == maxDepth) {
+				affs.add(entry.getKey());
 			}
 		}
-		return aff;
+		affs.sort(new Affinity.AffinityComparator());
+		if (ArsMagica2.config.isExperimentalAllowed()){
+			Affinity merged = Affinity.merge(affs.toArray(new Affinity[affs.size()]));
+			if (merged != Affinity.NONE)
+				return merged;
+		}
+		return affs.get(0);
 	}
 	
 	public static ItemStack getEssenceForAffinity (Affinity affinity) {
