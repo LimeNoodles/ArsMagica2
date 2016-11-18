@@ -50,25 +50,7 @@ import am2.entity.EntityThrownSickle;
 import am2.entity.EntityWaterElemental;
 import am2.entity.EntityWhirlwind;
 import am2.entity.EntityWinterGuardianArm;
-import am2.entity.render.RenderAirSled;
-import am2.entity.render.RenderBoundArrow;
-import am2.entity.render.RenderDarkMage;
-import am2.entity.render.RenderDarkling;
-import am2.entity.render.RenderDryad;
-import am2.entity.render.RenderEarthElemental;
-import am2.entity.render.RenderFireElemental;
-import am2.entity.render.RenderFlicker;
-import am2.entity.render.RenderHecate;
-import am2.entity.render.RenderHellCow;
-import am2.entity.render.RenderHidden;
-import am2.entity.render.RenderLightMage;
-import am2.entity.render.RenderManaCreeper;
-import am2.entity.render.RenderManaElemental;
-import am2.entity.render.RenderManaVortex;
-import am2.entity.render.RenderRiftStorage;
-import am2.entity.render.RenderShadowHelper;
-import am2.entity.render.RenderSpellProjectile;
-import am2.entity.render.RenderWaterElemental;
+import am2.entity.render.*;
 import am2.utils.RenderFactory;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.world.biome.Biome;
@@ -164,6 +146,7 @@ public class EntityManager {
 		RenderingRegistry.registerEntityRenderingHandler(EntityHellCow.class, new RenderFactory(RenderHellCow.class));
 		RenderingRegistry.registerEntityRenderingHandler(EntityDarkling.class, new RenderFactory(RenderDarkling.class));
 		RenderingRegistry.registerEntityRenderingHandler(EntityShadowHelper.class, new RenderFactory(RenderShadowHelper.class));
+		RenderingRegistry.registerEntityRenderingHandler(EntityBroom.class, new RenderFactory(RenderBroom.class));
 	}
 	
 	public void initializeSpawns(){
