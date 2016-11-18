@@ -26,13 +26,15 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
-
+compileJava {
+    sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
+}
 version = "2.0.9"
 group= "am2" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "ArsMagica2"
 
 minecraft {
-    version = "1.9.4-12.17.0.1976"
+    version = "1.10.2-12.18.2.2099"
     runDir = "run"
     replace '${version}', project.version
     mappings = "snapshot_20160518"  //uncomment this line to use newest Forge mappings. Needs a lot of rework.

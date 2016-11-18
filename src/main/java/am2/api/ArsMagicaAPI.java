@@ -1,6 +1,9 @@
 package am2.api;
 
+import java.lang.reflect.Field;
 import java.util.Map;
+
+import com.google.common.collect.BiMap;
 
 import am2.api.affinity.AbstractAffinityAbility;
 import am2.api.affinity.Affinity;
@@ -15,7 +18,9 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.fml.common.registry.FMLControlledNamespacedRegistry;
 import net.minecraftforge.fml.common.registry.IForgeRegistry;
-import net.minecraftforge.fml.common.registry.PersistentRegistryManager;
+import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
+import net.minecraftforge.fml.common.registry.RegistryBuilder;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 public class ArsMagicaAPI {
 	
@@ -32,12 +37,50 @@ public class ArsMagicaAPI {
 	
 	
 	static {
-		ABILITY_REGISTRY = PersistentRegistryManager.createRegistry(new ResourceLocation("arsmagica2", "affinityabilities"), AbstractAffinityAbility.class, null, 0, Short.MAX_VALUE, false, ObjectCallbacks.ABILITY, ObjectCallbacks.ABILITY, ObjectCallbacks.ABILITY);
-		AFFINITY_REGISTRY = PersistentRegistryManager.createRegistry(new ResourceLocation("arsmagica2", "affinities"), Affinity.class, new ResourceLocation("arsmagica2", "none"), 0, Short.MAX_VALUE, false, ObjectCallbacks.AFFINITY, ObjectCallbacks.AFFINITY, ObjectCallbacks.AFFINITY);
-		IMBUEMENTS_REGISTRY = PersistentRegistryManager.createRegistry(new ResourceLocation("arsmagica2", "armorimbuments"), ArmorImbuement.class, null, 0, Short.MAX_VALUE, true, ObjectCallbacks.IMBUEMENT, ObjectCallbacks.IMBUEMENT, ObjectCallbacks.IMBUEMENT);
-		SPELL_REGISTRY = PersistentRegistryManager.createRegistry(new ResourceLocation("arsmagica2", "spells"), AbstractSpellPart.class, null, 0, Short.MAX_VALUE, true, ObjectCallbacks.SPELL, ObjectCallbacks.SPELL, ObjectCallbacks.SPELL);
-		SKILL_REGISTRY = PersistentRegistryManager.createRegistry(new ResourceLocation("arsmagica2", "skills"), Skill.class, null, 0, Short.MAX_VALUE, true, ObjectCallbacks.SKILL, ObjectCallbacks.SKILL, ObjectCallbacks.SKILL);
-		FLICKER_FOCUS_REGISTRY = PersistentRegistryManager.createRegistry(new ResourceLocation("arsmagica2", "flicker_focus"), AbstractFlickerFunctionality.class, null, 0, Short.MAX_VALUE, true, ObjectCallbacks.FLICKER_FOCUS, ObjectCallbacks.FLICKER_FOCUS, ObjectCallbacks.FLICKER_FOCUS);
+		Field field = ReflectionHelper.findField(RegistryBuilder.class, "optionalDefaultKey");
+		RegistryBuilder<Affinity> affinity_builder = new RegistryBuilder<Affinity>().setType(Affinity.class).setName(new ResourceLocation("arsmagica2", "affinities")).setIDRange(0, Short.MAX_VALUE).addCallback(ObjectCallbacks.AFFINITY);
+		try {
+			field.set(affinity_builder, new ResourceLocation("arsmagica2", "none"));
+		} catch (IllegalArgumentException | IllegalAccessException e) {
+			e.printStackTrace();
+		}
+		//PersistentRegistryManager.createRegistry(new ResourceLocation("arsmagica2", "affinities"), Affinity.class, new ResourceLocation("arsmagica2", "none"), 0, Short.MAX_VALUE, false, ObjectCallbacks.AFFINITY, ObjectCallbacks.AFFINITY, ObjectCallbacks.AFFINITY);
+		AFFINITY_REGISTRY = (FMLControlledNamespacedRegistry<Affinity>) affinity_builder.create();
+		ABILITY_REGISTRY = (FMLControlledNamespacedRegistry<AbstractAffinityAbility>) new RegistryBuilder<AbstractAffinityAbility>()
+				.setType(AbstractAffinityAbility.class)
+				.setName(new ResourceLocation("arsmagica2", "affinityabilities"))
+				.setIDRange(0, Short.MAX_VALUE)
+				.addCallback(ObjectCallbacks.ABILITY)
+				.create();
+		//PersistentRegistryManager.createRegistry(new ResourceLocation("arsmagica2", "affinityabilities"), AbstractAffinityAbility.class, null, 0, Short.MAX_VALUE, false, ObjectCallbacks.ABILITY, ObjectCallbacks.ABILITY, ObjectCallbacks.ABILITY);
+		IMBUEMENTS_REGISTRY = (FMLControlledNamespacedRegistry<ArmorImbuement>) new RegistryBuilder<ArmorImbuement>()
+				.setType(ArmorImbuement.class)
+				.setName(new ResourceLocation("arsmagica2", "armorimbuments"))
+				.setIDRange(0, Short.MAX_VALUE)
+				.addCallback(ObjectCallbacks.IMBUEMENT)
+				.create();
+		//PersistentRegistryManager.createRegistry(new ResourceLocation("arsmagica2", "armorimbuments"), ArmorImbuement.class, null, 0, Short.MAX_VALUE, true, ObjectCallbacks.IMBUEMENT, ObjectCallbacks.IMBUEMENT, ObjectCallbacks.IMBUEMENT);
+		SPELL_REGISTRY = (FMLControlledNamespacedRegistry<AbstractSpellPart>) new RegistryBuilder<AbstractSpellPart>()
+				.setType(AbstractSpellPart.class)
+				.setName(new ResourceLocation("arsmagica2", "spells"))
+				.setIDRange(0, Short.MAX_VALUE)
+				.addCallback(ObjectCallbacks.SPELL)
+				.create();
+		//PersistentRegistryManager.createRegistry(new ResourceLocation("arsmagica2", "spells"), AbstractSpellPart.class, null, 0, Short.MAX_VALUE, true, ObjectCallbacks.SPELL, ObjectCallbacks.SPELL, ObjectCallbacks.SPELL);
+		SKILL_REGISTRY = (FMLControlledNamespacedRegistry<Skill>) new RegistryBuilder<Skill>()
+				.setType(Skill.class)
+				.setName(new ResourceLocation("arsmagica2", "skills"))
+				.setIDRange(0, Short.MAX_VALUE)
+				.addCallback(ObjectCallbacks.SKILL)
+				.create();
+		//PersistentRegistryManager.createRegistry(new ResourceLocation("arsmagica2", "skills"), Skill.class, null, 0, Short.MAX_VALUE, true, ObjectCallbacks.SKILL, ObjectCallbacks.SKILL, ObjectCallbacks.SKILL);
+		FLICKER_FOCUS_REGISTRY = (FMLControlledNamespacedRegistry<AbstractFlickerFunctionality>) new RegistryBuilder<AbstractFlickerFunctionality>()
+				.setType(AbstractFlickerFunctionality.class)
+				.setName(new ResourceLocation("arsmagica2", "flicker_focus"))
+				.setIDRange(0, Short.MAX_VALUE)
+				.addCallback(ObjectCallbacks.FLICKER_FOCUS)
+				.create();
+		//PersistentRegistryManager.createRegistry(new ResourceLocation("arsmagica2", "flicker_focus"), AbstractFlickerFunctionality.class, null, 0, Short.MAX_VALUE, true, ObjectCallbacks.FLICKER_FOCUS, ObjectCallbacks.FLICKER_FOCUS, ObjectCallbacks.FLICKER_FOCUS);
 	}
 	
 	//Bonus to max mana.  Applied additively.
@@ -85,31 +128,28 @@ public class ArsMagicaAPI {
 		return modid;
 	}
 	
-    public static class ObjectCallbacks<T> implements IForgeRegistry.AddCallback<T>,IForgeRegistry.ClearCallback<T>,IForgeRegistry.CreateCallback<T>
-	{
-		static final ObjectCallbacks<AbstractSpellPart> SPELL = new SpellCallbacks();
+    public static class ObjectCallbacks<T extends IForgeRegistryEntry<T>> implements IForgeRegistry.AddCallback<T>,IForgeRegistry.ClearCallback<T>,IForgeRegistry.CreateCallback<T>, IForgeRegistry.SubstitutionCallback<T> {
+		static final ObjectCallbacks<AbstractSpellPart> SPELL = new ObjectCallbacks<>();
 		static final ObjectCallbacks<AbstractAffinityAbility> ABILITY = new ObjectCallbacks<>();
 		static final ObjectCallbacks<Affinity> AFFINITY = new ObjectCallbacks<>();
 		static final ObjectCallbacks<ArmorImbuement> IMBUEMENT = new ObjectCallbacks<>();
 		static final ObjectCallbacks<Skill> SKILL = new ObjectCallbacks<>();
 		static final ObjectCallbacks<AbstractFlickerFunctionality> FLICKER_FOCUS = new ObjectCallbacks<>();
-
 		@Override
-		public void onAdd(T ability, int id, Map<ResourceLocation, ?> slaves) {}
-
-		@Override
-		public void onClear(Map<ResourceLocation, ?> slaveset) {}
-
-		@Override
-		public void onCreate(Map<ResourceLocation, ?> slaveset) {}
-	}
-    
-    public static class SpellCallbacks extends ObjectCallbacks<AbstractSpellPart> {
-
-		@Override
-		public void onAdd(AbstractSpellPart ability, int id, Map<ResourceLocation, ?> slaves) {
+		public void onCreate(Map<ResourceLocation, ?> slaveset, BiMap<ResourceLocation, ? extends IForgeRegistry<?>> registries) {
 		}
-		
+		@Override
+		public void onClear(IForgeRegistry<T> is, Map<ResourceLocation, ?> slaveset) {
+			
+		}
+		@Override
+		public void onAdd(T obj, int id, Map<ResourceLocation, ?> slaveset) {
+			
+		}
+		@Override
+		public void onSubstituteActivated(Map<ResourceLocation, ?> slaveset, T original, T replacement, ResourceLocation name) {
+			
+		}
 	}
 
 }

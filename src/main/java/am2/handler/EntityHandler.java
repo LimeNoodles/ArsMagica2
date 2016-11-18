@@ -35,6 +35,7 @@ import am2.utils.EntityUtils;
 import am2.utils.SpellUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -83,22 +84,22 @@ public class EntityHandler {
 	}
 
 	@SubscribeEvent
-	public void attachEntity(AttachCapabilitiesEvent.Entity event) {
-		if (event.getEntity() instanceof EntityLivingBase) {
+	public void attachEntity(AttachCapabilitiesEvent<Entity> event) {
+		if (event.getObject() instanceof EntityLivingBase) {
 			DataSyncExtension dataSync = new DataSyncExtension();
-			dataSync.init(event.getEntity());
+			dataSync.init(event.getObject());
 			event.addCapability(DataSyncExtension.ID, dataSync);
 			EntityExtension ext = new EntityExtension();
-			ext.init((EntityLivingBase) event.getEntity(), dataSync);
+			ext.init((EntityLivingBase) event.getObject(), dataSync);
 			event.addCapability(EntityExtension.ID, ext);
-			if (event.getEntity() instanceof EntityPlayer) {
+			if (event.getObject() instanceof EntityPlayer) {
 				ArcaneCompendium compendium = new ArcaneCompendium();
 				AffinityData affData = new AffinityData();
 				SkillData skillData = new SkillData();
 				RiftStorage storage = new RiftStorage();
-				affData.init((EntityPlayer) event.getEntity(), dataSync);
-				skillData.init((EntityPlayer) event.getEntity(), dataSync);
-				compendium.init((EntityPlayer) event.getEntity(), dataSync);
+				affData.init((EntityPlayer) event.getObject(), dataSync);
+				skillData.init((EntityPlayer) event.getObject(), dataSync);
+				compendium.init((EntityPlayer) event.getObject(), dataSync);
 				event.addCapability(new ResourceLocation("arsmagica2", "Compendium"), compendium);
 				event.addCapability(SkillData.ID, skillData);
 				event.addCapability(AffinityData.ID, affData);

@@ -39,6 +39,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.entity.monster.SkeletonType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -203,7 +204,7 @@ public class SpellUtils {
 	
 	private static void dropHead(Entity target, World world){
 		if (target.getClass() == EntitySkeleton.class){
-			if (((EntitySkeleton)target).getSkeletonType() == 1){
+			if (((EntitySkeleton)target).func_189771_df() == SkeletonType.WITHER){
 				dropHead_do(world, target.posX, target.posY, target.posZ, 1);
 			}else{
 				dropHead_do(world, target.posX, target.posY, target.posZ, 0);
