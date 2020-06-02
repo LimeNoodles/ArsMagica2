@@ -1,9 +1,6 @@
 package am2.api;
 
-import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 public class SpellBookRecipes extends ShapelessOreRecipe {
 

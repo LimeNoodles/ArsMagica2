@@ -1,17 +1,17 @@
 package am2.client.gui;
 
+import net.minecraft.client.gui.screen.inventory.ContainerScreen;
+import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.entity.player.PlayerInventory;
 import org.lwjgl.opengl.GL11;
 
 import am2.common.blocks.tileentity.TileEntityAstralBarrier;
 import am2.common.container.ContainerAstralBarrier;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GuiAstralBarrier extends GuiContainer{
-
-	GuiButton radiusButton;
+public class GuiAstralBarrier extends ContainerScreen
+{
+	Button radiusButton;
 
 	private static final ResourceLocation background = new ResourceLocation("arsmagica2", "textures/gui/astralBarrierGui.png");
 
@@ -24,7 +24,7 @@ public class GuiAstralBarrier extends GuiContainer{
 		drawTexturedModalRect(l, i1, 0, 0, xSize, ySize);
 	}
 
-	public GuiAstralBarrier(InventoryPlayer inventoryplayer, TileEntityAstralBarrier astralBarrierEntity){
+	public GuiAstralBarrier(PlayerInventory inventoryplayer, TileEntityAstralBarrier astralBarrierEntity){
 		super(new ContainerAstralBarrier(inventoryplayer, astralBarrierEntity));
 		xSize = 176;
 		ySize = 180;

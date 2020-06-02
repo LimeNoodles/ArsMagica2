@@ -5,14 +5,12 @@ import java.util.Comparator;
 
 import am2.api.ArsMagicaAPI;
 import am2.common.utils.NBTUtils;
+
 import net.minecraft.client.resources.I18n;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
 /**
@@ -160,11 +158,11 @@ public class Affinity implements Comparable<Affinity>, IForgeRegistryEntry<Affin
 	 * @param tag       Root tag of the entity / item
 	 * @return          A list of all the affinities this player / item has
 	 */
-	public static ArrayList<Affinity> readFromNBT (NBTTagCompound tag) {
-		NBTTagList affinityTag = NBTUtils.addCompoundList(NBTUtils.getAM2Tag(tag), "Affinity");
+	public static ArrayList<Affinity> readFromNBT (CompoundNBT tag) {
+		ListNBT affinityTag = NBTUtils.addCompoundList(NBTUtils.getAM2Tag(tag), "Affinity");
 		ArrayList<Affinity> affinities = new ArrayList<Affinity>();
-		for (int i = 0; i < affinityTag.tagCount(); i++) {
-			NBTTagCompound tmp = affinityTag.getCompoundTagAt(i);
+		for (int i = 0; i < affinityTag.size(); i++) {
+			CompoundNBT tmp = affinityTag.getCompound(i);
 			Affinity aff = ArsMagicaAPI.getAffinityRegistry().getObject(new ResourceLocation(tmp.getString("Name")));
 			affinities.add(aff);
 		}

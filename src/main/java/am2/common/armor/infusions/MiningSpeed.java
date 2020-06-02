@@ -5,8 +5,9 @@ import java.util.EnumSet;
 import am2.api.items.armor.ArmorImbuement;
 import am2.api.items.armor.ImbuementApplicationTypes;
 import am2.api.items.armor.ImbuementTiers;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.EntityEquipmentSlot;
+
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed;
@@ -29,15 +30,15 @@ public class MiningSpeed extends ArmorImbuement{
 	}
 
 	@Override
-	public boolean applyEffect(EntityPlayer player, World world, ItemStack stack, ImbuementApplicationTypes matchedType, Object... params){
+	public boolean applyEffect(PlayerEntity player, World world, ItemStack stack, ImbuementApplicationTypes matchedType, Object... params){
 		BreakSpeed event = (BreakSpeed)params[0];
 		event.setNewSpeed(event.getOriginalSpeed() * 1.5f);
 		return true;
 	}
 
 	@Override
-	public EntityEquipmentSlot[] getValidSlots(){
-		return new EntityEquipmentSlot[]{EntityEquipmentSlot.HEAD};
+	public EquipmentSlotType[] getValidSlots(){
+		return new EquipmentSlotType[]{EquipmentSlotType.HEAD};
 	}
 
 	@Override

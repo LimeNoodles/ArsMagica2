@@ -32,12 +32,13 @@ import net.minecraft.entity.Entity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.api.distmarker.Dist;
 
 //todo @SideOnly(Side.CLIENT)
 public abstract class CompendiumPage<E> {
 	
 	private static final HashMap<Class<?>, Class<? extends CompendiumPage<?>>> HANDLERS = new HashMap<>();
-	
+
 	static {
 		registerPageType(PageItemStack.class, ItemStack.class);
 		registerPageType(PageText.class, String.class);

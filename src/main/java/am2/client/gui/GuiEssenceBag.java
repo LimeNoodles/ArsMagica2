@@ -1,16 +1,18 @@
 package am2.client.gui;
+
 import java.io.IOException;
 
+import net.minecraft.client.gui.screen.inventory.ContainerScreen;
+import net.minecraft.entity.player.PlayerInventory;
 import org.lwjgl.opengl.GL11;
 
 import am2.common.container.ContainerEssenceBag;
 import am2.common.container.InventoryEssenceBag;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
-public class GuiEssenceBag extends GuiContainer{
+public class GuiEssenceBag extends ContainerScreen
+{
 
 	private static final ResourceLocation background = new ResourceLocation("arsmagica2", "textures/gui/essenceBagGUI.png");
 	private static final ResourceLocation extras = new ResourceLocation("arsmagica2", "textures/gui/spellBookGui_2.png");
@@ -24,7 +26,7 @@ public class GuiEssenceBag extends GuiContainer{
 		drawTexturedModalRect(l, i1, 0, 0, xSize, ySize);
 	}
 
-	public GuiEssenceBag(InventoryPlayer inventoryplayer, ItemStack spellBookStack, InventoryEssenceBag inventorybag){
+	public GuiEssenceBag(PlayerInventory inventoryplayer, ItemStack spellBookStack, InventoryEssenceBag inventorybag){
 		super(new ContainerEssenceBag(inventoryplayer, spellBookStack, inventorybag));
 		xSize = 176;
 		ySize = 140;

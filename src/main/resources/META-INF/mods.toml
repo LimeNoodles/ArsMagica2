@@ -1,0 +1,15 @@
+modLoader="javafml" #mandatory
+loaderVersion="[31,)"
+issueTrackerURL="http://my.issue.tracker/"
+[[mods]]
+modId="arsmagica2"
+version="1.15.2-1.0.0"
+displayName="Ars Magica: Reincarnated"
+updateJSONURL="http://myurl.me/"
+displayURL="http://example.com/"
+logoFile="AM2Logo.png" #optional
+credits="Thanks to the original developers of ArsMagica Mithion, Zerodaimaru, EdwinMindcraft and Growlith1223"
+authors="OneLousyGamer"
+description='''
+A port of ArsMagica to 1.15 and beyond.
+'''

@@ -5,12 +5,14 @@ import am2.api.items.armor.ImbuementTiers;
 import am2.common.armor.infusions.ImbuementRegistry;
 import am2.common.extensions.EntityExtension;
 import am2.common.utils.EntityUtils;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.inventory.EntityEquipmentSlot.Type;
-import net.minecraft.item.ItemArmor;
+
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 
 public class ArmorHelper{
@@ -19,19 +21,19 @@ public class ArmorHelper{
 
 	private static final int IMBUE_TIER_COST = 12;
 
-	public static boolean PlayerHasArmorInSlot(EntityPlayer player, EntityEquipmentSlot armorSlot){
+	public static boolean PlayerHasArmorInSlot(PlayerEntity player, EquipmentSlotType armorSlot){
 		return (player.getItemStackFromSlot(armorSlot) != null);
 	}
 
 	//======================================================================================================
 	// Infusion
 	//======================================================================================================
-	public static void HandleArmorInfusion(EntityPlayer player){
+	public static void HandleArmorInfusion(PlayerEntity player){
 		EntityExtension ext = EntityExtension.For(player);
 
 		float infusionCost = 0.0f;
 		boolean bFullSet = getFullArsMagicaArmorSet(player) != -1;
-		for (EntityEquipmentSlot i : EntityEquipmentSlot.values()){
+		for (EquipmentSlotType i : EquipmentSlotType.values()){
 			if (i.getSlotType() != Type.ARMOR)
 				continue;
 			infusionCost += GetArsMagicaArmorInfusionCostFromSlot(player, i);
@@ -43,40 +45,40 @@ public class ArmorHelper{
 			//deduct mana
 			ext.deductMana(infusionCost);
 			//bank infusion
-			ext.bankedInfusionHelm += GetArsMagicaArmorRepairAmountFromSlot(player, EntityEquipmentSlot.HEAD);
-			ext.bankedInfusionChest += GetArsMagicaArmorRepairAmountFromSlot(player, EntityEquipmentSlot.CHEST);
-			ext.bankedInfusionLegs += GetArsMagicaArmorRepairAmountFromSlot(player, EntityEquipmentSlot.LEGS);
-			ext.bankedInfusionBoots += GetArsMagicaArmorRepairAmountFromSlot(player, EntityEquipmentSlot.FEET);
+			ext.bankedInfusionHelm += GetArsMagicaArmorRepairAmountFromSlot(player, EquipmentSlotType.HEAD);
+			ext.bankedInfusionChest += GetArsMagicaArmorRepairAmountFromSlot(player, EquipmentSlotType.CHEST);
+			ext.bankedInfusionLegs += GetArsMagicaArmorRepairAmountFromSlot(player, EquipmentSlotType.LEGS);
+			ext.bankedInfusionBoots += GetArsMagicaArmorRepairAmountFromSlot(player, EquipmentSlotType.FEET);
 
 
 			//repair armor if infusion bank is above 1
 			if (ext.bankedInfusionHelm > 1){
 				int repairAmount = (int)Math.floor(ext.bankedInfusionHelm);
-				RepairEquippedArsMagicaArmorItem(player, repairAmount, EntityEquipmentSlot.HEAD);
+				RepairEquippedArsMagicaArmorItem(player, repairAmount, EquipmentSlotType.HEAD);
 				ext.bankedInfusionHelm -= repairAmount;
 			}
 
 			if (ext.bankedInfusionChest > 1){
 				int repairAmount = (int)Math.floor(ext.bankedInfusionChest);
-				RepairEquippedArsMagicaArmorItem(player, repairAmount, EntityEquipmentSlot.CHEST);
+				RepairEquippedArsMagicaArmorItem(player, repairAmount, EquipmentSlotType.CHEST);
 				ext.bankedInfusionChest -= repairAmount;
 			}
 
 			if (ext.bankedInfusionLegs > 1){
 				int repairAmount = (int)Math.floor(ext.bankedInfusionLegs);
-				RepairEquippedArsMagicaArmorItem(player, repairAmount, EntityEquipmentSlot.LEGS);
+				RepairEquippedArsMagicaArmorItem(player, repairAmount, EquipmentSlotType.LEGS);
 				ext.bankedInfusionLegs -= repairAmount;
 			}
 
 			if (ext.bankedInfusionBoots > 1){
 				int repairAmount = (int)Math.floor(ext.bankedInfusionBoots);
-				RepairEquippedArsMagicaArmorItem(player, repairAmount, EntityEquipmentSlot.FEET);
+				RepairEquippedArsMagicaArmorItem(player, repairAmount, EquipmentSlotType.FEET);
 				ext.bankedInfusionBoots -= repairAmount;
 			}
 		}
 	}
 	
-	private static void RepairEquippedArsMagicaArmorItem(EntityPlayer player, int repairAmount, EntityEquipmentSlot slot){
+	private static void RepairEquippedArsMagicaArmorItem(PlayerEntity player, int repairAmount, EquipmentSlotType slot){
 		if (!PlayerHasArmorInSlot(player, slot)){
 			return;
 		}
@@ -86,11 +88,11 @@ public class ArmorHelper{
 		}
 	}
 
-	private static boolean PlayerHasArsInfusableInSlot(EntityPlayer player, EntityEquipmentSlot armorSlot){
+	private static boolean PlayerHasArsInfusableInSlot(PlayerEntity player, EquipmentSlotType armorSlot){
 		return (player.getItemStackFromSlot(armorSlot) != null && (player.getItemStackFromSlot(armorSlot).getItem() instanceof AMArmor));
 	}
 
-	private static float GetArsMagicaArmorInfusionCostFromSlot(EntityPlayer player, EntityEquipmentSlot armorSlot){
+	private static float GetArsMagicaArmorInfusionCostFromSlot(PlayerEntity player, EquipmentSlotType armorSlot){
 		if (!PlayerHasArsInfusableInSlot(player, armorSlot)){
 			return 0;
 		}
@@ -101,10 +103,10 @@ public class ArmorHelper{
 		return 0;
 	}
 
-	public static int getFullArsMagicaArmorSet(EntityPlayer player){
+	public static int getFullArsMagicaArmorSet(PlayerEntity player){
 		int matlID = -1;
-		for (EntityEquipmentSlot slot : EntityEquipmentSlot.values()){
-			if (slot.getSlotType() != EntityEquipmentSlot.Type.ARMOR)
+		for (EquipmentSlotType slot : EquipmentSlotType.values()){
+			if (slot.getSlotType() != EquipmentSlotType.Type.ARMOR)
 				continue;
 			if (!PlayerHasArsInfusableInSlot(player, slot)){
 				return -1;
@@ -121,11 +123,11 @@ public class ArmorHelper{
 		return matlID;
 	}
 	
-	private static float GetArsMagicaArmorRepairAmountFromSlot(EntityPlayer player, EntityEquipmentSlot armorSlot){
+	private static float GetArsMagicaArmorRepairAmountFromSlot(PlayerEntity player, EquipmentSlotType armorSlot){
 		if (!PlayerHasArsInfusableInSlot(player, armorSlot)){
 			return 0;
 		}
-		if (player.getItemStackFromSlot(armorSlot).isItemDamaged()){
+		if (player.getItemStackFromSlot(armorSlot).isDamaged()){
 			AMArmor armor = (AMArmor)player.getItemStackFromSlot(armorSlot).getItem();
 			return armor.GetInfusionRepair();
 		}
@@ -136,7 +138,7 @@ public class ArmorHelper{
 	//======================================================================================================
 	// Armor Effects
 	//======================================================================================================
-//	public static void HandleArmorEffects(EntityPlayer player, World world){
+//	public static void HandleArmorEffects(PlayerEntity player, World world){
 //		if (world.isRemote){
 //			return;
 //		}
@@ -149,7 +151,7 @@ public class ArmorHelper{
 //		}
 //	}
 
-//	private static ItemStack GetAMProtectiveArmorInSlot(EntityPlayer player, int armorSlot){
+//	private static ItemStack GetAMProtectiveArmorInSlot(PlayerEntity player, int armorSlot){
 //		ItemStack[] armor = player.inventory.armorInventory;
 //		if (armor[armorSlot] != null){
 //			for (Item i : ItemDefs.protectiveArmors){
@@ -161,15 +163,15 @@ public class ArmorHelper{
 //		return null;
 //	}
 
-	public static ArmorImbuement[] getInfusionsOnArmor(EntityPlayer player, EntityEquipmentSlot armorSlot){
+	public static ArmorImbuement[] getInfusionsOnArmor(PlayerEntity player, EquipmentSlotType armorSlot){
 		ItemStack stack = player.getItemStackFromSlot(armorSlot);
 		return getInfusionsOnArmor(stack);
 	}
 
 	public static ArmorImbuement[] getInfusionsOnArmor(ItemStack stack){
-		if (stack == null || !stack.hasTagCompound() || !(stack.getItem() instanceof ItemArmor))
+		if (stack == null || !stack.hasTag() || !(stack.getItem() instanceof ArmorItem))
 			return new ArmorImbuement[0];
-		NBTTagCompound armorProps = (NBTTagCompound)stack.getTagCompound().getTag(AMArmor.NBT_KEY_AMPROPS);
+		CompoundNBT armorProps = (CompoundNBT) stack.getTagCompound().getTag(AMArmor.NBT_KEY_AMPROPS);
 		if (armorProps != null){
 			String infusionList = armorProps.getString(AMArmor.NBT_KEY_EFFECTS);
 			if (infusionList != null && infusionList != ""){
@@ -187,7 +189,7 @@ public class ArmorHelper{
 	public static boolean isInfusionPreset(ItemStack stack, String id){
 		if (stack == null || !stack.hasTagCompound())
 			return false;
-		NBTTagCompound armorProps = (NBTTagCompound)stack.getTagCompound().getTag(AMArmor.NBT_KEY_AMPROPS);
+		CompoundNBT armorProps = (CompoundNBT)stack.getTagCompound().getTag(AMArmor.NBT_KEY_AMPROPS);
 		if (armorProps != null){
 			String infusionList = armorProps.getString(AMArmor.NBT_KEY_EFFECTS);
 			if (infusionList != null){
@@ -204,19 +206,19 @@ public class ArmorHelper{
 			if (!ignoreLevelRequirement && getArmorLevel(armorStack) < getImbueCost(imbuement.getTier()))
 				return;
 
-			for (EntityEquipmentSlot i : imbuement.getValidSlots()){
+			for (EquipmentSlotType i : imbuement.getValidSlots()){
 				if (i == ((ItemArmor)armorStack.getItem()).armorType){
 					if (!armorStack.hasTagCompound())
-						armorStack.setTagCompound(new NBTTagCompound());
-					NBTTagCompound armorProps = (NBTTagCompound)armorStack.getTagCompound().getTag(AMArmor.NBT_KEY_AMPROPS);
+						armorStack.setTagCompound(new CompoundNBT());
+					CompoundNBT armorProps = (CompoundNBT)armorStack.getTagCompound().getTag(AMArmor.NBT_KEY_AMPROPS);
 					if (armorProps == null)
-						armorProps = new NBTTagCompound();
+						armorProps = new CompoundNBT();
 					String infusionList = armorProps.getString(AMArmor.NBT_KEY_EFFECTS);
 					if (infusionList == null || infusionList == "")
 						infusionList = id.toString();
 					else
 						infusionList += "|" + id;
-					armorProps.setString(AMArmor.NBT_KEY_EFFECTS, infusionList);
+					armorProps.putString(AMArmor.NBT_KEY_EFFECTS, infusionList);
 					armorStack.getTagCompound().setTag(AMArmor.NBT_KEY_AMPROPS, armorProps);
 
 					deductXPFromArmor(EntityUtils.getXPFromLevel(getImbueCost(imbuement.getTier())), armorStack);
@@ -227,11 +229,11 @@ public class ArmorHelper{
 	}
 
 	public static int getArmorLevel(ItemStack stack){
-		if (stack == null || !stack.hasTagCompound())
+		if (stack == null || !stack.hasTag())
 			return 0;
-		NBTTagCompound armorProps = (NBTTagCompound)stack.getTagCompound().getTag(AMArmor.NBT_KEY_AMPROPS);
+		CompoundNBT armorProps = (CompoundNBT)stack.getTagCompound().getTag(AMArmor.NBT_KEY_AMPROPS);
 		if (armorProps != null){
-			return armorProps.getInteger(AMArmor.NBT_KEY_ARMORLEVEL);
+			return armorProps.getInt(AMArmor.NBT_KEY_ARMORLEVEL);
 		}
 		return 0;
 	}
@@ -240,17 +242,17 @@ public class ArmorHelper{
 		return 30 + tier.ordinal() * IMBUE_TIER_COST;
 	}
 
-	public static void addXPToArmor(float totalAmt, EntityPlayer player){
+	public static void addXPToArmor(float totalAmt, PlayerEntity player){
 		int numPieces = 0;
-		for (EntityEquipmentSlot slot : EntityEquipmentSlot.values()) {
-			if (slot.getSlotType() != EntityEquipmentSlot.Type.ARMOR)
+		for (EquipmentSlotType slot : EquipmentSlotType.values()) {
+			if (slot.getSlotType() != EquipmentSlotType.Type.ARMOR)
 				continue;
 			if (player.getItemStackFromSlot(slot) != null)
 				numPieces++;
 		}
 		float xpPerPiece = totalAmt / numPieces;
-		for (EntityEquipmentSlot slot : EntityEquipmentSlot.values()){
-			if (slot.getSlotType() != EntityEquipmentSlot.Type.ARMOR)
+		for (EquipmentSlotType slot : EquipmentSlotType.values()){
+			if (slot.getSlotType() != EquipmentSlotType.Type.ARMOR)
 				continue;
 			addXPToArmor(xpPerPiece, player.getItemStackFromSlot(slot));
 		}
@@ -258,26 +260,26 @@ public class ArmorHelper{
 
 	public static void deductXPFromArmor(float amt, ItemStack armor){
 		if (armor != null && armor.getItem() instanceof ItemArmor){
-			if (!armor.hasTagCompound())
-				armor.setTagCompound(new NBTTagCompound());
-			NBTTagCompound armorProps = (NBTTagCompound)armor.getTagCompound().getTag(AMArmor.NBT_KEY_AMPROPS);
+			if (!armor.hasTag())
+				armor.setTag(new CompoundNBT());
+			CompoundNBT armorProps = (CompoundNBT)armor.getTagCompound().getTag(AMArmor.NBT_KEY_AMPROPS);
 			if (armorProps == null)
-				armorProps = new NBTTagCompound();
-			armorProps.setDouble(AMArmor.NBT_KEY_TOTALXP, Math.max(armorProps.getDouble(AMArmor.NBT_KEY_TOTALXP) - amt, 0));
-			armorProps.setInteger(AMArmor.NBT_KEY_ARMORLEVEL, EntityUtils.getLevelFromXP((float)armorProps.getDouble(AMArmor.NBT_KEY_TOTALXP)));
+				armorProps = new CompoundNBT();
+			armorProps.putDouble(AMArmor.NBT_KEY_TOTALXP, Math.max(armorProps.getDouble(AMArmor.NBT_KEY_TOTALXP) - amt, 0));
+			armorProps.putInt(AMArmor.NBT_KEY_ARMORLEVEL, EntityUtils.getLevelFromXP((float)armorProps.getDouble(AMArmor.NBT_KEY_TOTALXP)));
 			armor.getTagCompound().setTag(AMArmor.NBT_KEY_AMPROPS, armorProps);
 		}
 	}
 
 	public static void addXPToArmor(float amt, ItemStack armor){
 		if (armor != null && armor.getItem() instanceof ItemArmor){
-			if (!armor.hasTagCompound())
-				armor.setTagCompound(new NBTTagCompound());
-			NBTTagCompound armorProps = (NBTTagCompound)armor.getTagCompound().getTag(AMArmor.NBT_KEY_AMPROPS);
+			if (!armor.hasTag())
+				armor.setTag(new CompoundNBT());
+			CompoundNBT armorProps = (CompoundNBT)armor.getTagCompound().getTag(AMArmor.NBT_KEY_AMPROPS);
 			if (armorProps == null)
-				armorProps = new NBTTagCompound();
-			armorProps.setDouble(AMArmor.NBT_KEY_TOTALXP, armorProps.getDouble(AMArmor.NBT_KEY_TOTALXP) + amt);
-			armorProps.setInteger(AMArmor.NBT_KEY_ARMORLEVEL, EntityUtils.getLevelFromXP((float)armorProps.getDouble(AMArmor.NBT_KEY_TOTALXP)));
+				armorProps = new CompoundNBT();
+			armorProps.putDouble(AMArmor.NBT_KEY_TOTALXP, armorProps.getDouble(AMArmor.NBT_KEY_TOTALXP) + amt);
+			armorProps.putInt(AMArmor.NBT_KEY_ARMORLEVEL, EntityUtils.getLevelFromXP((float)armorProps.getDouble(AMArmor.NBT_KEY_TOTALXP)));
 			armor.getTagCompound().setTag(AMArmor.NBT_KEY_AMPROPS, armorProps);
 		}
 	}

@@ -2,15 +2,12 @@ package am2.api.rituals;
 
 import am2.api.blocks.IMultiblock;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public interface IRitualInteraction {
 	
 	public ItemStack[] getRitualReagents();
 	public int getRitualReagentSearchRadius();
 	public IMultiblock getRitualShape();
-	@SideOnly(Side.CLIENT)
 	public ItemStack getResult();
 	
 	public static class Wrapper {

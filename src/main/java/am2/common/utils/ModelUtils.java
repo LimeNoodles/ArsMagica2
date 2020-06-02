@@ -3,9 +3,6 @@ package am2.common.utils;
 import java.lang.reflect.Type;
 import java.util.Map;
 
-import javax.vecmath.Vector3f;
-
-import org.lwjgl.util.vector.Quaternion;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
@@ -18,18 +15,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
 
-import net.minecraft.client.model.ModelShield;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
-import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
-import net.minecraft.entity.EntityLivingBase;
+import com.mojang.blaze3d.platform.GlStateManager;
+import net.minecraft.client.renderer.Vector3f;
+import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.model.SimpleModelState;
-import net.minecraftforge.common.model.IModelPart;
-import net.minecraftforge.common.model.IModelState;
-import net.minecraftforge.common.model.TRSRTransformation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class ModelUtils {
@@ -105,8 +94,8 @@ public class ModelUtils {
 		GlStateManager.pushMatrix();
 		
 		ModelUtils.transform(isBlocking ? BLOCKING_SHIELD_STATE : DEFAULT_SHIELD_STATE , type, false);
-		GlStateManager.translate(-0.5F, -0.5F, -0.5F);
-		GlStateManager.scale(1.0F, -1.0F, -1.0F);
+		GlStateManager.translatef(-0.5F, -0.5F, -0.5F);
+		GlStateManager.scalef(1.0F, -1.0F, -1.0F);
 		new ModelShield().render();
 		GlStateManager.popMatrix();
 	}

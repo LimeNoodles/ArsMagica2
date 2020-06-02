@@ -1,6 +1,5 @@
 package am2.api;
 
-@SideOnly(Side.CLIENT)
 public interface ILoreHelper{
 
 	/**

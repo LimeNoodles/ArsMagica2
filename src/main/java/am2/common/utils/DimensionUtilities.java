@@ -5,52 +5,49 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import am2.common.blocks.tileentity.TileEntityAstralBarrier;
+
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityList;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class DimensionUtilities{
 	
 	private static final HashMap<Integer, ArrayList<TileEntityAstralBarrier>> barrierMap = new HashMap<>();
 	
-	public static void doDimensionTransfer(EntityLivingBase entity, int dimension){
+	public static void doDimensionTransfer(PlayerEntity entity, int dimension){
 
-		if (entity instanceof EntityPlayerMP){
-			EntityPlayerMP player = (EntityPlayerMP)entity;
+		if (entity instanceof PlayerEntity){
+			PlayerEntity player = (PlayerEntity)entity;
 			new AMTeleporter(player.mcServer.worldServerForDimension(dimension)).teleport(entity);
 		}else{
-			entity.worldObj.theProfiler.startSection("changeDimension");
+			entity.world.getProfiler().startSection("changeDimension");
 			MinecraftServer minecraftserver = FMLCommonHandler.instance().getMinecraftServerInstance();
 			int j = entity.dimension;
 			WorldServer worldserver = minecraftserver.worldServerForDimension(j);
 			WorldServer worldserver1 = minecraftserver.worldServerForDimension(dimension);
 			entity.dimension = dimension;
-			entity.worldObj.removeEntity(entity);
-			entity.isDead = false;
-			entity.worldObj.theProfiler.startSection("reposition");
+			entity.world.removeEntity(entity);
+			entity.setDe.isDead = false;
+			entity.world.theProfiler.startSection("reposition");
 			minecraftserver.getPlayerList().transferEntityToWorld(entity, j, worldserver, worldserver1, new AMTeleporter(worldserver1));
-			entity.worldObj.theProfiler.endStartSection("reloading");
+			entity.world.theProfiler.endStartSection("reloading");
 			Entity e = EntityList.createEntityByName(EntityList.getEntityString(entity), worldserver1);
 
 			if (e != null){
-				e.readFromNBT(entity.writeToNBT(new NBTTagCompound()));
+				e.readFromNBT(entity.serializeNBT().put(new CompoundNBT()));
 				worldserver1.spawnEntityInWorld(e);
 			}
 
 			entity.isDead = true;
-			entity.worldObj.theProfiler.endSection();
+			entity.world.theProfiler.endSection();
 			worldserver.resetUpdateEntityTick();
 			worldserver1.resetUpdateEntityTick();
-			entity.worldObj.theProfiler.endSection();
+			entity.world.theProfiler.endSection();
 		}
 	}
 	

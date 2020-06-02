@@ -7,8 +7,9 @@ import am2.api.items.armor.ImbuementApplicationTypes;
 import am2.api.items.armor.ImbuementTiers;
 import am2.common.buffs.BuffEffectWaterBreathing;
 import am2.common.defs.PotionEffectsDefs;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.EntityEquipmentSlot;
+
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -30,7 +31,7 @@ public class WaterBreathing extends ArmorImbuement{
 	}
 
 	@Override
-	public boolean applyEffect(EntityPlayer player, World world, ItemStack stack, ImbuementApplicationTypes matchedType, Object... params){
+	public boolean applyEffect(PlayerEntity player, World world, ItemStack stack, ImbuementApplicationTypes matchedType, Object... params){
 		if (world.isRemote)
 			return false;
 
@@ -45,8 +46,8 @@ public class WaterBreathing extends ArmorImbuement{
 	}
 
 	@Override
-	public EntityEquipmentSlot[] getValidSlots(){
-		return new EntityEquipmentSlot[]{EntityEquipmentSlot.HEAD};
+	public EquipmentSlotType[] getValidSlots(){
+		return new EquipmentSlotType[]{EquipmentSlotType.HEAD};
 	}
 
 	@Override

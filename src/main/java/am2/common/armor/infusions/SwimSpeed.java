@@ -7,9 +7,12 @@ import am2.api.items.armor.ImbuementApplicationTypes;
 import am2.api.items.armor.ImbuementTiers;
 import am2.common.buffs.BuffEffectSwiftSwim;
 import am2.common.defs.PotionEffectsDefs;
+import com.sun.webkit.graphics.WCRenderQueue;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -31,11 +34,11 @@ public class SwimSpeed extends ArmorImbuement{
 	}
 
 	@Override
-	public boolean applyEffect(EntityPlayer player, World world, ItemStack stack, ImbuementApplicationTypes matchedType, Object... params){
+	public boolean applyEffect(PlayerEntity player, World world, ItemStack stack, ImbuementApplicationTypes matchedType, Object... params){
 		if (world.isRemote)
 			return false;
 
-		if (player.isInsideOfMaterial(Material.WATER) && !player.isPotionActive(PotionEffectsDefs.SWIFT_SWIM)){
+		if (player.isInWater() && !player.isPotionActive(PotionEffectsDefs.SWIFT_SWIM)){
 			player.addPotionEffect(new BuffEffectSwiftSwim(10, 1));
 			return true;
 		}
@@ -43,8 +46,8 @@ public class SwimSpeed extends ArmorImbuement{
 	}
 
 	@Override
-	public EntityEquipmentSlot[] getValidSlots(){
-		return new EntityEquipmentSlot[]{EntityEquipmentSlot.LEGS};
+	public EquipmentSlotType[] getValidSlots(){
+		return new EquipmentSlotType[]{EquipmentSlotType.LEGS};
 	}
 
 	@Override

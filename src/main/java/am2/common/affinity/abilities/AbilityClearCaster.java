@@ -4,7 +4,7 @@ import am2.api.affinity.AbstractAffinityAbility;
 import am2.api.affinity.Affinity;
 import am2.api.event.SpellCastEvent.Pre;
 import am2.common.buffs.BuffEffectClarity;
-import net.minecraft.entity.player.EntityPlayer;
+
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 
@@ -26,7 +26,7 @@ public class AbilityClearCaster extends AbstractAffinityAbility {
 	
 	@Override
 	public void applyPreSpellCast(PlayerEntity player, Pre event) {
-		if (event.entityLiving.worldObj.rand.nextInt(100) < 5 && !event.entityLiving.worldObj.isRemote){
+		if (event.entityLiving.world.rand.nextInt(100) < 5 && !event.entityLiving.world.isRemote){
 			event.entityLiving.addPotionEffect(new BuffEffectClarity(140, 0));
 		}
 	}

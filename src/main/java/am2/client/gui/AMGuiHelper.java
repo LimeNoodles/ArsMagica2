@@ -1,7 +1,5 @@
 package am2.client.gui;
 
-import static net.minecraft.client.renderer.texture.TextureMap.LOCATION_BLOCKS_TEXTURE;
-
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.IntBuffer;
@@ -9,9 +7,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+
+import net.minecraft.client.renderer.ItemRenderer;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
+
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import org.lwjgl.opengl.EXTFramebufferObject;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GLContext;
 
 import am2.api.ArsMagicaAPI;
 import am2.client.particles.AMParticleIcons;
@@ -23,31 +27,19 @@ import am2.common.extensions.EntityExtension;
 import am2.common.items.ItemSpellComponent;
 import am2.common.power.PowerTypes;
 import am2.common.utils.RenderUtils;
+
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.renderer.EntityRenderer;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.GlStateManager.DestFactor;
-import net.minecraft.client.renderer.GlStateManager.SourceFactor;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class AMGuiHelper{
 
-	protected static RenderItem itemRenderer = Minecraft.getMinecraft().getRenderItem();
+	protected static ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
 
 	private AMGuiHelper(){
 	}
@@ -84,7 +76,7 @@ public class AMGuiHelper{
 	public boolean runCompendiumTicker = true;
 	//=========================================
 
-	public EntityItem dummyItem;
+	public ItemEntity dummyItem;
 	
 	private static final Random rand = new Random();
 
@@ -137,10 +129,10 @@ public class AMGuiHelper{
 	public void tick(){
 
 		if (dummyItem == null){
-			dummyItem = new EntityItem(Minecraft.getMinecraft().theWorld);
+			dummyItem = new ItemEntity(Minecraft.getInstance().world);
 		}else{
 			dummyItem.rotationYaw += 0.1f;
-			ReflectionHelper.setPrivateValue(EntityItem.class, dummyItem, (Integer)ReflectionHelper.getPrivateValue(EntityItem.class, dummyItem, "age", "field_70292_b", "d") + 1, "age", "field_70292_b", "d");
+			ObfuscationReflectionHelper.setPrivateValue(ItemEntity.class, dummyItem, (Integer)ObfuscationReflectionHelper.getPrivateValue(ItemEntity.class, dummyItem, "age", "field_70292_b", "d") + 1, "age", "field_70292_b", "d");
 		}
 
 		for (int i = 0; i < this.flashTimers.length; ++i){
@@ -198,7 +190,7 @@ public class AMGuiHelper{
 	}
 
 	public static void OpenCompendiumGui(ItemStack stack){
-		Minecraft.getMinecraft().displayGuiScreen(new GuiCompendiumIndex());
+		Minecraft.getInstance().displayGuiScreen(new GuiCompendiumIndex());
 	}
 
 	public static void DrawIconAtXY(TextureAtlasSprite IIcon, float x, float y, float zLevel, int w, int h, boolean semitransparent){
@@ -212,7 +204,7 @@ public class AMGuiHelper{
 			GlStateManager.enableBlend();
 			GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
 		}
-		Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+		Minecraft.getInstance().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 
 		Tessellator tessellator = Tessellator.getInstance();
 
@@ -248,11 +240,11 @@ public class AMGuiHelper{
 			return;
 		//GlStateManager.matrixMode(GL11.GL_TEXTURE);
 		//GlStateManager.pushMatrix();
-		Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+		Minecraft.getInstance().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 
 		Tessellator tessellator = Tessellator.getInstance();
 
-		boolean drawing = ReflectionHelper.getPrivateValue(VertexBuffer.class, tessellator.getBuffer(), "isDrawing", "field_179010_r");
+		boolean drawing = ObfuscationReflectionHelper.getPrivateValue(VertexBuffer.class, tessellator.getBuffer(), "isDrawing", "field_179010_r");
 		if (drawing)
 			tessellator.draw();
 
@@ -286,14 +278,14 @@ public class AMGuiHelper{
 	}
 
 	public static void DrawItemAtXY(ItemStack stack, float x, float y, float zLevel, float scale){
-		Minecraft.getMinecraft().renderEngine.bindTexture(LOCATION_BLOCKS_TEXTURE);
+		Minecraft.getInstance().renderEngine.bindTexture(LOCATION_BLOCKS_TEXTURE);
 		if (stack == null)
 			return;
 		GlStateManager.pushAttrib();
 		GlStateManager.color(1, 1, 1, 1);
 
 		RenderHelper.disableStandardItemLighting();
-		RenderHelper.enableGUIStandardItemLighting();
+		RenderHelper.enableStandardItemLighting();
 		//GL11.glDisable(GL11.GL_BLEND);
 		//GL11.glDisable(GL11.GL_LIGHTING);
 
@@ -305,14 +297,14 @@ public class AMGuiHelper{
 			GlStateManager.popMatrix();
 		}else {
 			if (stack.getItem() instanceof ItemSpellComponent) {
-				Minecraft.getMinecraft().renderEngine.bindTexture(LOCATION_BLOCKS_TEXTURE);
+				Minecraft.getInstance().renderEngine.bindTexture(LOCATION_BLOCKS_TEXTURE);
 				TextureAtlasSprite icon = SpellIconManager.INSTANCE.getSprite(ArsMagicaAPI.getSpellRegistry().getValue(ArsMagicaAPI.getSkillRegistry().getObjectById(stack.getItemDamage()).getRegistryName()).getRegistryName().toString());
 				GlStateManager.color(1, 1, 1, 1);
 				if (icon != null)
 					DrawIconAtXY(icon, x, y, zLevel + 1, 16, 16, false);
 			} 
 			else if (stack.getItem().equals(ItemDefs.etherium)) {
-				Minecraft.getMinecraft().renderEngine.bindTexture(LOCATION_BLOCKS_TEXTURE);
+				Minecraft.getInstance().renderEngine.bindTexture(LOCATION_BLOCKS_TEXTURE);
 				TextureAtlasSprite icon = AMParticleIcons.instance.getIconByName("lights");
 				int color = 0;
 				for (PowerTypes type : PowerTypes.all()) {
@@ -330,7 +322,7 @@ public class AMGuiHelper{
 		}
 		RenderHelper.enableStandardItemLighting();
 		//GL11.glDisable(GL11.GL_ALPHA_TEST);
-		GlStateManager.popAttrib();
+		GlStateManager.popAttributes();
 	}
 
 	public static void drawCompendiumText(String text, int x_start, int y_start, int max_width, int start_color, FontRenderer fontRenderer){
@@ -482,11 +474,11 @@ public class AMGuiHelper{
 		GlStateManager.glVertex3f(dst_x, dst_y, zLevel);
 		GlStateManager.glEnd();
 		GlStateManager.color(1.0f, 1.0f, 1.0f);
-		GlStateManager.enableTexture2D();
+		GlStateManager.enableTexture();
 	}
 
 	public static void line2d(float src_x, float src_y, float dst_x, float dst_y, float zLevel, float weight, int color){
-		GlStateManager.disableTexture2D();
+		GlStateManager.disableTexture();
 		GlStateManager.glLineWidth(weight);
 		GlStateManager.color(((color & 0xFF0000) >> 16) / 255.0f, ((color & 0x00FF00) >> 8) / 255.0f, (color & 0x0000FF) / 255.0f);
 		GlStateManager.glBegin(GL11.GL_LINES);
@@ -494,7 +486,7 @@ public class AMGuiHelper{
 		GlStateManager.glVertex3f(dst_x, dst_y, zLevel);
 		GlStateManager.glEnd();
 		GlStateManager.color(1.0f, 1.0f, 1.0f);
-		GlStateManager.enableTexture2D();
+		GlStateManager.enableTexture();
 	}
 
 	public static void gradientline2d(float src_x, float src_y, float dst_x, float dst_y, float zLevel, int color1, int color2){
@@ -665,14 +657,14 @@ public class AMGuiHelper{
 	}
 
 	public static void flipView(float f){
-		float flip = EntityExtension.For(Minecraft.getMinecraft().thePlayer).getFlipRotation();
-		float lastFlip = EntityExtension.For(Minecraft.getMinecraft().thePlayer).getPrevFlipRotation();
+		float flip = EntityExtension.For(Minecraft.getInstance().thePlayer).getFlipRotation();
+		float lastFlip = EntityExtension.For(Minecraft.getInstance().thePlayer).getPrevFlipRotation();
 		GlStateManager.rotate(lastFlip + (flip - lastFlip) * f, 0, 0, 1);
 	}
 
 	public static void shiftView(float f){
-		EntityPlayer entity = Minecraft.getMinecraft().thePlayer;
-//		int viewSet = Minecraft.getMinecraft().gameSettings.thirdPersonView;
+		EntityPlayer entity = Minecraft.getInstance().thePlayer;
+//		int viewSet = Minecraft.getInstance().gameSettings.thirdPersonView;
 //		if (viewSet == 0){
 //			EntityExtension exProps = EntityExtension.For(entity);
 //			if (exProps.getShrinkPct() > 0f){
@@ -692,9 +684,9 @@ public class AMGuiHelper{
 	}
 
 	public static void overrideKeyboardInput(){
-		Minecraft mc = Minecraft.getMinecraft();
-		if (mc.thePlayer != null && mc.theWorld != null && EntityExtension.For(mc.thePlayer).shouldReverseInput()){
-			EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+		Minecraft mc = Minecraft.getInstance();
+		if (mc.player != null && mc.world != null && EntityExtension.For(mc.player).shouldReverseInput()){
+			PlayerEntity player = Minecraft.getInstance().player;
 			if (mc.gameSettings.keyBindLeft.isKeyDown()){
 				LogHelper.debug("Override Left");
 				player.movementInput.moveStrafe -= 2;
@@ -717,20 +709,20 @@ public class AMGuiHelper{
 	}
 
 	public static boolean overrideMouseInput(EntityRenderer renderer, float f, boolean b){
-		Minecraft mc = Minecraft.getMinecraft();
+		Minecraft mc = Minecraft.getInstance();
 
-		if (!mc.inGameHasFocus || mc.thePlayer == null || mc.theWorld == null)
+		if (!mc.isGameFocused() || mc.player == null || mc.world == null)
 			return true;
 
-		if (!mc.thePlayer.isPotionActive(PotionEffectsDefs.SCRAMBLE_SYNAPSES)){
+		if (!mc.player.isPotionActive(PotionEffectsDefs.SCRAMBLE_SYNAPSES)){
 			return true;
 		}
 
 		mc.mouseHelper.mouseXYChange();
 		float f1 = mc.gameSettings.mouseSensitivity * 0.6F + 0.2F;
 		float f2 = f1 * f1 * f1 * 8.0F;
-		float f3 = (float)mc.mouseHelper.deltaX * f2;
-		float f4 = (float)mc.mouseHelper.deltaY * f2;
+		float f3 = (float)mc.mouseHelper.getMouseX() * f2;
+		float f4 = (float)mc.mouseHelper.getMouseY() * f2;
 		byte b0 = -1;
 
 		if (mc.gameSettings.invertMouse){
@@ -745,20 +737,20 @@ public class AMGuiHelper{
 			String[] scfy = {"field_78499_K", "smoothCamFilterY"};
 
 			//renderer.smoothCamYaw += f3;
-			ReflectionHelper.setPrivateValue(EntityRenderer.class, renderer, (Float)ReflectionHelper.getPrivateValue(EntityRenderer.class, renderer, scy) - f3, scy);
+			ObfuscationReflectionHelper.setPrivateValue(EntityRenderer.class, renderer, (Float)ObfuscationReflectionHelper.getPrivateValue(EntityRenderer.class, renderer, scy) - f3, scy);
 			//renderer.smoothCamPitch += f4;
-			ReflectionHelper.setPrivateValue(EntityRenderer.class, renderer, (Float)ReflectionHelper.getPrivateValue(EntityRenderer.class, renderer, scp) - f4, scp);
+			ObfuscationReflectionHelper.setPrivateValue(EntityRenderer.class, renderer, (Float)ObfuscationReflectionHelper.getPrivateValue(EntityRenderer.class, renderer, scp) - f4, scp);
 			//float f5 = f - renderer.smoothCamPartialTicks;
-			float f5 = f - (Float)ReflectionHelper.getPrivateValue(EntityRenderer.class, renderer, scpt);
+			float f5 = f - (Float)ObfuscationReflectionHelper.getPrivateValue(EntityRenderer.class, renderer, scpt);
 			//renderer.smoothCamPartialTicks = f;
-			ReflectionHelper.setPrivateValue(EntityRenderer.class, renderer, f, scpt);
+			ObfuscationReflectionHelper.setPrivateValue(EntityRenderer.class, renderer, f, scpt);
 			//f3 = renderer.smoothCamFilterX * f5;
-			f3 = (Float)ReflectionHelper.getPrivateValue(EntityRenderer.class, renderer, scfx) * f5;
+			f3 = (Float)ObfuscationReflectionHelper.getPrivateValue(EntityRenderer.class, renderer, scfx) * f5;
 			//f4 = renderer.smoothCamFilterY * f5;
-			f4 = (Float)ReflectionHelper.getPrivateValue(EntityRenderer.class, renderer, scfy) * f5;
-			mc.thePlayer.setAngles(-f3, f4 * (float)b0);
+			f4 = (Float)ObfuscationReflectionHelper.getPrivateValue(EntityRenderer.class, renderer, scfy) * f5;
+			mc.player.setAngles(-f3, f4 * (float)b0);
 		}else{
-			mc.thePlayer.setAngles(-f3, f4 * (float)b0);
+			mc.player.setAngles(-f3, f4 * (float)b0);
 		}
 
 		return false;

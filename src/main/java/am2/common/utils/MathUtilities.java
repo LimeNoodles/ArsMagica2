@@ -7,7 +7,8 @@ import java.util.List;
 import am2.api.math.AMVector3;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -50,7 +51,7 @@ public class MathUtilities{
 		return new Vec3d((float)Math.round(old.xCoord), (float)Math.round(old.yCoord), (float)Math.round(old.zCoord));
 	}
 
-	public static Vec3d[] GetHorizontalBlocksInFrontOfCharacter(EntityLivingBase entity, int numBlocks, int x, int y, int z){
+	public static Vec3d[] GetHorizontalBlocksInFrontOfCharacter(LivingEntity entity, int numBlocks, int x, int y, int z){
 		float speed = 0.1F;
 
 		float factor = (float)(Math.PI / 180.0f);
@@ -97,7 +98,7 @@ public class MathUtilities{
 		return list;
 	}
 
-	public static Vec3d[] GetBlocksInFrontOfCharacter(EntityLivingBase entity, int numBlocks, int x, int y, int z){
+	public static Vec3d[] GetBlocksInFrontOfCharacter(LivingEntity entity, int numBlocks, int x, int y, int z){
 		float speed = 0.1F;
 
 		float factor = (float)(Math.PI / 180.0f);
@@ -152,7 +153,7 @@ public class MathUtilities{
 		return list;
 	}
 
-	public static Entity[] GetEntitiesInAngleNearEntity(World world, EntityLivingBase source, int degrees, int radius, Class<? extends Entity> filterClass, boolean includeSource){
+	public static Entity[] GetEntitiesInAngleNearEntity(World world, LivingEntity source, int degrees, int radius, Class<? extends Entity> filterClass, boolean includeSource){
 
 		//argument verification
 		if (degrees > 360){
@@ -163,7 +164,7 @@ public class MathUtilities{
 		}
 
 		//get all entities within distance
-		List<? extends Entity> distanceFilter = world.getEntitiesWithinAABB(filterClass, new AxisAlignedBB((float)source.posX - radius, source.posY - radius, (float)source.posZ - radius, source.posX + radius, source.posY + radius, source.posZ + radius));
+		List<? extends Entity> distanceFilter = world.getEntitiesWithinAABB(filterClass, new AxisAlignedBB((float)source.getPosX() - radius, source.getPosY() - radius, (float)source.getPosZ() - radius, source.getPosX() + radius, source.getPosY() + radius, source.getPosZ() + radius));
 		if (!includeSource){
 			for (int x = 0; x < distanceFilter.size(); ++x){
 				if (distanceFilter.get(x) == source){
@@ -196,13 +197,13 @@ public class MathUtilities{
 		return array;
 	}
 
-	public static boolean isInFieldOfVision(Entity e1, EntityLivingBase e2, float angleX, float angleY){
+	public static boolean isInFieldOfVision(Entity e1, LivingEntity e2, float angleX, float angleY){
 		//save Entity 2's original rotation variables
 		float rotationYawPrime = e2.rotationYaw;
 		float rotationPitchPrime = e2.rotationPitch;
 		//make Entity 2 directly face Entity 1
-		if (e2 instanceof EntityLiving)
-			((EntityLiving)e2).faceEntity(e1, 360F, 360F);
+		if (e2 instanceof LivingEntity)
+			((LivingEntity)e2).faceEntity(e1, 360F, 360F);
 		//switch values of prime rotation variables with current rotation variables
 		float f = e2.rotationYaw;
 		float f2 = e2.rotationPitch;
@@ -238,8 +239,8 @@ public class MathUtilities{
 	}
 
 	public static Vec3d GetMovementVectorBetweenEntities(Entity from, Entity to){
-		Vec3d fromPosition = new Vec3d(from.posX, from.posY, from.posZ);
-		Vec3d toPosition = new Vec3d(to.posX, to.posY, to.posZ);
+		Vec3d fromPosition = new Vec3d(from.getPosX(), from.getgetPosY()(), from.getgetPosZ()());
+		Vec3d toPosition = new Vec3d(to.getPosX(), to.getgetPosY()(), to.getgetPosZ()());
 		Vec3d delta = fromPosition.subtract(toPosition);
 		delta.normalize();
 		return delta;
@@ -251,14 +252,14 @@ public class MathUtilities{
 		return delta;
 	}
 
-	public static Entity getPointedEntity(World world, EntityLivingBase entityplayer, double range, double collideRadius){
+	public static Entity getPointedEntity(World world, LivingEntity entityplayer, double range, double collideRadius){
 		return getPointedEntity(world, entityplayer, range, collideRadius, false);
 	}
 
-	public static Entity getPointedEntity(World world, EntityLivingBase entityplayer, double range, double collideRadius, boolean nonCollide){
+	public static Entity getPointedEntity(World world, LivingEntity entityplayer, double range, double collideRadius, boolean nonCollide){
 		Entity pointedEntity = null;
 		double d = range;
-		Vec3d vec3d = new Vec3d(entityplayer.posX, entityplayer.posY + entityplayer.getEyeHeight(), entityplayer.posZ);
+		Vec3d vec3d = new Vec3d(entityplayer.getPosX(), entityplayer.getPosY() + entityplayer.getEyeHeight(), entityplayer.getPosZ());
 		Vec3d vec3d1 = entityplayer.getLookVec();
 		Vec3d vec3d2 = vec3d.addVector(vec3d1.xCoord * d, vec3d1.yCoord * d, vec3d1.zCoord * d);
 		double f1 = collideRadius;
@@ -268,8 +269,8 @@ public class MathUtilities{
 		for (int i = 0; i < list.size(); i++){
 			Entity entity = (Entity)list.get(i);
 			RayTraceResult mop = world.rayTraceBlocks(
-					new Vec3d(entityplayer.posX, entityplayer.posY + entityplayer.getEyeHeight(), entityplayer.posZ),
-					new Vec3d(entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ),
+					new Vec3d(entityplayer.getPosX(), entityplayer.getPosY() + entityplayer.getEyeHeight(), entityplayer.getPosZ()),
+					new Vec3d(entity.getPosX(), entity.getPosY() + entity.getEyeHeight(), entity.getPosZ()),
 					false);
 			if (((entity.canBeCollidedWith()) || (nonCollide)) && mop == null){
 				float f2 = Math.max(0.8F, entity.getCollisionBorderSize());
@@ -293,13 +294,13 @@ public class MathUtilities{
 		return pointedEntity;
 	}
 
-	public static Vec3d extrapolateEntityLook(World par1World, EntityLivingBase entity, double range){
+	public static Vec3d extrapolateEntityLook(World par1World, LivingEntity entity, double range){
 		float var4 = 1.0F;
 		float var5 = entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * var4;
 		float var6 = entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * var4;
-		double var7 = entity.prevPosX + (entity.posX - entity.prevPosX) * var4;
-		double var9 = entity.prevPosY + (entity.posY - entity.prevPosY) * var4 + 1.6D - entity.getYOffset();
-		double var11 = entity.prevPosZ + (entity.posZ - entity.prevPosZ) * var4;
+		double var7 = entity.prevgetPosX() + (entity.getPosX() - entity.prevgetPosX()) * var4;
+		double var9 = entity.prevgetPosY() + (entity.getPosY() - entity.prevgetPosY()) * var4 + 1.6D - entity.getYOffset();
+		double var11 = entity.prevgetPosZ() + (entity.getPosZ() - entity.prevgetPosZ()) * var4;
 		Vec3d var13 = new Vec3d(var7, var9, var11);
 		float var14 = MathHelper.cos(-var6 * 0.017453292F - (float)Math.PI);
 		float var15 = MathHelper.sin(-var6 * 0.017453292F - (float)Math.PI);
@@ -336,21 +337,21 @@ public class MathUtilities{
 		}
 	}
 
-	public static int getDistanceToGround(EntityLivingBase ent, World world){
-		int yCoord = (int)(ent.posY);
+	public static int getDistanceToGround(LivingEntity ent, World world){
+		int yCoord = (int)(ent.getgetPosY()());
 		int distance = 0;
 
 		while (distance < 20){
-			if (world.isAirBlock(new BlockPos((int)Math.floor(ent.posX), yCoord, (int)Math.floor(ent.posZ)))){
+			if (world.isAirBlock(new BlockPos((int)Math.floor(ent.getPosX()), yCoord, (int)Math.floor(ent.getPosZ())))){
 				break;
 			}
-			if (world.isAirBlock(new BlockPos((int)Math.ceil(ent.posX), yCoord, (int)Math.floor(ent.posZ)))){
+			if (world.isAirBlock(new BlockPos((int)Math.ceil(ent.getPosX()), yCoord, (int)Math.floor(ent.getPosZ())))){
 				break;
 			}
-			if (world.isAirBlock(new BlockPos((int)Math.floor(ent.posX), yCoord, (int)Math.ceil(ent.posZ)))){
+			if (world.isAirBlock(new BlockPos((int)Math.floor(ent.getPosX()), yCoord, (int)Math.ceil(ent.getPosZ())))){
 				break;
 			}
-			if (world.isAirBlock(new BlockPos((int)Math.ceil(ent.posX), yCoord, (int)Math.ceil(ent.posZ)))){
+			if (world.isAirBlock(new BlockPos((int)Math.ceil(ent.getPosX()), yCoord, (int)Math.ceil(ent.getPosZ())))){
 				break;
 			}
 			distance++;

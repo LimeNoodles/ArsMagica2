@@ -1,5 +1,8 @@
 package am2.common.armor;
 
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.lwjgl.input.Keyboard;
 
 import am2.ArsMagica2;
@@ -8,17 +11,9 @@ import am2.api.items.armor.ArmorImbuement;
 import am2.api.items.armor.ImbuementApplicationTypes;
 import am2.common.defs.BlockDefs;
 import am2.common.extensions.AffinityData;
+
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.nbt.NBTTagString;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
@@ -35,11 +30,11 @@ public class ArmorEventHandler{
 
 	@SubscribeEvent
 	public void onEntityLiving(LivingUpdateEvent event){
-		if (!(event.getEntityLiving() instanceof EntityPlayer))
+		if (!(event.getEntityLiving() instanceof LivingEntity))
 			return;
-		if (!event.getEntityLiving().worldObj.isRemote)
-			ArmorHelper.HandleArmorInfusion((EntityPlayer) event.getEntityLiving());
-		doInfusions(ImbuementApplicationTypes.ON_TICK, event, (EntityPlayer)event.getEntityLiving());
+		if (!event.getEntityLiving().world.isRemote)
+			ArmorHelper.HandleArmorInfusion((PlayerEntity) event.getEntityLiving());
+		doInfusions(ImbuementApplicationTypes.ON_TICK, event, (PlayerEntity)event.getEntityLiving());
 	}
 
 	@SubscribeEvent

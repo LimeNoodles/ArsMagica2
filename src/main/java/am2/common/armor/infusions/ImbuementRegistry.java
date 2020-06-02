@@ -8,7 +8,8 @@ import am2.api.items.armor.IImbuementRegistry;
 import am2.api.items.armor.ImbuementTiers;
 import am2.common.LogHelper;
 import am2.common.armor.ArmorHelper;
-import net.minecraft.inventory.EntityEquipmentSlot;
+
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -34,12 +35,12 @@ public class ImbuementRegistry implements IImbuementRegistry{
 	}
 
 	@Override
-	public ArmorImbuement[] getImbuementsForTier(ImbuementTiers tier, EntityEquipmentSlot armorType){
+	public ArmorImbuement[] getImbuementsForTier(ImbuementTiers tier, EquipmentSlotType armorType){
 		ArrayList<ArmorImbuement> list = new ArrayList<ArmorImbuement>();
 
 		for (ArmorImbuement imbuement : ArsMagicaAPI.getArmorImbuementRegistry().getValues()){
 			if (imbuement.getTier() == tier){
-				for (EntityEquipmentSlot i : imbuement.getValidSlots()){
+				for (EquipmentSlotType i : imbuement.getValidSlots()){
 					if (i == armorType){
 						list.add(imbuement);
 						break;

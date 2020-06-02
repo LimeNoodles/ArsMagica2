@@ -1,6 +1,7 @@
 package am2.common.armor;
 
-import net.minecraft.inventory.EntityEquipmentSlot;
+
+import net.minecraft.inventory.EquipmentSlotType;
 
 public enum ArsMagicaArmorMaterial{
 	//{900, 1700, 6400, 4000}
@@ -78,11 +79,11 @@ public enum ArsMagicaArmorMaterial{
 		return AMArmor.getMaxDamageArray()[i] * maxDamageFactor;
 	}
 
-	public int getDamageReductionAmount(EntityEquipmentSlot par4){
+	public int getDamageReductionAmount(EquipmentSlotType par4){
 		return damageReductionAmountArray[par4.getIndex()];
 	}
 	
-	public int getMaxDamage(EntityEquipmentSlot par4) {
+	public int getMaxDamage(EquipmentSlotType par4) {
 		return AMArmor.getMaxDamageArray()[par4.getIndex()] * maxDamageFactor;
 	}
 

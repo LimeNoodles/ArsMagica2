@@ -14,6 +14,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.common.extensions.IForgeBlockState;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
 public class AbilityFulmination extends AbstractAffinityAbility {
 
@@ -47,10 +49,10 @@ public class AbilityFulmination extends AbstractAffinityAbility {
 		if (!ent.world.isRemote){
 			if (lightningDepth <= 0.8f){
 				BlockPos offsetPos = new BlockPos(ent.getPosX() - 5 + ent.getRNG().nextInt(11), ent.getPosY() - 5 + ent.getRNG().nextInt(11), ent.getPosZ() - 5 + ent.getRNG().nextInt(11));
-				IBlockState block = ent.world.getBlockState(offsetPos);
-				if (block.getBlock() == Blocks.TNT){
+				IForgeBlockState block = ent.world.getBlockState(offsetPos);
+				if (block.getBlockState().getBlock() == Blocks.TNT){
 					ent.world.setBlockToAir(offsetPos);
-					((TNTBlock)Blocks.TNT).explode(ent.world, offsetPos, block.withProperty(TNTBlock.EXPLODE, true), ent);
+					//TODO ((TNTBlock)Blocks.TNT).explode(ent.world, offsetPos, ent);
 				}
 			}
 			//chance to supercharge nearby creepers
@@ -58,7 +60,7 @@ public class AbilityFulmination extends AbstractAffinityAbility {
 				List<CreeperEntity> creepers = ent.world.getEntitiesWithinAABB(CreeperEntity.class, ent.getBoundingBox().expand(5, 5, 5));
 				for (CreeperEntity creeper : creepers){
 					try {
-						creeper.getDataManager().set((DataParameter<Boolean>)ReflectionHelper.findField(CreeperEntity.class, "POWERED", "field_184714_b").get(creeper), true);
+						creeper.getDataManager().set((DataParameter<Boolean>) ObfuscationReflectionHelper.findField(CreeperEntity.class, "POWERED", "field_184714_b").get(creeper), true);
 					} catch (IllegalArgumentException | IllegalAccessException e) {
 					}
 					ArsMagica2.proxy.particleManager.BoltFromEntityToEntity(ent.world, ent, ent, creeper, 0, 1, -1);

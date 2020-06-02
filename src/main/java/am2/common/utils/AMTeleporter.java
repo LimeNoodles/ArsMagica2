@@ -1,32 +1,30 @@
 package am2.common.utils;
 
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
-import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.common.extensions.IForgeWorldServer;
 
 public class AMTeleporter extends Teleporter{
 
-	private final WorldServer instance;
+	private final IForgeWorldServer instance;
 
-	public AMTeleporter(WorldServer par1WorldServer){
+	public AMTeleporter(IForgeWorldServer par1WorldServer){
 		super(par1WorldServer);
 		instance = par1WorldServer;
 	}
 
-	public void teleport(EntityLivingBase entity){
+	public void teleport(LivingEntity entity){
 		teleport(entity, instance);
 	}
 
 	// Move the Entity to the portal
-	public void teleport(EntityLivingBase entity, World world){
+	public void teleport(LivingEntity entity, World world){
 		// Set Dimension
-		if (entity.worldObj.provider.getDimension() != world.provider.getDimension()){
+		if (entity.world.getDimension() != world.getDimension()){
 			BlockPos teleportPos = clearTeleportPath(world, entity);
 
 			entity.motionX = entity.motionY = entity.motionZ = 0.0D;
@@ -51,14 +49,14 @@ public class AMTeleporter extends Teleporter{
 	public void removeStalePortalLocations(long p_85189_1_){
 	}
 
-	private BlockPos clearTeleportPath(World world, EntityLivingBase entity){
+	private BlockPos clearTeleportPath(World world, LivingEntity entity){
 		BlockPos vec = new BlockPos(entity);
 		vec = new BlockPos(vec.getX() / world.provider.getMovementFactor(),
 		vec.getY() / world.provider.getMovementFactor(),
 		vec.getZ() / world.provider.getMovementFactor());
 		if (entity.dimension != -1){
 			boolean canFindHigherGround = false;
-			vec = new BlockPos(vec.getX(), entity.posY, vec.getZ());
+			vec = new BlockPos(vec.getX(), entity.getPosY(), vec.getZ());
 			if (vec.getY() < 5 || vec.getY() >= world.getActualHeight() - 10)
 				vec = new BlockPos(vec.getX(), 5, vec.getZ());
 

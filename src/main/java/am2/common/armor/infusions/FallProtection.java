@@ -11,7 +11,9 @@ import am2.common.defs.PotionEffectsDefs;
 import am2.common.extensions.EntityExtension;
 import am2.common.utils.MathUtilities;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -33,13 +35,13 @@ public class FallProtection extends ArmorImbuement{
 	}
 
 	@Override
-	public boolean applyEffect(EntityPlayer player, World world, ItemStack stack, ImbuementApplicationTypes matchedType, Object... params){
+	public boolean applyEffect(PlayerEntity player, World world, ItemStack stack, ImbuementApplicationTypes matchedType, Object... params){
 		if (world.isRemote)
 			return false;
 
 		int distanceToGround = MathUtilities.getDistanceToGround(player, world);
 		IEntityExtension extendedProperties = EntityExtension.For(player);
-		if (player.fallDistance >= extendedProperties.getFallProtection() + 4f && distanceToGround < -8 * player.motionY){
+		if (player.fallDistance >= extendedProperties.getFallProtection() + 4f && distanceToGround < -8 * player.getMotion().getY()){
 			if (!player.isPotionActive(PotionEffectsDefs.SLOWFALL) && !player.capabilities.isFlying){
 
 				BuffEffectSlowfall sf = new BuffEffectSlowfall(distanceToGround * 3, 1);
@@ -55,8 +57,8 @@ public class FallProtection extends ArmorImbuement{
 	}
 
 	@Override
-	public EntityEquipmentSlot[] getValidSlots(){
-		return new EntityEquipmentSlot[]{EntityEquipmentSlot.FEET};
+	public EquipmentSlotType[] getValidSlots(){
+		return new EquipmentSlotType[]{EquipmentSlotType.FEET};
 	}
 
 	@Override

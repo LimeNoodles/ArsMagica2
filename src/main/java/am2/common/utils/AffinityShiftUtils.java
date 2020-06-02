@@ -16,9 +16,10 @@ import am2.common.defs.SkillDefs;
 import am2.common.extensions.AffinityData;
 import am2.common.extensions.EntityExtension;
 import am2.common.extensions.SkillData;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.EntityEquipmentSlot;
+
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -28,7 +29,7 @@ import java.util.Set;
 
 public class AffinityShiftUtils {
 	
-	public static void doAffinityShift(EntityLivingBase caster, SpellComponent component, SpellShape governingShape){
+	public static void doAffinityShift(LivingEntity caster, SpellComponent component, SpellShape governingShape){
 		if (!(caster instanceof EntityPlayer)) return;
 		IAffinityData aff = AffinityData.For(caster);
 		Set<Affinity> affList = component.getAffinity();
@@ -46,13 +47,13 @@ public class AffinityShiftUtils {
 					shift *= 1.1f;
 					//xp *= 0.9f;
 				}
-				ItemStack chestArmor = ((EntityPlayer)caster).getItemStackFromSlot(EntityEquipmentSlot.CHEST);
+				ItemStack chestArmor = ((PlayerEntity)caster).getItemStackFromSlot(EquipmentSlotType.CHEST);
 				if (chestArmor != null && ArmorHelper.isInfusionPreset(chestArmor, GenericImbuement.magicXP))
 					xp *= 1.25f;
 			}
 
 			if (shift > 0){
-				AffinityChangingEvent event = new AffinityChangingEvent((EntityPlayer)caster, affinity, shift);
+				AffinityChangingEvent event = new AffinityChangingEvent((PlayerEntity) caster, affinity, shift);
 				MinecraftForge.EVENT_BUS.post(event);
 				if (!event.isCanceled())
 					aff.incrementAffinity(affinity, event.amount);
@@ -75,7 +76,7 @@ public class AffinityShiftUtils {
 		return new ItemStack(ItemDefs.essence, 1, meta);
 	}
 
-	public static float calculateXPGains(EntityLivingBase caster, SpellData data) {
+	public static float calculateXPGains(LivingEntity caster, SpellData data) {
 		IEntityExtension extension = EntityExtension.For(caster);
 		float cost = 0F;
 		float multiplier = 0.1F;
@@ -107,7 +108,7 @@ public class AffinityShiftUtils {
 			cost += _cost * _multiplier;
 		}
 
-		ItemStack chestArmor = caster.getItemStackFromSlot(EntityEquipmentSlot.CHEST);
+		ItemStack chestArmor = caster.getItemStackFromSlot(EquipmentSlotType.CHEST);
 		if (chestArmor != null && ArmorHelper.isInfusionPreset(chestArmor, GenericImbuement.magicXP))
 			multiplier *= 1.5f;
 		return cost * multiplier * 0.05F;

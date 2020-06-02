@@ -5,8 +5,10 @@ import java.util.EnumSet;
 import am2.api.items.armor.ArmorImbuement;
 import am2.api.items.armor.ImbuementApplicationTypes;
 import am2.api.items.armor.ImbuementTiers;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.EntityEquipmentSlot;
+
+
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -16,7 +18,7 @@ public class DamageReductionImbuement extends ArmorImbuement{
 	private String id = "";
 	private String dmgType = "";
 	private ImbuementTiers tier;
-	EntityEquipmentSlot[] allArmor = new EntityEquipmentSlot[]{EntityEquipmentSlot.FEET, EntityEquipmentSlot.LEGS, EntityEquipmentSlot.CHEST, EntityEquipmentSlot.HEAD};
+	EquipmentSlotType[] allArmor = new EquipmentSlotType[]{EquipmentSlotType.FEET, EquipmentSlotType.LEGS, EquipmentSlotType.CHEST, EquipmentSlotType.HEAD};
 
 	private DamageReductionImbuement(String id, String dmgType, ImbuementTiers tier){
 		this.id = id;
@@ -53,7 +55,7 @@ public class DamageReductionImbuement extends ArmorImbuement{
 	}
 
 	@Override
-	public boolean applyEffect(EntityPlayer player, World world, ItemStack stack, ImbuementApplicationTypes matchedType, Object... params){
+	public boolean applyEffect(PlayerEntity player, World world, ItemStack stack, ImbuementApplicationTypes matchedType, Object... params){
 		LivingHurtEvent event = (LivingHurtEvent)params[0];
 		if (event.getSource().damageType.equals(dmgType) ||
 				(dmgType.equals("fire") && event.getSource().isFireDamage()) ||
@@ -67,7 +69,7 @@ public class DamageReductionImbuement extends ArmorImbuement{
 	}
 
 	@Override
-	public EntityEquipmentSlot[] getValidSlots(){
+	public EquipmentSlotType[] getValidSlots(){
 		return allArmor;
 	}
 

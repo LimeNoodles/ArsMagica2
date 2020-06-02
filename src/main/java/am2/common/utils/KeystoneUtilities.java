@@ -8,11 +8,11 @@ import am2.common.defs.ItemDefs;
 import am2.common.extensions.EntityExtension;
 import am2.common.items.ItemKeystone;
 import am2.common.items.ItemRune;
+
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.StringTextComponent;
 
 public class KeystoneUtilities {
   
@@ -24,7 +24,7 @@ public class KeystoneUtilities {
 
 	public static final KeystoneUtilities instance = new KeystoneUtilities();
 
-	public static boolean HandleKeystoneRecovery(EntityPlayer player, IKeystoneLockable<?> lock){
+	public static boolean HandleKeystoneRecovery(PlayerEntity player, IKeystoneLockable<?> lock){
 		if (EntityExtension.For(player).isRecoveringKeystone){
 			if (KeystoneUtilities.instance.getKeyFromRunes(lock.getRunesInKey()) != 0){
 				String combo = "";
@@ -34,9 +34,9 @@ public class KeystoneUtilities {
 					else
 						combo += rune.getDisplayName() + " ";
 				}
-				player.addChatMessage(new TextComponentString(combo));
+				player.sendMessage(new StringTextComponent(combo));
 			}else{
-				player.addChatMessage(new TextComponentString(I18n.format("am2.tooltip.noKeyPresent")));
+				player.sendMessage(new StringTextComponent(I18n.format("am2.tooltip.noKeyPresent")));
 			}
 			EntityExtension.For(player).isRecoveringKeystone = false;
 			return true;
@@ -45,12 +45,12 @@ public class KeystoneUtilities {
 		}
 	}
 
-	public ArrayList<Long> GetKeysInInvenory(EntityLivingBase ent){
+	public ArrayList<Long> GetKeysInInvenory(PlayerEntity ent){
 		ArrayList<Long> toReturn = new ArrayList<Long>();
 		toReturn.add((long)0); //any inventory has the "0", or "unlocked" key
 
-		if (ent instanceof EntityPlayer){
-			EntityPlayer p = (EntityPlayer)ent;
+		if (ent instanceof PlayerEntity){
+			PlayerEntity p = (PlayerEntity) ent;
 			for (ItemStack is : p.inventory.mainInventory){
 				if (is == null || !(is.getItem() instanceof ItemKeystone)) continue;
 
@@ -79,7 +79,7 @@ public class KeystoneUtilities {
 	}
 
 
-	public boolean canPlayerAccess(IKeystoneLockable<?> inventory, EntityPlayer player, KeystoneAccessType accessMode){
+	public boolean canPlayerAccess(IKeystoneLockable<?> inventory, PlayerEntity player, KeystoneAccessType accessMode){
 		ItemStack[] runes = inventory.getRunesInKey();
 		long key = getKeyFromRunes(runes);
 
@@ -108,11 +108,11 @@ public class KeystoneUtilities {
 			}
 		}
 
-		if (accessMode == KeystoneAccessType.USE && !player.worldObj.isRemote){
-			player.addChatMessage(new TextComponentString(I18n.format("am2.tooltip.wrongKeystoneUse")));
+		if (accessMode == KeystoneAccessType.USE && !player.world.isRemote){
+			player.sendMessage(new StringTextComponent(I18n.format("am2.tooltip.wrongKeystoneUse")));
 		}
-		else if (accessMode == KeystoneAccessType.BREAK && !player.worldObj.isRemote){
-			player.addChatMessage(new TextComponentString(I18n.format("am2.tooltip.wrongKeystoneBreak")));
+		else if (accessMode == KeystoneAccessType.BREAK && !player.world.isRemote){
+			player.sendMessage(new StringTextComponent(I18n.format("am2.tooltip.wrongKeystoneBreak")));
 		}
 		return false;
 	}

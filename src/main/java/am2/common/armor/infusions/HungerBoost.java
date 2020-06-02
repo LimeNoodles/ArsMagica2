@@ -5,8 +5,9 @@ import java.util.EnumSet;
 import am2.api.items.armor.ArmorImbuement;
 import am2.api.items.armor.ImbuementApplicationTypes;
 import am2.api.items.armor.ImbuementTiers;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.EntityEquipmentSlot;
+
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -28,7 +29,7 @@ public class HungerBoost extends ArmorImbuement{
 	}
 
 	@Override
-	public boolean applyEffect(EntityPlayer player, World world, ItemStack stack, ImbuementApplicationTypes matchedType, Object... params){
+	public boolean applyEffect(PlayerEntity player, World world, ItemStack stack, ImbuementApplicationTypes matchedType, Object... params){
 		if (player.getFoodStats().needFood()){
 			player.getFoodStats().addStats(1, 1.0f);
 			return true;
@@ -37,8 +38,8 @@ public class HungerBoost extends ArmorImbuement{
 	}
 
 	@Override
-	public EntityEquipmentSlot[] getValidSlots(){
-		return new EntityEquipmentSlot[]{EntityEquipmentSlot.HEAD};
+	public EquipmentSlotType[] getValidSlots(){
+		return new EquipmentSlotType[]{EquipmentSlotType.HEAD};
 	}
 
 	@Override

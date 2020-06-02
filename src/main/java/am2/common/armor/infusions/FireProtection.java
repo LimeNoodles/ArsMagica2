@@ -6,10 +6,13 @@ import am2.api.items.armor.ArmorImbuement;
 import am2.api.items.armor.ImbuementApplicationTypes;
 import am2.api.items.armor.ImbuementTiers;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -32,7 +35,7 @@ public class FireProtection extends ArmorImbuement{
 	}
 
 	@Override
-	public boolean applyEffect(EntityPlayer player, World world, ItemStack stack, ImbuementApplicationTypes matchedType, Object... params){
+	public boolean applyEffect(PlayerEntity player, World world, ItemStack stack, ImbuementApplicationTypes matchedType, Object... params){
 
 		if (world.isRemote)
 			return false;
@@ -40,7 +43,7 @@ public class FireProtection extends ArmorImbuement{
 		boolean effectApplied = false;
 		//EntityExtension.For(player).armorProcCooldowns[1] == 0
 		if (true){
-			if (player.isInsideOfMaterial(Material.LAVA)){
+			if (player.isInLava(){
 				player.motionY = 0;
 				player.fallDistance = 0;
 				for (int i = -1; i <= 1; ++i){
@@ -48,7 +51,7 @@ public class FireProtection extends ArmorImbuement{
 						for (int k = -1; k <= 1; ++k){
 							BlockPos newPos = player.getPosition().add(i, j, k);
 							Block block = world.getBlockState(newPos).getBlock();
-							if (block == Blocks.FLOWING_LAVA){
+							if (block == Blocks.LAVA){
 								if (i == 0 && k == 0 && j != -2){
 									world.setBlockToAir(newPos);
 								}else{
@@ -74,8 +77,8 @@ public class FireProtection extends ArmorImbuement{
 	}
 
 	@Override
-	public EntityEquipmentSlot[] getValidSlots(){
-		return new EntityEquipmentSlot[]{EntityEquipmentSlot.LEGS};
+	public EquipmentSlotType[] getValidSlots(){
+		return new EquipmentSlotType[]{EquipmentSlotType.LEGS};
 	}
 
 	@Override

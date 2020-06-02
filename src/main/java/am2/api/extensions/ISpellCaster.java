@@ -14,13 +14,12 @@ import am2.api.affinity.Affinity;
 import am2.api.spell.AbstractSpellPart;
 import am2.api.spell.SpellData;
 import am2.common.utils.NBTUtils;
-import net.minecraft.entity.EntityLivingBase;
+
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.nbt.NBTTagString;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.nbt.StringNBT;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
@@ -32,9 +31,9 @@ import net.minecraftforge.common.util.Constants;
  * Doing a write -> read of this will remove any invalid data.
  */
 public interface ISpellCaster {
-	float getManaCost(@Nullable World world, EntityLivingBase caster);
+	float getManaCost(@Nullable World world, LivngEntity caster);
 	SpellData createSpellData(ItemStack source);
-	boolean cast(ItemStack source, World world, EntityLivingBase caster);
+	boolean cast(ItemStack source, World world, LivngEntity caster);
 	
 	//Getters
 	List<List<AbstractSpellPart>> getSpellCommon();
@@ -44,8 +43,8 @@ public interface ISpellCaster {
 	float getBaseManaCost(int shapeGroup);
 	UUID getSpellUUID();
 	int getCurrentShapeGroup();
-	NBTTagCompound getStoredData(int shapeGroup);
-	NBTTagCompound getCommonStoredData();
+	CompoundNBT getStoredData(int shapeGroup);
+	CompoundNBT getCommonStoredData();
 	//Setters
 	void setSpellCommon(@Nullable List<List<AbstractSpellPart>> data);
 	void setShapeGroups(@Nullable List<List<List<AbstractSpellPart>>> data);
@@ -53,8 +52,8 @@ public interface ISpellCaster {
 	void setBaseManaCost(int shapeGroup, float manaCost);
 	void setUUID(@Nullable UUID uuid);
 	void setCurentShapeGroup(int shapeGroup);
-	void setStoredData(int shapeGroup, NBTTagCompound tag);
-	void setCommonStoredData(NBTTagCompound tag);
+	void setStoredData(int shapeGroup, CompoundNBT tag);
+	void setCommonStoredData(CompoundNBT tag);
 	
 	//Gatherers
 	void gatherBaseManaCosts();
@@ -82,88 +81,88 @@ public interface ISpellCaster {
 		
 		
 		@Override
-		public NBTBase writeNBT(Capability<ISpellCaster> capability, ISpellCaster instance, EnumFacing side) {
-			NBTTagCompound compound = new NBTTagCompound();
-			compound.setLong(KEY_UUID_MOST, instance.getSpellUUID().getMostSignificantBits());
-			compound.setLong(KEY_UUID_LEAST, instance.getSpellUUID().getLeastSignificantBits());
-			compound.setInteger(KEY_CURRENT_SHAPE_GROUP, instance.getCurrentShapeGroup());
-			NBTTagList spellCommon = new NBTTagList();
+		public CompoundNBT writeNBT(Capability<ISpellCaster> capability, ISpellCaster instance, EnumFacing side) {
+			CompoundNBT compound = new CompoundNBT();
+			compound.putLong(KEY_UUID_MOST, instance.getSpellUUID().getMostSignificantBits());
+			compound.putLong(KEY_UUID_LEAST, instance.getSpellUUID().getLeastSignificantBits());
+			compound.putInt(KEY_CURRENT_SHAPE_GROUP, instance.getCurrentShapeGroup());
+			ListNBT spellCommon = new ListNBT();
 			List<List<AbstractSpellPart>> commonStages = instance.getSpellCommon();
 			if (commonStages != null) {
 				for (int i = 0; i < commonStages.size(); i++) {
-					NBTTagCompound tmp = new NBTTagCompound();
-					tmp.setInteger(KEY_ID, i);
-					NBTTagList stageTag = new NBTTagList();
+					CompoundNBT tmp = new CompoundNBT();
+					tmp.putInt(KEY_ID, i);
+					ListNBT stageTag = new ListNBT();
 					List<AbstractSpellPart> parts = commonStages.get(i);
 					if (parts != null) {
 						for (AbstractSpellPart p : parts) {
-							stageTag.appendTag(new NBTTagString(p.getRegistryName().toString()));
+							stageTag.add(new StringNBT(p.getRegistryName().toString()));
 						}
 					}
-					tmp.setTag(KEY_PARTS, stageTag);
-					spellCommon.appendTag(tmp);
+					tmp.put(KEY_PARTS, stageTag);
+					spellCommon.add(tmp);
 				}
 			}
-			compound.setTag(KEY_SPELL_COMMON, spellCommon);
+			compound.put(KEY_SPELL_COMMON, spellCommon);
 			
 			List<List<List<AbstractSpellPart>>> shapeGroups = instance.getShapeGroups();
-			NBTTagList shapeGroupsTag = new NBTTagList();
+			ListNBT shapeGroupsTag = new ListNBT();
 			if (shapeGroups != null) {
 				for (int i = 0; i < shapeGroups.size(); i++) {
-					NBTTagCompound groupTag = new NBTTagCompound();
-					groupTag.setInteger(KEY_ID, i);
-					groupTag.setTag(KEY_STORED_DATA, instance.getStoredData(i));
-					groupTag.setFloat(KEY_BASE_MANA_COST, instance.getBaseManaCost(i));
-					NBTTagList stagesTag = new NBTTagList();
+					CompoundNBT groupTag = new CompoundNBT();
+					groupTag.putInt(KEY_ID, i);
+					groupTag.put(KEY_STORED_DATA, instance.getStoredData(i));
+					groupTag.putFloat(KEY_BASE_MANA_COST, instance.getBaseManaCost(i));
+					ListNBT stagesTag = new ListNBT();
 					List<List<AbstractSpellPart>> stages = shapeGroups.get(i);
 					if (stages != null) {
 						for (int j = 0; j < stages.size(); j++) {
-							NBTTagCompound tmp = new NBTTagCompound();
-							tmp.setInteger(KEY_ID, j);
-							NBTTagList stageTag = new NBTTagList();
+							CompoundNBT tmp = new CompoundNBT();
+							tmp.putInt(KEY_ID, j);
+							ListNBT stageTag = new ListNBT();
 							List<AbstractSpellPart> parts = stages.get(j);
 							if (parts != null) {
 								for (AbstractSpellPart p : parts) {
-									stageTag.appendTag(new NBTTagString(p.getRegistryName().toString()));
+									stageTag.add(new StringNBT(p.getRegistryName().toString()));
 								}
 							}
-							tmp.setTag(KEY_PARTS, stageTag);
+							tmp.put(KEY_PARTS, stageTag);
 							stagesTag.appendTag(tmp);
 						}
 					}
-					groupTag.setTag(KEY_GROUP, stagesTag);
+					groupTag.put(KEY_GROUP, stagesTag);
 					shapeGroupsTag.appendTag(groupTag);
 				}
 			}
-			compound.setTag(KEY_SHAPE_GROUPS, shapeGroupsTag);
-			NBTTagList affinityShift = new NBTTagList();
+			compound.put(KEY_SHAPE_GROUPS, shapeGroupsTag);
+			ListNBT affinityShift = new ListNBT();
 			for (Entry<Affinity, Float> entry : instance.getAffinityShift().entrySet()) {
 				if (entry.getKey() != null && entry.getValue() != null) {
-					NBTTagCompound tmp = new NBTTagCompound();
-					tmp.setString(KEY_AFFINITY_TYPE, entry.getKey().getRegistryName().toString());
-					tmp.setFloat(KEY_AFFINITY_DEPTH, entry.getValue().floatValue());
-					affinityShift.appendTag(tmp);
+					CompoundNBT tmp = new CompoundNBT();
+					tmp.putString(KEY_AFFINITY_TYPE, entry.getKey().getRegistryName().toString());
+					tmp.putFloat(KEY_AFFINITY_DEPTH, entry.getValue().floatValue());
+					affinityShift.add(tmp);
 				}
 			}
-			compound.setTag(KEY_AFFINITY, affinityShift);
-			compound.setTag(KEY_STORED_DATA, instance.getCommonStoredData());
+			compound.put(KEY_AFFINITY, affinityShift);
+			compound.put(KEY_STORED_DATA, instance.getCommonStoredData());
 			return compound;
 		}
 
 		@Override
-		public void readNBT(Capability<ISpellCaster> capability, ISpellCaster instance, EnumFacing side, NBTBase nbt) {
-			NBTTagCompound compound = (NBTTagCompound) nbt;
+		public void readNBT(Capability<ISpellCaster> capability, ISpellCaster instance, Direction side, CompoundNBT nbt) {
+			CompoundNBT compound = (CompoundNBT) nbt;
 			instance.setUUID(new UUID(compound.getLong(KEY_UUID_MOST), compound.getLong(KEY_UUID_LEAST)));
-			instance.setCurentShapeGroup(compound.getInteger(KEY_CURRENT_SHAPE_GROUP));
-			NBTTagList spellCommon = compound.getTagList(KEY_SPELL_COMMON, Constants.NBT.TAG_COMPOUND);
-			ArrayList<List<AbstractSpellPart>> commonStages = new ArrayList<>(spellCommon.tagCount());
-			for (int i = 0; i < spellCommon.tagCount(); i++) {
-				NBTTagCompound tmp = spellCommon.getCompoundTagAt(i);
-				int id = tmp.getInteger(KEY_ID);
-				NBTTagList parts = tmp.getTagList(KEY_PARTS, Constants.NBT.TAG_STRING);
+			instance.setCurentShapeGroup(compound.getInt(KEY_CURRENT_SHAPE_GROUP));
+			ListNBT spellCommon = compound.getList(KEY_SPELL_COMMON, Constants.NBT.TAG_COMPOUND);
+			ArrayList<List<AbstractSpellPart>> commonStages = new ArrayList<>(spellCommon.size());
+			for (int i = 0; i < spellCommon.size(); i++) {
+				CompoundNBT tmp = spellCommon.getCompound(i);
+				int id = tmp.getInt(KEY_ID);
+				ListNBT parts = tmp.getList(KEY_PARTS, Constants.NBT.TAG_STRING);
 				ArrayList<AbstractSpellPart> pts = new ArrayList<>();
-				for (int j = 0; j < parts.tagCount(); j++) {
-					AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation(parts.getStringTagAt(j)));
+				for (int j = 0; j < parts.size(); j++) {
+					AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation(parts.getString(j)));
 					if (part != null) {
 						pts.add(part);
 					}
@@ -172,21 +171,21 @@ public interface ISpellCaster {
 				commonStages.set(id, pts);
 			}
 			instance.setSpellCommon(commonStages);
-			NBTTagList shapeGroupsTag = compound.getTagList(KEY_SHAPE_GROUPS, Constants.NBT.TAG_COMPOUND);
-			ArrayList<List<List<AbstractSpellPart>>> shapeGroups = new ArrayList<>(shapeGroupsTag.tagCount());
-			for (int i = 0; i < shapeGroupsTag.tagCount(); i++) {
-				NBTTagCompound group = shapeGroupsTag.getCompoundTagAt(i);
-				int gid = group.getInteger(KEY_ID);
+			ListNBT shapeGroupsTag = compound.getList(KEY_SHAPE_GROUPS, Constants.NBT.TAG_COMPOUND);
+			ArrayList<List<List<AbstractSpellPart>>> shapeGroups = new ArrayList<>(shapeGroupsTag.size());
+			for (int i = 0; i < shapeGroupsTag.size(); i++) {
+				CompoundNBT group = shapeGroupsTag.getCompound(i);
+				int gid = group.getInt(KEY_ID);
 				instance.setBaseManaCost(gid, group.getFloat(KEY_BASE_MANA_COST));
-				instance.setStoredData(gid, group.getCompoundTag(KEY_STORED_DATA));
-				NBTTagList stagesLs = group.getTagList(KEY_GROUP, Constants.NBT.TAG_COMPOUND);
-				ArrayList<List<AbstractSpellPart>> stages = new ArrayList<>(stagesLs.tagCount());
-				for (int j = 0; j < stagesLs.tagCount(); j++) {
-					NBTTagCompound tmp = stagesLs.getCompoundTagAt(j);
-					int id = tmp.getInteger(KEY_ID);
-					NBTTagList parts = tmp.getTagList(KEY_PARTS, Constants.NBT.TAG_STRING);
+				instance.setStoredData(gid, group.getCompound(KEY_STORED_DATA));
+				ListNBT stagesLs = group.getList((KEY_GROUP, Constants.NBT.TAG_COMPOUND);
+				ArrayList<List<AbstractSpellPart>> stages = new ArrayList<>(stagesLs.size());
+				for (int j = 0; j < stagesLs.size(); j++) {
+					CompoundNBT tmp = stagesLs.getCompound(j);
+					int id = tmp.getInt(KEY_ID);
+					ListNBT parts = tmp.getList(KEY_PARTS, Constants.NBT.TAG_STRING);
 					ArrayList<AbstractSpellPart> pts = new ArrayList<>();
-					for (int k = 0; k < parts.tagCount(); k++) {
+					for (int k = 0; k < parts.size(); k++) {
 						AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation(parts.getStringTagAt(k)));
 						if (part != null) {
 							pts.add(part);
@@ -199,10 +198,10 @@ public interface ISpellCaster {
 				shapeGroups.set(gid, stages);
 			}
 			instance.setShapeGroups(shapeGroups);
-			NBTTagList affinityShift = compound.getTagList(KEY_AFFINITY, Constants.NBT.TAG_COMPOUND);
+			ListNBT affinityShift = compound.getList(KEY_AFFINITY, Constants.NBT.TAG_COMPOUND);
 			HashMap<Affinity, Float> affMap = new HashMap<>();
-			for (int i = 0; i < affinityShift.tagCount(); i++) {
-				NBTTagCompound tmp = affinityShift.getCompoundTagAt(i);
+			for (int i = 0; i < affinityShift.size(); i++) {
+				CompoundNBT tmp = affinityShift.getCompound(i);
 				Affinity aff = ArsMagicaAPI.getAffinityRegistry().getObject(new ResourceLocation(tmp.getString(KEY_AFFINITY_TYPE)));
 				float depth = tmp.getFloat(KEY_AFFINITY_DEPTH);
 				if (depth != 0 && aff != null)

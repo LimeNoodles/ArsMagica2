@@ -7,8 +7,11 @@ import am2.api.items.armor.ImbuementApplicationTypes;
 import am2.api.items.armor.ImbuementTiers;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -31,18 +34,18 @@ public class Recoil extends ArmorImbuement{
 	}
 
 	@Override
-	public boolean applyEffect(EntityPlayer player, World world, ItemStack stack, ImbuementApplicationTypes matchedType, Object... params){
+	public boolean applyEffect(PlayerEntity player, World world, ItemStack stack, ImbuementApplicationTypes matchedType, Object... params){
 		LivingHurtEvent event = (LivingHurtEvent)params[0];
-		Entity e = event.getSource().getSourceOfDamage();
-		if (e != null && e instanceof EntityLivingBase){
-			((EntityLivingBase)e).knockBack(player, 10, player.posX - e.posX, player.posZ - e.posZ);
+		Entity e = event.getSource().getTrueSource();
+		if (e != null && e instanceof LivingEntity){
+			((LivingEntity)e).knockBack(player, 10, player.getPosX() - e.getPosX(), player.getPosZ() - e.getPosZ());
 		}
 		return true;
 	}
 
 	@Override
-	public EntityEquipmentSlot[] getValidSlots(){
-		return new EntityEquipmentSlot[]{EntityEquipmentSlot.CHEST};
+	public EquipmentSlotType[] getValidSlots(){
+		return new EquipmentSlotType[]{EquipmentSlotType.CHEST};
 	}
 
 	@Override

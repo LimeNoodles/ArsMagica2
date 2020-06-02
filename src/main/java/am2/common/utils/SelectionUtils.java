@@ -3,14 +3,13 @@ package am2.common.utils;
 import com.mojang.authlib.GameProfile;
 
 import am2.common.LogHelper;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.EnumDyeColor;
+
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.MinecraftServer;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class SelectionUtils {
 	
-	public static int[] getRuneSet(EntityPlayer player) {
+	public static int[] getRuneSet(PlayerEntity player) {
 		long key = player.getUniqueID().getMostSignificantBits();
 		return getRunesFromKey(key);
 	}
@@ -76,13 +75,13 @@ public class SelectionUtils {
 		return ids;
 	}
 	
-	public static EntityPlayer getPlayersForRuneSet (int[] runes) {
+	public static PlayerEntity getPlayersForRuneSet (int[] runes) {
 		MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
 		GameProfile[] profiles = server.getPlayerList().getAllProfiles();
 		if (runes.length != 4)
 			return null;
 		for (GameProfile profile : profiles) {
-			EntityPlayer player = server.getEntityWorld().getPlayerEntityByUUID(profile.getId());
+			PlayerEntity player = server.getEntityWorld().getPlayerEntityByUUID(profile.getId());
 			boolean match = true;
 			for (int i = 0; i < 4; i++) {
 				if (getRuneSet(player)[i] != runes[i])

@@ -6,9 +6,9 @@ import am2.common.affinity.AffinityAbilityModifiers;
 import am2.common.buffs.BuffEffectFrostSlowed;
 import am2.common.extensions.AffinityData;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -31,13 +31,13 @@ public class AbilityColdBlooded extends AbstractAffinityAbility {
 	
 	@Override
 	public void applyTick(PlayerEntity player) {
-		IAttributeInstance attribute = player.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
+		IAttributeInstance attribute = player.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
 		AffinityAbilityModifiers.instance.applyOrRemoveModifier(attribute, AffinityAbilityModifiers.iceAffinityColdBlooded, !AffinityAbilityModifiers.instance.isOnIce(player));
 	}
 	
 	@Override
 	public void applyHurt(PlayerEntity player, LivingHurtEvent event, boolean isAttacker) {
-		if (!isAttacker && event.getSource().getEntity() instanceof EntityLivingBase){
+		if (!isAttacker && event.getSource().getTrueSource().getEntity() instanceof LivingEntity){
 			double iceDepth = AffinityData.For(player).getAffinityDepth(Affinity.ICE);
 			BuffEffectFrostSlowed effect = new BuffEffectFrostSlowed(40, 0);
 			if (iceDepth == 1.0f){
@@ -47,9 +47,9 @@ public class AbilityColdBlooded extends AbstractAffinityAbility {
 			}else if (iceDepth >= 0.5f){
 				effect = new BuffEffectFrostSlowed(100, 1);
 			}
-			if (effect != null && event.getSource() != null && event.getSource().getEntity() != null){
+			if (effect != null && event.getSource() != null && event.getSource().getTrueSource().getEntity() != null){
 				try {
-					((EntityLivingBase)event.getSource().getEntity()).addPotionEffect(effect);
+					((LivingEntity)event.getSource().getTrueSource().getEntity()).addPotionEffect(effect);
 				} catch (Exception ignored) {}
 			}
 		}
@@ -57,7 +57,7 @@ public class AbilityColdBlooded extends AbstractAffinityAbility {
 	
 	@Override
 	public void removeEffects(PlayerEntity player) {
-		IAttributeInstance attribute = player.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
+		IAttributeInstance attribute = player.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
 		AffinityAbilityModifiers.instance.applyOrRemoveModifier(attribute, AffinityAbilityModifiers.iceAffinityColdBlooded, false);
 	}
 

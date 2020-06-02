@@ -6,9 +6,10 @@ import java.util.UUID;
 import am2.api.items.armor.ArmorImbuement;
 import am2.api.items.armor.ImbuementApplicationTypes;
 import am2.api.items.armor.ImbuementTiers;
+
 import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -16,7 +17,7 @@ public class GenericImbuement extends ArmorImbuement{
 
 	private String id = "";
 	private ImbuementTiers tier;
-	private EntityEquipmentSlot[] validSlots;
+	private EquipmentSlotType[] validSlots;
 
 	public static final UUID imbuedHasteID = UUID.fromString("3b51a94c-8866-470b-8b69-e1d5cb50a72f");
 	public static final AttributeModifier imbuedHaste = new AttributeModifier(imbuedHasteID, "Imbued Haste", 0.2, 2);
@@ -32,7 +33,7 @@ public class GenericImbuement extends ArmorImbuement{
 	public static final String runSpeed = "run_spd";
 	public static final String soulbound = "soulbnd";
 
-	public GenericImbuement(String id, ImbuementTiers tier, EntityEquipmentSlot[] validSlots){
+	public GenericImbuement(String id, ImbuementTiers tier, EquipmentSlotType[] validSlots){
 		this.id = id;
 		this.tier = tier;
 		this.validSlots = validSlots;
@@ -40,24 +41,24 @@ public class GenericImbuement extends ArmorImbuement{
 
 	public static void registerAll(){
 		//all armors
-		ImbuementRegistry.instance.registerImbuement(new GenericImbuement(manaRegen, ImbuementTiers.FIRST, new EntityEquipmentSlot[]{EntityEquipmentSlot.FEET, EntityEquipmentSlot.LEGS, EntityEquipmentSlot.CHEST, EntityEquipmentSlot.HEAD}));
-		ImbuementRegistry.instance.registerImbuement(new GenericImbuement(burnoutReduction, ImbuementTiers.FIRST, new EntityEquipmentSlot[]{EntityEquipmentSlot.FEET, EntityEquipmentSlot.LEGS, EntityEquipmentSlot.CHEST, EntityEquipmentSlot.HEAD}));
-		ImbuementRegistry.instance.registerImbuement(new GenericImbuement(soulbound, ImbuementTiers.FIRST, new EntityEquipmentSlot[]{EntityEquipmentSlot.FEET, EntityEquipmentSlot.LEGS, EntityEquipmentSlot.CHEST, EntityEquipmentSlot.HEAD}));
+		ImbuementRegistry.instance.registerImbuement(new GenericImbuement(manaRegen, ImbuementTiers.FIRST, new EquipmentSlotType[]{EquipmentSlotType.FEET, EquipmentSlotType.LEGS, EquipmentSlotType.CHEST, EquipmentSlotType.HEAD}));
+		ImbuementRegistry.instance.registerImbuement(new GenericImbuement(burnoutReduction, ImbuementTiers.FIRST, new EquipmentSlotType[]{EquipmentSlotType.FEET, EquipmentSlotType.LEGS, EquipmentSlotType.CHEST, EquipmentSlotType.HEAD}));
+		ImbuementRegistry.instance.registerImbuement(new GenericImbuement(soulbound, ImbuementTiers.FIRST, new EquipmentSlotType[]{EquipmentSlotType.FEET, EquipmentSlotType.LEGS, EquipmentSlotType.CHEST, EquipmentSlotType.HEAD}));
 
 		//chest
-		ImbuementRegistry.instance.registerImbuement(new GenericImbuement(flickerLure, ImbuementTiers.FIRST, new EntityEquipmentSlot[]{EntityEquipmentSlot.CHEST}));
-		ImbuementRegistry.instance.registerImbuement(new GenericImbuement(magicXP, ImbuementTiers.FOURTH, new EntityEquipmentSlot[]{EntityEquipmentSlot.CHEST}));
+		ImbuementRegistry.instance.registerImbuement(new GenericImbuement(flickerLure, ImbuementTiers.FIRST, new EquipmentSlotType[]{EquipmentSlotType.CHEST}));
+		ImbuementRegistry.instance.registerImbuement(new GenericImbuement(magicXP, ImbuementTiers.FOURTH, new EquipmentSlotType[]{EquipmentSlotType.CHEST}));
 
 		//helmet
-		ImbuementRegistry.instance.registerImbuement(new GenericImbuement(pinpointOres, ImbuementTiers.FIRST, new EntityEquipmentSlot[]{EntityEquipmentSlot.HEAD}));
-		ImbuementRegistry.instance.registerImbuement(new GenericImbuement(magitechGoggleIntegration, ImbuementTiers.FIRST, new EntityEquipmentSlot[]{EntityEquipmentSlot.HEAD}));
-		ImbuementRegistry.instance.registerImbuement(new GenericImbuement(thaumcraftNodeReveal, ImbuementTiers.FOURTH, new EntityEquipmentSlot[]{EntityEquipmentSlot.HEAD}));
+		ImbuementRegistry.instance.registerImbuement(new GenericImbuement(pinpointOres, ImbuementTiers.FIRST, new EquipmentSlotType[]{EquipmentSlotType.HEAD}));
+		ImbuementRegistry.instance.registerImbuement(new GenericImbuement(magitechGoggleIntegration, ImbuementTiers.FIRST, new EquipmentSlotType[]{EquipmentSlotType.HEAD}));
+		ImbuementRegistry.instance.registerImbuement(new GenericImbuement(thaumcraftNodeReveal, ImbuementTiers.FOURTH, new EquipmentSlotType[]{EquipmentSlotType.HEAD}));
 
 		//legs
-		ImbuementRegistry.instance.registerImbuement(new GenericImbuement(stepAssist, ImbuementTiers.FIRST, new EntityEquipmentSlot[]{EntityEquipmentSlot.LEGS}));
+		ImbuementRegistry.instance.registerImbuement(new GenericImbuement(stepAssist, ImbuementTiers.FIRST, new EquipmentSlotType[]{EquipmentSlotType.LEGS}));
 
 		//boots
-		ImbuementRegistry.instance.registerImbuement(new GenericImbuement(runSpeed, ImbuementTiers.FIRST, new EntityEquipmentSlot[]{EntityEquipmentSlot.FEET}));
+		ImbuementRegistry.instance.registerImbuement(new GenericImbuement(runSpeed, ImbuementTiers.FIRST, new EquipmentSlotType[]{EquipmentSlotType.FEET}));
 	}
 
 	@Override
@@ -76,12 +77,12 @@ public class GenericImbuement extends ArmorImbuement{
 	}
 
 	@Override
-	public boolean applyEffect(EntityPlayer player, World world, ItemStack stack, ImbuementApplicationTypes matchedType, Object... params){
+	public boolean applyEffect(PlayerEntity player, World world, ItemStack stack, ImbuementApplicationTypes matchedType, Object... params){
 		return false;
 	}
 
 	@Override
-	public EntityEquipmentSlot[] getValidSlots(){
+	public EquipmentSlotType[] getValidSlots(){
 		return validSlots;
 	}
 

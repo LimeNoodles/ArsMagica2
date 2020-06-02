@@ -5,12 +5,12 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.concurrent.Callable;
 
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
+
 import am2.api.SkillPointRegistry;
 import am2.api.skill.Skill;
 import am2.api.skill.SkillPoint;
@@ -41,26 +41,26 @@ public interface ISkillData {
 	public static class Storage implements IStorage<ISkillData> {
 		
 		@Override
-		public NBTBase writeNBT(Capability<ISkillData> capability, ISkillData instance, EnumFacing side) {
-			NBTTagCompound nbt = new NBTTagCompound();
-			NBTTagCompound am2Tag = NBTUtils.getAM2Tag(nbt);
-			NBTTagList skillList = NBTUtils.addCompoundList(am2Tag, "Skills");
-			NBTTagList skillPointList = NBTUtils.addCompoundList(am2Tag, "SkillPoints");
+		public CompoundNBT writeNBT(Capability<ISkillData> capability, ISkillData instance, EnumFacing side) {
+			CompoundNBT nbt = new CompoundNBT();
+			CompoundNBT am2Tag = NBTUtils.getAM2Tag(nbt);
+			ListNBT skillList = NBTUtils.addCompoundList(am2Tag, "Skills");
+			ListNBT skillPointList = NBTUtils.addCompoundList(am2Tag, "SkillPoints");
 			for (Entry<Skill, Boolean> skill : instance.getSkills().entrySet()) {
 				if (skill.getKey() == null)
 					continue;
-				NBTTagCompound tmp = new NBTTagCompound();
-				tmp.setString("Skill", skill.getKey().getID());
-				tmp.setBoolean("Unlocked", skill.getValue());
-				skillList.appendTag(tmp);
+				CompoundNBT tmp = new CompoundNBT();
+				tmp.putString("Skill", skill.getKey().getID());
+				tmp.putBoolean("Unlocked", skill.getValue());
+				skillList.add(tmp);
 			}
 			for (Entry<SkillPoint, Integer> skill : instance.getSkillPoints().entrySet()) {
 				if (skill.getKey() == null)
 					continue;
-				NBTTagCompound tmp = new NBTTagCompound();
-				tmp.setString("Type", skill.getKey().getName());
-				tmp.setInteger("Number", skill.getValue());
-				skillPointList.appendTag(tmp);				
+				CompoundNBT tmp = new CompoundNBT();
+				tmp.putString("Type", skill.getKey().getName());
+				tmp.putInt("Number", skill.getValue());
+				skillPointList.add(tmp);
 			}
 			am2Tag.setTag("Skills", skillList);
 			am2Tag.setTag("SkillPoints", skillPointList);
@@ -68,17 +68,17 @@ public interface ISkillData {
 		}
 
 		@Override
-		public void readNBT(Capability<ISkillData> capability, ISkillData instance, EnumFacing side, NBTBase nbt) {
-			NBTTagCompound am2Tag = NBTUtils.getAM2Tag((NBTTagCompound) nbt);
-			NBTTagList skillList = NBTUtils.addCompoundList(am2Tag, "Skills");
-			NBTTagList skillPointList = NBTUtils.addCompoundList(am2Tag, "SkillPoints");
-			for (int i = 0; i < skillList.tagCount(); i++) {
-				NBTTagCompound tmp = skillList.getCompoundTagAt(i);
+		public void readNBT(Capability<ISkillData> capability, ISkillData instance, Direction side, CompoundNBT nbt) {
+			CompoundNBT am2Tag = NBTUtils.getAM2Tag((CompoundNBT) nbt);
+			ListNBT skillList = NBTUtils.addCompoundList(am2Tag, "Skills");
+			ListNBT skillPointList = NBTUtils.addCompoundList(am2Tag, "SkillPoints");
+			for (int i = 0; i < skillList.size(); i++) {
+				CompoundNBT tmp = skillList.getCompound(i);
 				if (tmp.getBoolean("Unlocked"))
 					instance.unlockSkill(tmp.getString("Skill"));
 			}
-			for (int i = 0; i < skillPointList.tagCount(); i++) {
-				NBTTagCompound tmp = skillPointList.getCompoundTagAt(i);
+			for (int i = 0; i < skillPointList.size(); i++) {
+				CompoundNBT tmp = skillPointList.getCompound(i);
 				instance.setSkillPoint(SkillPointRegistry.fromName(tmp.getString("Type")), tmp.getInteger("Number"));
 			}
 		}

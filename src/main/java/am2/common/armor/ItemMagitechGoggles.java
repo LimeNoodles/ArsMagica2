@@ -1,16 +1,17 @@
 package am2.common.armor;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.ItemStack;
 
 public class ItemMagitechGoggles extends AMArmor{
 
 	public ItemMagitechGoggles(ArmorMaterial inheritFrom, int renderIndex){
-		super(inheritFrom, ArsMagicaArmorMaterial.UNIQUE, renderIndex, EntityEquipmentSlot.HEAD);
+		super(inheritFrom, ArsMagicaArmorMaterial.UNIQUE, renderIndex, EquipmentSlotType.HEAD);
 	}
 	@Override
-	public int getArmorDisplay(EntityPlayer player, ItemStack armor, int slot){
+	public int getArmorDisplay(PlayerEntity player, ItemStack armor, int slot){
 		return 2;
 	}
 
