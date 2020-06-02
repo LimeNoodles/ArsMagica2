@@ -2,14 +2,16 @@ package am2.client.blocks.colorizers;
 
 import am2.common.blocks.BlockCrystalMarker;
 import am2.common.utils.RenderUtils;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.common.extensions.IForgeBlockState;
 
 public class CrystalMarkerColorizer implements IBlockColor{
 	@Override
-	public int colorMultiplier(IBlockState state, IBlockAccess worldIn, BlockPos pos, int tintIndex) {
+	public int colorMultiplier(IForgeBlockState state, IBlockAccess worldIn, BlockPos pos, int tintIndex) {
 		try {
 			//System.out.println(state);
 			int meta = state.getValue(BlockCrystalMarker.TYPE);

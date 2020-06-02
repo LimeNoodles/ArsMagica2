@@ -41,7 +41,6 @@ import org.objectweb.asm.tree.VarInsnNode;
 import com.google.common.collect.Lists;
 
 import am2.common.LogHelper;
-import net.minecraft.launchwrapper.IClassTransformer;
 
 public class Transformer implements IClassTransformer {
 

@@ -8,10 +8,10 @@ import am2.api.compendium.BlockRenderWorld;
 import am2.client.gui.AMGuiHelper;
 import am2.client.gui.controls.GuiButtonCompendiumNext;
 import am2.client.gui.controls.GuiButtonVariableDims;
+
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 
@@ -31,7 +31,7 @@ public class PageMultiblock extends CompendiumPage<IMultiblock> {
 	}
 	
 	@Override
-	public GuiButton[] getButtons(int id, int posX, int posY) {
+	public Button[] getButtons(int id, int posX, int posY) {
 		prevLayer = new GuiButtonCompendiumNext(id++, posX, posY + 19, false);
 		nextLayer = new GuiButtonCompendiumNext(id++, posX + 125, posY + 19, true);
 		pauseCycling = new GuiButtonVariableDims(5, posX + 105, posY + 190, AMGuiHelper.instance.runCompendiumTicker ? I18n.format("am2.gui.pause") : I18n.format("am2.gui.cycle")).setDimensions(40, 20);
@@ -55,7 +55,7 @@ public class PageMultiblock extends CompendiumPage<IMultiblock> {
 	}
 	
 	@Override
-	public void actionPerformed(GuiButton button) throws IOException {
+	public void actionPerformed(Button button) throws IOException {
 		if (button == nextLayer) {
 			curLayer++;
 			if (curLayer >= maxLayers - 1){
@@ -80,7 +80,7 @@ public class PageMultiblock extends CompendiumPage<IMultiblock> {
 		int cy = posY + 92;
 		String label = String.format("%s: %s", I18n.format("am2.gui.layer"), curLayer == -1 ? I18n.format("am2.gui.all") : "" + curLayer);
 
-		mc.fontRendererObj.drawString(label, cx - mc.fontRendererObj.getStringWidth(label) / 2, cy - 90, 0x000000);
+		mc.fontRenderer.drawString(label, cx - mc.fontRenderer.getStringWidth(label) / 2, cy - 90, 0x000000);
 
 		GlStateManager.pushMatrix();
 		GlStateManager.pushAttrib();
@@ -105,7 +105,7 @@ public class PageMultiblock extends CompendiumPage<IMultiblock> {
 		GlStateManager.rotate(210.0F, 1.0F, 0.0F, 0.0F);
 		GlStateManager.rotate(45.0F, 0.0F, 1.0F, 0.0F);
 		GlStateManager.rotate(-90.0F, 0.0F, 1.0F, 0.0F);
-		Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+		Minecraft.getInstance().getTextureManager().bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 		GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ZERO, GlStateManager.DestFactor.ONE);
 		GlStateManager.enableBlend();
 		GlStateManager.color(1.0F, 1.0F, 1.0F);

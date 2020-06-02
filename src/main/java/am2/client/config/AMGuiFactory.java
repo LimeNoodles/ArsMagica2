@@ -5,13 +5,10 @@ import java.util.List;
 import java.util.Set;
 
 import am2.ArsMagica2;
+
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.resources.I18n;
-import net.minecraftforge.common.config.ConfigElement;
-import net.minecraftforge.fml.client.IModGuiFactory;
-import net.minecraftforge.fml.client.config.GuiConfig;
-import net.minecraftforge.fml.client.config.IConfigElement;
 
 public class AMGuiFactory implements IModGuiFactory {
 
@@ -21,7 +18,7 @@ public class AMGuiFactory implements IModGuiFactory {
 	}
 
 	@Override
-	public Class<? extends GuiScreen> mainConfigGuiClass() {
+	public Class<? extends Screen> mainConfigGuiClass() {
 		return AMGuiConfig.class;
 	}
 

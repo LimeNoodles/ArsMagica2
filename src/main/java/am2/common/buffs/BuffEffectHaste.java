@@ -2,7 +2,8 @@ package am2.common.buffs;
 
 import am2.common.defs.IDDefs;
 import am2.common.defs.PotionEffectsDefs;
-import net.minecraft.entity.EntityLivingBase;
+
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
@@ -16,8 +17,8 @@ public class BuffEffectHaste extends BuffEffect{
 	}
 
 	@Override
-	public void applyEffect(EntityLivingBase entityliving){
-		IAttributeInstance attributeinstance = entityliving.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
+	public void applyEffect(LivingEntity entityliving){
+		IAttributeInstance attributeinstance = entityliving.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
 
 		if (attributeinstance.getModifier(IDDefs.hasteID) != null){
 			attributeinstance.removeModifier(hasteSpeedBoost);
@@ -27,13 +28,13 @@ public class BuffEffectHaste extends BuffEffect{
 	}
 
 	@Override
-	public void performEffect(EntityLivingBase entityliving){
+	public void performEffect(LivingEntity entityliving){
 
 	}
 
 	@Override
-	public void stopEffect(EntityLivingBase entityliving){
-		IAttributeInstance attributeinstance = entityliving.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
+	public void stopEffect(LivingEntity entityliving){
+		IAttributeInstance attributeinstance = entityliving.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
 
 		if (attributeinstance.getModifier(IDDefs.hasteID) != null){
 			attributeinstance.removeModifier(hasteSpeedBoost);

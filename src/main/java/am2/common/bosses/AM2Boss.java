@@ -5,30 +5,23 @@ import am2.common.defs.ItemDefs;
 import am2.common.defs.PotionEffectsDefs;
 import am2.common.entity.EntityLightMage;
 import am2.common.extensions.EntityExtension;
+
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.IEntityMultiPart;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.boss.EntityDragonPart;
-import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.entity.projectile.EntityArrow;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.entity.boss.dragon.EnderDragonPartEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.BossInfo;
-import net.minecraft.world.BossInfoServer;
 import net.minecraft.world.World;
 
-public abstract class AM2Boss extends EntityMob implements IEntityMultiPart, IArsMagicaBoss {
+public abstract class AM2Boss extends MobEntity implements IEntityMultiPart, IArsMagicaBoss {
 
 	protected BossActions currentAction = BossActions.IDLE;
 	protected int ticksInCurrentAction;
-	protected EntityDragonPart[] parts;
+	protected EnderDragonPartEntity[] parts;
 
 	public boolean playerCanSee = false;
 	private BossInfoServer bossInfo = null;
@@ -87,10 +80,10 @@ public abstract class AM2Boss extends EntityMob implements IEntityMultiPart, IAr
 	protected void initAI() {
 		//TODO this.getNavigator().setBreakDoors(true);
 		this.tasks.addTask(0, new EntityAISwimming(this));
-		this.tasks.addTask(1, new EntityAIWatchClosest(this, EntityPlayer.class, 32.0F));
+		this.tasks.addTask(1, new EntityAIWatchClosest(this, PlayerEntity.class, 32.0F));
 		this.tasks.addTask(2, new EntityAIWatchClosest(this, EntityLightMage.class, 32.0F));
 		this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
-		this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, true));
+		this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<>(this, PlayerEntity.class, true));
 		this.targetTasks.addTask(3, new EntityAINearestAttackableTarget<>(this, EntityLightMage.class, true));
 
 		this.initSpecificAI();
@@ -145,12 +138,12 @@ public abstract class AM2Boss extends EntityMob implements IEntityMultiPart, IAr
 	@Override
 	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2) {
 
-		if (par1DamageSource == DamageSource.inWall) {
-			if (!this.worldObj.isRemote) {// dead code? (calling canSnowAt() without using the result) could it be a buggy upgrade to 1.7.10?
+		if (par1DamageSource == DamageSource.IN_WALL) {
+			if (!this.world.isRemote) {// dead code? (calling canSnowAt() without using the result) could it be a buggy upgrade to 1.7.10?
 				for (int i = -1; i <= 1; ++i) {
 					for (int j = 0; j < 3; ++j) {
 						for (int k = -1; k <= 1; ++k) {
-							this.worldObj.destroyBlock(this.getPosition().add(i, j, k), true);
+							this.world.destroyBlock(this.getPosition().add(i, j, k), true);
 						}
 					}
 				}
@@ -158,17 +151,17 @@ public abstract class AM2Boss extends EntityMob implements IEntityMultiPart, IAr
 			return false;
 		}
 
-		if (par1DamageSource.getSourceOfDamage() != null) {
+		if (par1DamageSource.getTrueSource() != null) {
 
-			if (par1DamageSource.getSourceOfDamage() instanceof EntityPlayer) {
-				EntityPlayer player = (EntityPlayer) par1DamageSource.getSourceOfDamage();
-				if (player.capabilities.isCreativeMode && player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() == ItemDefs.woodenLeg) {
-					if (!this.worldObj.isRemote)
+			if (par1DamageSource.getTrueSource() instanceof PlayerEntity) {
+				PlayerEntity player = (PlayerEntity) par1DamageSource.getTrueSource();
+				if (player.isCreative() && player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() == ItemDefs.woodenLeg) {
+					if (!this.world.isRemote)
 						this.setDead();
 					return false;
 				}
-			} else if (par1DamageSource.getSourceOfDamage() instanceof EntityArrow) {
-				Entity shooter = ((EntityArrow) par1DamageSource.getSourceOfDamage()).shootingEntity;
+			} else if (par1DamageSource.getTrueSource() instanceof ArrowEntity) {
+				Entity shooter = ((ArrowEntity) par1DamageSource.getTrueSource()).shootingEntity;
 				if (shooter != null && this.getDistanceSqToEntity(shooter) > 900) {
 					this.setPositionAndUpdate(shooter.posX, shooter.posY, shooter.posZ);
 				}
@@ -209,11 +202,11 @@ public abstract class AM2Boss extends EntityMob implements IEntityMultiPart, IAr
 
 		if (this.parts != null && this.parts[0] != null && this.parts[0].partName == "defaultBody") {
 			this.parts[0].setPosition(this.posX, this.posY, this.posZ);
-			if (this.worldObj.isRemote) {
+			if (this.world.isRemote) {
 				this.parts[0].setVelocity(this.motionX, this.motionY, this.motionZ);
 			}
 			if (!this.parts[0].addedToChunk) {
-				this.worldObj.spawnEntityInWorld(this.parts[0]);
+				this.world.spawnEntityInWorld(this.parts[0]);
 			}
 		}
 
@@ -222,7 +215,7 @@ public abstract class AM2Boss extends EntityMob implements IEntityMultiPart, IAr
 			this.setCurrentAction(BossActions.IDLE);
 		}
 
-		if (this.worldObj.isRemote) {
+		if (this.world.isRemote) {
 			this.playerCanSee = ArsMagica2.proxy.getLocalPlayer().canEntityBeSeen(this);
 			this.ignoreFrustumCheck = ArsMagica2.proxy.getLocalPlayer().getDistanceToEntity(this) < 32;
 		}
@@ -234,7 +227,7 @@ public abstract class AM2Boss extends EntityMob implements IEntityMultiPart, IAr
 	}
 
 	@Override
-	public boolean canBeLeashedTo(EntityPlayer player) {
+	public boolean canBeLeashedTo(PlayerEntity player) {
 		return false;
 	}
 
@@ -255,7 +248,7 @@ public abstract class AM2Boss extends EntityMob implements IEntityMultiPart, IAr
 	 * order to view its associated boss bar.
 	 */
 	@Override
-	public void addTrackingPlayer(EntityPlayerMP player) {
+	public void addTrackingPlayer(PlayerEntityMP player) {
 		super.addTrackingPlayer(player);
 		if (this.bossInfo != null)
 			this.bossInfo.addPlayer(player);
@@ -266,7 +259,7 @@ public abstract class AM2Boss extends EntityMob implements IEntityMultiPart, IAr
 	 * more information on tracking.
 	 */
 	@Override
-	public void removeTrackingPlayer(EntityPlayerMP player) {
+	public void removeTrackingPlayer(PlayerEntityMP player) {
 		super.removeTrackingPlayer(player);
 		if (this.bossInfo != null)
 			this.bossInfo.removePlayer(player);

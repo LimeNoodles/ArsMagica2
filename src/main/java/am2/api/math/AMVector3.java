@@ -1,7 +1,7 @@
 package am2.api.math;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -25,9 +25,9 @@ public class AMVector3{
 	}
 
 	public AMVector3(Vec3d vec){
-		this.x = (float)vec.xCoord;
-		this.y = (float)vec.yCoord;
-		this.z = (float)vec.zCoord;
+		this.x = (float)vec.getX();
+		this.y = (float)vec.getY();
+		this.z = (float)vec.getZ();
 	}
 
 	public AMVector3(AMVector3 a, AMVector3 b){
@@ -37,7 +37,7 @@ public class AMVector3{
 	}
 
 	public AMVector3(Entity entity){
-		this(entity.posX, entity.posY, entity.posZ);
+		this(entity.getPosX(), entity.getPosY(), entity.getPosZ());
 	}
 
 	public AMVector3(BlockPos pos) {
@@ -159,7 +159,7 @@ public class AMVector3{
 		double var2 = target.x - this.x;
 		double var4 = target.y - this.y;
 		double var6 = target.z - this.z;
-		return MathHelper.sqrt_double(var2 * var2 + var4 * var4 + var6 * var6);
+		return MathHelper.sqrt(var2 * var2 + var4 * var4 + var6 * var6);
 	}
 
 	public double distanceSqTo(AMVector3 target){
@@ -201,13 +201,13 @@ public class AMVector3{
 	 * Writes the vector3 to the specified compound - note that the way this function works, only one vector3 can be written to a compound at a time.
 	 * Use sub-compounds if you need more!
 	 */
-	public void writeToNBT(NBTTagCompound compound){
-		compound.setFloat("Vec3_x", x);
-		compound.setFloat("Vec3_y", y);
-		compound.setFloat("Vec3_z", z);
+	public void writeToNBT(CompoundNBT compound){
+		compound.putFloat("Vec3_x", x);
+		compound.putFloat("Vec3_y", y);
+		compound.putFloat("Vec3_z", z);
 	}
 
-	public static AMVector3 readFromNBT(NBTTagCompound compound){
+	public static AMVector3 readFromNBT(CompoundNBT compound){
 		return new AMVector3(compound.getFloat("Vec3_x"), compound.getFloat("Vec3_y"), compound.getFloat("Vec3_z"));
 	}
 

@@ -2,7 +2,7 @@ package am2.common.buffs;
 
 import am2.common.defs.PotionEffectsDefs;
 import am2.common.extensions.EntityExtension;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class BuffEffectTemporalAnchor extends BuffEffect{
@@ -22,7 +22,7 @@ public class BuffEffectTemporalAnchor extends BuffEffect{
 	}
 
 	@Override
-	public void applyEffect(EntityLivingBase entityliving){
+	public void applyEffect(LivingEntity entityliving){
 		//store values from the entity
 		x = entityliving.posX;
 		y = entityliving.posY;
@@ -36,7 +36,7 @@ public class BuffEffectTemporalAnchor extends BuffEffect{
 	}
 
 	@Override
-	public void stopEffect(EntityLivingBase entityliving){
+	public void stopEffect(LivingEntity entityliving){
 		entityliving.setPositionAndUpdate(x, y, z);
 		entityliving.setAngles(rotationYaw, rotationPitch);
 		entityliving.rotationYawHead = rotationYawHead;

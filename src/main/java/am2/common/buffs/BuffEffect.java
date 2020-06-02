@@ -1,12 +1,11 @@
 package am2.common.buffs;
 
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.potion.Effect;
 import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
 
-public abstract class BuffEffect extends PotionEffect{
+public abstract class BuffEffect extends Effect{
 	protected boolean InitialApplication;
 	protected boolean HasNotified;
 
@@ -24,20 +23,20 @@ public abstract class BuffEffect extends PotionEffect{
 	 * Called when the effect is created
 	 * @param entityliving
 	 */
-	public abstract void applyEffect(EntityLivingBase entityliving);
+	public abstract void applyEffect(LivingEntity entityliving);
 
-	public abstract void stopEffect(EntityLivingBase entityliving);
+	public abstract void stopEffect(LivingEntity entityliving);
 
-	private void effectEnding(EntityLivingBase entityliving){
+	private void effectEnding(LivingEntity entityliving){
 		stopEffect(entityliving);
 	}
 
 	@Override
-	public void performEffect(EntityLivingBase entityliving){
+	public void performEffect(LivingEntity entityliving){
 	}
 
 	@Override
-	public void combine(PotionEffect potioneffect){
+	public void combine(Effect potioneffect){
 		if (!(potioneffect instanceof BuffEffect)){
 			return;
 		}
@@ -49,7 +48,7 @@ public abstract class BuffEffect extends PotionEffect{
 	}
 
 	@Override
-	public boolean onUpdate(EntityLivingBase entityliving){
+	public boolean onUpdate(LivingEntity entityliving){
 		boolean bool = super.onUpdate(entityliving);
 		if (InitialApplication){
 			InitialApplication = false;
@@ -57,7 +56,7 @@ public abstract class BuffEffect extends PotionEffect{
 		}
 		else if (getDuration() == 1){
 			effectEnding(entityliving);
-		}else if ((getDuration() / 20) < 5 && !HasNotified && shouldNotify() && !entityliving.worldObj.isRemote){
+		}else if ((getDuration() / 20) < 5 && !HasNotified && shouldNotify() && !entityliving.world.isRemote){
 			HasNotified = true;
 		}
 		performEffect(entityliving);

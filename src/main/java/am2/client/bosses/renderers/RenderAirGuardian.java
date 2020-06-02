@@ -2,7 +2,7 @@ package am2.client.bosses.renderers;
 
 import am2.client.bosses.models.ModelAirGuardian;
 import am2.common.bosses.EntityAirGuardian;
-import net.minecraft.client.renderer.entity.RenderManager;
+
 import net.minecraft.util.ResourceLocation;
 
 public class RenderAirGuardian extends RenderBoss<EntityAirGuardian>{

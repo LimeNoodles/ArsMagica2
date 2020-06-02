@@ -3,7 +3,8 @@ package am2.common.buffs;
 import java.util.UUID;
 
 import am2.common.defs.PotionEffectsDefs;
-import net.minecraft.entity.EntityLivingBase;
+
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
@@ -27,8 +28,8 @@ public class BuffEffectFrostSlowed extends BuffEffect{
 	}
 
 	@Override
-	public void applyEffect(EntityLivingBase entityliving){
-		IAttributeInstance attributeinstance = entityliving.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
+	public void applyEffect(LivingEntity entityliving){
+		IAttributeInstance attributeinstance = entityliving.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
 
 		if (attributeinstance.getModifier(frostSlowID) != null){
 			attributeinstance.removeModifier(attributeinstance.getModifier(frostSlowID));
@@ -38,8 +39,8 @@ public class BuffEffectFrostSlowed extends BuffEffect{
 	}
 
 	@Override
-	public void stopEffect(EntityLivingBase entityliving){
-		IAttributeInstance attributeinstance = entityliving.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
+	public void stopEffect(LivingEntity entityliving){
+		IAttributeInstance attributeinstance = entityliving.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
 
 		if (attributeinstance.getModifier(frostSlowID) != null){
 			attributeinstance.removeModifier(attributeinstance.getModifier(frostSlowID));
@@ -47,6 +48,6 @@ public class BuffEffectFrostSlowed extends BuffEffect{
 	}
 
 	@Override
-	public void performEffect(EntityLivingBase entityliving){
+	public void performEffect(LivingEntity entityliving){
 	}
 }

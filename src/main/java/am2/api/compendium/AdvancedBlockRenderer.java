@@ -6,13 +6,14 @@ import java.util.List;
 import am2.api.blocks.IMultiblock;
 import am2.api.blocks.IMultiblockGroup;
 import am2.client.gui.AMGuiHelper;
+
 import net.minecraft.block.ITileEntityProvider;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.common.extensions.IForgeBlockState;
 
 public class AdvancedBlockRenderer {
 	
@@ -38,11 +39,11 @@ public class AdvancedBlockRenderer {
 			for (BlockPos pos : group.getPositions()) {
 				if (pos.getY() > layer + minY)
 					continue;
-				ArrayList<IBlockState> states = group.getState(pos);
+				ArrayList<IForgeBlockState> states = group.getState(pos);
 				if (states.isEmpty())
 					continue;
 				int stateSelector = AMGuiHelper.instance.getSlowTicker() % states.size();
-				IBlockState state = states.get(stateSelector);
+				IForgeBlockState state = states.get(stateSelector);
 				iblockaccess.setBlockState(pos, state);
 			}
 		}
@@ -55,12 +56,12 @@ public class AdvancedBlockRenderer {
 			for (BlockPos pos : group.getPositions()) {
 				if (pos.getY() > layer + minY)
 					continue;
-				IBlockState state = iblockaccess.getBlockState(pos);
+				IForgeBlockState state = iblockaccess.getBlockState(pos);
 				Tessellator.getInstance().getBuffer().begin(7, DefaultVertexFormats.BLOCK);
-				Minecraft.getMinecraft().getBlockRendererDispatcher().renderBlock(state, pos, iblockaccess, Tessellator.getInstance().getBuffer());
+				Minecraft.getInstance().getBlockRendererDispatcher().renderBlock(state, pos, iblockaccess, Tessellator.getInstance().getBuffer());
 				Tessellator.getInstance().draw();
 				try {
-					if (state.getBlock() instanceof ITileEntityProvider) {
+					if (state.getBlockState().getBlock() instanceof ITileEntityProvider) {
 						TileEntityRendererDispatcher.instance.renderTileEntityAt(((ITileEntityProvider)state.getBlock()).createNewTileEntity(Minecraft.getMinecraft().theWorld, state.getBlock().getMetaFromState(state)), pos.getX(), pos.getY(), pos.getZ(), Minecraft.getMinecraft().getRenderPartialTicks(), 0);
 					
 					}
@@ -71,14 +72,14 @@ public class AdvancedBlockRenderer {
 		}
 	}
 	
-	public void renderBlock(IBlockState state, boolean clear) {
+	public void renderBlock(IForgeBlockState state, boolean clear) {
 		if (state == null)
 			return;
 		if (clear)
 			iblockaccess.clear();
 		Tessellator.getInstance().getBuffer().begin(7, DefaultVertexFormats.BLOCK);
 		iblockaccess.setBlockState(BlockPos.ORIGIN, state);
-		Minecraft.getMinecraft().getBlockRendererDispatcher().renderBlock(state, BlockPos.ORIGIN, iblockaccess, Tessellator.getInstance().getBuffer());
+		Minecraft.getInstance().getBlockRendererDispatcher().renderBlock(state, BlockPos.ORIGIN, iblockaccess, Tessellator.getInstance().getBuffer());
 		Tessellator.getInstance().draw();
 	}
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.google.common.collect.ImmutableList;
 
+import com.sun.prism.TextureMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
@@ -104,7 +105,7 @@ public final class CompendiumCategory {
 	
 	@SideOnly(Side.CLIENT)
 	public TextureAtlasSprite getTexture() {
-		return Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(getSprite().toString());
+		return Minecraft.getInstance().getTextureMapBlocks().getAtlasSprite(getSprite().toString());
 	}
 	
 	@SideOnly(Side.CLIENT)

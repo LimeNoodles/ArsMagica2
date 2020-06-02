@@ -1,25 +1,18 @@
 package am2.client.items.rendering;
 
-import java.util.List;
+import com.mojang.blaze3d.platform.GlStateManager;
 
-import javax.vecmath.Matrix4f;
+import javafx.util.Pair;
 
-import org.apache.commons.lang3.tuple.Pair;
-import org.lwjgl.opengl.GL11;
-
-import com.google.common.collect.ImmutableMap;
-
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.block.model.BakedQuad;
-import net.minecraft.client.renderer.block.model.IBakedModel;
-import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
-import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
-import net.minecraft.client.renderer.block.model.ItemOverrideList;
+import net.minecraft.client.renderer.Matrix4f;
+import net.minecraft.client.renderer.model.IBakedModel;
+import net.minecraft.client.renderer.model.ItemCameraTransforms;
+import net.minecraft.client.renderer.model.ItemOverrideList;
+import net.minecraft.util.Direction;
+import net.minecraftforge.common.extensions.IForgeBlockState;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.util.EnumFacing;
-import net.minecraftforge.client.model.IPerspectiveAwareModel;
-import net.minecraftforge.common.model.TRSRTransformation;
+
+import org.lwjgl.opengl.GL11;
 
 public class BakedModelCullface implements IPerspectiveAwareModel{
 	
@@ -32,7 +25,7 @@ public class BakedModelCullface implements IPerspectiveAwareModel{
 	}
 	
 	@Override
-	public List<BakedQuad> getQuads(IBlockState state, EnumFacing side, long rand) {
+	public List<BakedQuad> getQuads(IForgeBlockState state, Direction side, long rand) {
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		return parent.getQuads(state, side, rand);
 	}

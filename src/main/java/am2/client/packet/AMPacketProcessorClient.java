@@ -30,16 +30,11 @@ import am2.common.utils.MathUtilities;
 import io.netty.buffer.ByteBufInputStream;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientCustomPacketEvent;
-import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class AMPacketProcessorClient extends AMPacketProcessorServer{
 
@@ -53,7 +48,7 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 			}
 			//constant details all packets share:  ID, player, and remaining data
 			packetID = bbis.readByte();
-			EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+			PlayerEntity player = Minecraft.getInstance().player;
 			byte[] remaining = new byte[bbis.available()];
 			bbis.readFully(remaining);
 			switch (packetID){
@@ -64,7 +59,7 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 //				handleMagicLevelUpResponse(remaining);
 //				break;
 			case AMPacketIDs.PARTICLE_SPAWN_SPECIAL:
-				ArsMagica2.proxy.particleManager.handleClientPacketData(Minecraft.getMinecraft().theWorld, remaining);
+				ArsMagica2.proxy.particleManager.handleClientPacketData(Minecraft.getInstance().world, remaining);
 				break;
 			case AMPacketIDs.PLAYER_VELOCITY_ADD:
 				handleVelocityAdd(remaining);
@@ -217,10 +212,10 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 //
 //		switch (capability){
 //		case 1: //canfly
-//			Minecraft.getMinecraft().thePlayer.capabilities.allowFlying = flag;
+//			Minecraft.getInstance().player.capabilities.allowFlying = flag;
 //			break;
 //		case 2: //isflying
-//			Minecraft.getMinecraft().thePlayer.capabilities.isFlying = flag;
+//			Minecraft.getInstance().player.capabilities.isFlying = flag;
 //			break;
 //		}
 //	}
@@ -330,14 +325,14 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 	}
 //
 //
-//	private void handleSetMagicicansWorkbenchRecipe(EntityPlayer player){
+//	private void handleSetMagicicansWorkbenchRecipe(PlayerEntity player){
 //		if (player.openContainer != null && player.openContainer instanceof ContainerMagiciansWorkbench){
 //			((ContainerMagiciansWorkbench)player.openContainer).updateCraftingMatrices();
 //			((ContainerMagiciansWorkbench)player.openContainer).onCraftMatrixChanged(((ContainerMagiciansWorkbench)player.openContainer).getWorkbench());
 //		}
 //	}
 //
-//	private void handleNBTDump(EntityPlayer player){
+//	private void handleNBTDump(PlayerEntity player){
 //		ItemStack stack = player.getCurrentEquippedItem();
 //		if (stack == null || !stack.hasTagCompound()) return;
 //		NBTTagCompound compound = stack.writeToNBT(new NBTTagCompound());
@@ -357,7 +352,7 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 //		player.addChatMessage(new ChatComponentText("NBT Saved to " + file.getAbsolutePath()));
 //	}
 //
-	private void handlePlayerLoginData(byte[] data, EntityPlayer player){
+	private void handlePlayerLoginData(byte[] data, PlayerEntity player){
 		AMDataReader rdr = new AMDataReader(data, false);
 		int skillTreeLock = rdr.getInt();
 		ArsMagica2.config.setSkillTreeSecondaryTierCap(skillTreeLock);
@@ -377,7 +372,7 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 		ArsMagica2.disabledSkills.disableAllSkillsIn(disabledSkills);
 	}
 
-	private void handleEntityActionUpdate(byte[] data, EntityPlayer player){
+	private void handleEntityActionUpdate(byte[] data, PlayerEntity player){
 		AMDataReader rdr = new AMDataReader(data, false);
 		int entityID = rdr.getInt();
 		int actionOrdinal = rdr.getInt();
@@ -397,39 +392,39 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 //		int entityID = rdr.getInt();
 //
 //		EntityLivingBase ent = AMCore.proxy.getEntityByID(entityID);
-//		if (ent == null || !(ent instanceof EntityPlayer)) return;
+//		if (ent == null || !(ent instanceof PlayerEntity)) return;
 //
-//		if (!SkillData.For((EntityPlayer)ent).handlePacketData(data)){
+//		if (!SkillData.For((PlayerEntity)ent).handlePacketData(data)){
 //			LogHelper.error("Critical Error Handling Spell Knowledge Sync Packet!");
 //		}
 //	}
 //
-	private void handleSyncAffinity(byte[] data, EntityPlayer player){
+	private void handleSyncAffinity(byte[] data, PlayerEntity player){
 		AMDataReader rdr = new AMDataReader(data, false);
 		int entityID = rdr.getInt();
 
 		Entity ent = player.getEntityWorld().getEntityByID(entityID);
-		if (ent == null || !(ent instanceof EntityPlayer)) return;
+		if (ent == null || !(ent instanceof PlayerEntity)) return;
 
 		AffinityData.For((EntityLivingBase) ent).handleUpdatePacket(rdr.getRemainingBytes());
 	}
 	
-	private void handleCompendiumUpdate(byte[] data, EntityPlayer player){
+	private void handleCompendiumUpdate(byte[] data, PlayerEntity player){
 		AMDataReader rdr = new AMDataReader(data, false);
 		int entityID = rdr.getInt();
 
 		Entity ent = player.getEntityWorld().getEntityByID(entityID);
-		if (ent == null || !(ent instanceof EntityPlayer)) return;
+		if (ent == null || !(ent instanceof PlayerEntity)) return;
 
-		ArcaneCompendium.For((EntityPlayer) ent).handleUpdatePacket(rdr.getRemainingBytes());
+		ArcaneCompendium.For((PlayerEntity) ent).handleUpdatePacket(rdr.getRemainingBytes());
 	}
 	
-	private void handleSkillDataUpdate(byte[] data, EntityPlayer player){
+	private void handleSkillDataUpdate(byte[] data, PlayerEntity player){
 		AMDataReader rdr = new AMDataReader(data, false);
 		int entityID = rdr.getInt();
 
 		Entity ent = player.getEntityWorld().getEntityByID(entityID);
-		if (ent == null || !(ent instanceof EntityPlayer)) return;
+		if (ent == null || !(ent instanceof PlayerEntity)) return;
 
 		SkillData.For((EntityLivingBase) ent).handleUpdatePacket(rdr.getRemainingBytes());
 	}
@@ -464,7 +459,7 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 //		int y = rdr.getInt();
 //		int z = rdr.getInt();
 //
-//		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+//		PlayerEntity player = Minecraft.getInstance().player;
 //
 //		FMLNetworkHandler.openGui(player, AMCore.instance, ArsMagicaGuiIdList.GUI_KEYSTONE_CHEST, Minecraft.getMinecraft().theWorld, x, y, z);
 //	}
@@ -475,7 +470,7 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 //		int duration = rdr.getInt();
 //		int amplifier = rdr.getInt();
 //
-//		EntityPlayer localPlayer = Minecraft.getMinecraft().thePlayer;
+//		PlayerEntity localPlayer = Minecraft.getInstance().player;
 //
 //		PotionEffect pe = BuffList.buffEffectFromPotionID(id, duration, amplifier);
 //		if (pe != null){
@@ -485,7 +480,7 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 //	}
 //
 //	private void handleSyncBetaParticles(byte[] data){
-//		EntityPlayer localPlayer = Minecraft.getMinecraft().thePlayer;
+//		PlayerEntity localPlayer = Minecraft.getInstance().player;
 //		if (!ArsMagica2.proxy.playerTracker.hasAA(localPlayer))
 //			return;
 //
@@ -506,7 +501,7 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 //		AMNetHandler.INSTANCE.sendPacketToServer(AMPacketIDs.SYNC_BETA_PARTICLES, writer.generate());
 //	}
 //
-	private void handleSyncProps(byte[] data, EntityPlayer player){
+	private void handleSyncProps(byte[] data, PlayerEntity player){
 		AMDataReader rdr = new AMDataReader(data, false);
 		int entityID = rdr.getInt();
 
@@ -519,7 +514,7 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 //	private void handleRemoveBuffEffect(byte[] data){
 //		AMDataReader rdr = new AMDataReader(data, false);
 //		int buffID = rdr.getInt();
-//		EntityClientPlayerMP localPlayer = Minecraft.getMinecraft().thePlayer;
+//		EntityClientPlayerMP localPlayer = Minecraft.getInstance().player;
 //		if (buffID == BuffList.temporalAnchor.id){
 //			localPlayer.prevTimeInPortal = 1f;
 //			localPlayer.timeInPortal = 1f;
@@ -544,7 +539,7 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 		double velZ = rdr.getDouble();
 
 		Entity ent = getEntityByID(entityID);
-		EntityLivingBase localPlayer = Minecraft.getMinecraft().thePlayer;
+		EntityLivingBase localPlayer = Minecraft.getInstance().player;
 		//this is only really required for the local player, as other entities seem to work across the network.
 		if (ent.getEntityId() != localPlayer.getEntityId()){
 			return;
@@ -559,7 +554,7 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 //		boolean success = rdr.getBoolean();
 //		int newXPLevel = rdr.getInt();
 //		if (success){
-//			EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+//			PlayerEntity player = Minecraft.getInstance().player;
 //			player.experienceLevel = newXPLevel;
 //			ExtendedProperties.For(player).setMagicLevelWithMana(ExtendedProperties.For(player).getMagicLevel() + 1);
 //		}

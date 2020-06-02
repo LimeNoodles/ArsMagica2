@@ -5,8 +5,9 @@ import am2.api.affinity.Affinity;
 import am2.api.event.SpellCastEvent.Pre;
 import am2.common.defs.PotionEffectsDefs;
 import am2.common.packet.AMNetHandler;
+
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 
 public class AbilityLightAsAFeather extends AbstractAffinityAbility {
@@ -31,14 +32,14 @@ public class AbilityLightAsAFeather extends AbstractAffinityAbility {
 	}
 	
 	@Override
-	public void applyPreSpellCast(EntityPlayer ent, Pre event) {
-		if (ent.worldObj.isRaining() && !ent.worldObj.isRemote && ent.getEntityWorld().getBiome(ent.getPosition()).canRain() && !ent.worldObj.isRemote && ent.worldObj.rand.nextInt(100) < 10){
+	public void applyPreSpellCast(PlayerEntity ent, Pre event) {
+		if (ent.world.isRaining() && !ent.world.isRemote && ent.getEntityWorld().getBiome(ent.getPosition()).canRain() && !ent.world.isRemote && ent.world.rand.nextInt(100) < 10){
 			if (!ent.isSneaking() && !ent.isPotionActive(PotionEffectsDefs.GRQVITY_WELL) && !ent.isInsideOfMaterial(Material.WATER) && ent.isWet()){
-				double velX = ent.worldObj.rand.nextDouble() - 0.5;
-				double velY = ent.worldObj.rand.nextDouble() - 0.5;
-				double velZ = ent.worldObj.rand.nextDouble() - 0.5;
+				double velX = ent.world.rand.nextDouble() - 0.5;
+				double velY = ent.world.rand.nextDouble() - 0.5;
+				double velZ = ent.world.rand.nextDouble() - 0.5;
 				ent.addVelocity(velX, velY, velZ);
-				AMNetHandler.INSTANCE.sendVelocityAddPacket(ent.worldObj, ent, velX, velY, velZ);
+				AMNetHandler.INSTANCE.sendVelocityAddPacket(ent.world, ent, velX, velY, velZ);
 			}
 		}
 	}

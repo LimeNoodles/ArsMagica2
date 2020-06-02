@@ -6,11 +6,14 @@ import java.util.Comparator;
 import am2.api.ArsMagicaAPI;
 import am2.common.utils.NBTUtils;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
+import net.minecraftforge.registries.IForgeRegistryEntry;
 
 /**
  * Affinity :<BR>
@@ -22,7 +25,7 @@ import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
  * @author EdwinMindcraft
  *
  */
-public class Affinity extends IForgeRegistryEntry.Impl<Affinity> implements Comparable<Affinity>{
+public class Affinity implements Comparable<Affinity>, IForgeRegistryEntry<Affinity> {
 	
 	private static final ResourceLocation NONE_LOC = new ResourceLocation("arsmagica2", "none");
 	private static final ResourceLocation ARCANE_LOC = new ResourceLocation("arsmagica2", "arcane");
@@ -136,23 +139,23 @@ public class Affinity extends IForgeRegistryEntry.Impl<Affinity> implements Comp
 		return "affinity." + name;
 	}
 	/**
-	 * Will write to an existing {@link NBTTagCompound} the data of the affinity
+	 * Will write to an existing {@link CompoundNBT} the data of the affinity
 	 * 
 	 * @param tag       Root tag of the entity / item
 	 * @param affinity  The affinity to add
 	 * @param depth     The the depth of this affinity
 	 */
-	public static void writeToNBT (NBTTagCompound tag, Affinity affinity, double depth) {
-		NBTTagList affinityTag = NBTUtils.addCompoundList(NBTUtils.getAM2Tag(tag), "Affinity");
-		NBTTagCompound tmp = new NBTTagCompound();
-		tmp.setString("Name", affinity.getRegistryName().toString());
-		tmp.setDouble("Depth", depth);
-		affinityTag.appendTag(tmp);
+	public static void writeToNBT (CompoundNBT tag, Affinity affinity, double depth) {
+		ListNBT affinityTag = NBTUtils.addCompoundList(NBTUtils.getAM2Tag(tag), "Affinity");
+		CompoundNBT tmp = new CompoundNBT();
+		tmp.putString("Name", affinity.getRegistryName().toString());
+		tmp.putDouble("Depth", depth);
+		affinityTag.add(tmp);
 		NBTUtils.getAM2Tag(tag).setTag("Affinity", affinityTag);
 	}
 	
 	/**
-	 * Will list all the affinities the player / item has if given a correct {@link NBTTagCompound}
+	 * Will list all the affinities the player / item has if given a correct {@link CompoundNBT}
 	 * 
 	 * @param tag       Root tag of the entity / item
 	 * @return          A list of all the affinities this player / item has
@@ -173,10 +176,10 @@ public class Affinity extends IForgeRegistryEntry.Impl<Affinity> implements Comp
 	 * @param tag       Root tag of the entity / item
 	 * @return          Depth in the affinity
 	 */
-	public double readDepth (NBTTagCompound tag) {
-		NBTTagList affinityTag = NBTUtils.addCompoundList(NBTUtils.getAM2Tag(tag), "Affinity");
-		for (int i = 0; i < affinityTag.tagCount(); i++) {
-			NBTTagCompound tmp = affinityTag.getCompoundTagAt(i);
+	public double readDepth (CompoundNBT tag) {
+		ListNBT affinityTag = NBTUtils.addCompoundList(NBTUtils.getAM2Tag(tag), "Affinity");
+		for (int i = 0; i < affinityTag.size(); i++) {
+			CompoundNBT tmp = affinityTag.getCompound(i);
 			if (tmp.getString("Name").equals(this.getRegistryName().toString()))
 				return tmp.getDouble("Depth");
 		}

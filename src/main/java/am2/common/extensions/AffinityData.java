@@ -11,12 +11,12 @@ import am2.api.affinity.Affinity;
 import am2.api.extensions.IAffinityData;
 import am2.common.packet.AMDataReader;
 import am2.common.packet.AMDataWriter;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.util.EnumFacing;
+
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
+
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -57,7 +57,7 @@ public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabi
 		this.cooldowns = new HashMap<>();
 	}
 	
-	public static AffinityData For(EntityLivingBase living){
+	public static AffinityData For(LivingEntity living){
 		return (AffinityData) living.getCapability(INSTANCE, null);
 	}
 	
@@ -168,13 +168,13 @@ public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabi
 	}
 	
 	@Override
-	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
+	public boolean hasCapability(Capability<?> capability, Direction facing) {
 		return capability == INSTANCE;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
+	public <T> T getCapability(Capability<T> capability, Direction facing) {
 		if (capability == INSTANCE)
 			return (T) this;
 		return null;

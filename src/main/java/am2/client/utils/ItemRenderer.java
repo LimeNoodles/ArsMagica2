@@ -2,8 +2,6 @@ package am2.client.utils;
 
 import java.util.ArrayList;
 
-import org.lwjgl.util.vector.Quaternion;
-
 import com.google.common.base.Optional;
 
 import am2.api.affinity.Affinity;
@@ -13,21 +11,16 @@ import am2.client.items.rendering.SpellParticleRender;
 import am2.common.defs.ItemDefs;
 import am2.common.utils.ModelUtils;
 import am2.common.utils.RenderUtils;
+
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
-import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.model.TRSRTransformation;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class ItemRenderer {
 	private static final ResourceLocation sickleLocation = new ResourceLocation("arsmagica2", "textures/mobs/bosses/plant_guardian.png");

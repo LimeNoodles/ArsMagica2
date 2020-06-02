@@ -5,9 +5,10 @@ import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-public class ItemArsMagica extends Item{
-	
-	public ItemArsMagica() {
+public class ItemArsMagica extends Item
+{
+	public ItemArsMagica()
+	{
 		setCreativeTab(CreativeTabsDefs.tabAM2Items);
 		setMaxDamage(0);
 		setHasSubtypes(true);

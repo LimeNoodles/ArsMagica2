@@ -3,9 +3,10 @@ package am2.common.affinity.abilities;
 import am2.api.affinity.AbstractAffinityAbility;
 import am2.api.affinity.Affinity;
 import am2.common.affinity.AffinityAbilityModifiers;
+
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 
 public class AbilityFireWeakness extends AbstractAffinityAbility {
@@ -30,14 +31,15 @@ public class AbilityFireWeakness extends AbstractAffinityAbility {
 	}
 	
 	@Override
-	public void applyTick(EntityPlayer player) {
-		IAttributeInstance attribute = player.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH);
-		AffinityAbilityModifiers.instance.applyOrRemoveModifier(attribute, AffinityAbilityModifiers.fireWeakness, (player.isBurning() || player.worldObj.provider.getDimension() == -1));
+	public void applyTick(PlayerEntity player)
+	{
+		IAttributeInstance attribute = player.getAttribute(SharedMonsterAttributes.MAX_HEALTH);
+		AffinityAbilityModifiers.instance.applyOrRemoveModifier(attribute, AffinityAbilityModifiers.fireWeakness, (player.isBurning() || player.world.provider.getDimension() == -1));
 	}
 	
 	@Override
-	public void removeEffects(EntityPlayer player) {
-		IAttributeInstance attribute = player.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH);
+	public void removeEffects(PlayerEntity player) {
+		IAttributeInstance attribute = player.getAttribute(SharedMonsterAttributes.MAX_HEALTH);
 		AffinityAbilityModifiers.instance.applyOrRemoveModifier(attribute, AffinityAbilityModifiers.fireWeakness, false);
 	}
 

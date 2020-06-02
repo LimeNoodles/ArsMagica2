@@ -1,12 +1,15 @@
 package am2.api.skill;
 
 import am2.api.ArsMagicaAPI;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
 
-public class Skill extends IForgeRegistryEntry.Impl<Skill>{
+import net.minecraft.client.resources.I18n;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.registries.IForgeRegistryEntry;
+
+import javax.annotation.Nullable;
+
+public class Skill implements IForgeRegistryEntry{
 	
 	private int posX, posY;
 	private SkillTree tree;
@@ -52,8 +55,8 @@ public class Skill extends IForgeRegistryEntry.Impl<Skill>{
 		return parents;
 	}
 	
-	public void writeToNBT (NBTTagCompound tag) {
-		tag.setString("ID", getID());
+	public void writeToNBT (CompoundNBT tag) {
+		tag.put("ID", getID());
 	}
 	
 	public SkillPoint getPoint() {
@@ -71,5 +74,21 @@ public class Skill extends IForgeRegistryEntry.Impl<Skill>{
 	
 	public String getOcculusDesc() {
 		return I18n.format("skill." + getID() + ".occulusdesc");
+	}
+
+	@Override
+	public Object setRegistryName(ResourceLocation name) {
+		return null;
+	}
+
+	@Nullable
+	@Override
+	public ResourceLocation getRegistryName() {
+		return null;
+	}
+
+	@Override
+	public Class getRegistryType() {
+		return null;
 	}
 }

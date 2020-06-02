@@ -1,5 +1,9 @@
 package am2.client.blocks.render;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.model.IBakedModel;
+import net.minecraftforge.common.extensions.IForgeBlockState;
 import org.lwjgl.opengl.GL11;
 
 import com.google.common.base.Function;
@@ -9,27 +13,20 @@ import am2.client.bosses.renderers.RenderItemNoBob;
 import am2.client.gui.AMGuiHelper;
 import am2.common.blocks.tileentity.TileEntityArcaneReconstructor;
 import am2.common.defs.BlockDefs;
-import net.minecraft.block.state.IBlockState;
+
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
-import net.minecraft.client.renderer.GlStateManager.DestFactor;
-import net.minecraft.client.renderer.GlStateManager.SourceFactor;
-import net.minecraft.client.renderer.block.model.IBakedModel;
-import net.minecraft.client.renderer.entity.RenderEntityItem;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.common.model.TRSRTransformation;
+
+import java.nio.Buffer;
 
 public class TileArcaneReconstructorRenderer extends TileEntitySpecialRenderer<TileEntityArcaneReconstructor>{
 
@@ -54,7 +51,7 @@ public class TileArcaneReconstructorRenderer extends TileEntitySpecialRenderer<T
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-		Function<ResourceLocation, TextureAtlasSprite> getter = location -> Minecraft.getMinecraft()
+		Function<ResourceLocation, TextureAtlasSprite> getter = location -> Minecraft.getInstance()
 				.getTextureMapBlocks().getAtlasSprite(location.toString());
 		mainBakedModel = mainModel.bake(TRSRTransformation.identity(), DefaultVertexFormats.ITEM, getter);
 		ring1BakedModel = ring1Model.bake(TRSRTransformation.identity(), DefaultVertexFormats.ITEM, getter);
@@ -129,17 +126,17 @@ public class TileArcaneReconstructorRenderer extends TileEntitySpecialRenderer<T
 	private void renderGroup(TileEntityArcaneReconstructor te, IBakedModel model) {
 		try{
 			GlStateManager.pushMatrix();
-			GlStateManager.translate(-te.getPos().getX(), -te.getPos().getY(), -te.getPos().getZ());
+			GlStateManager.translatef(-te.getPos().getX(), -te.getPos().getY(), -te.getPos().getZ());
 			Tessellator t = Tessellator.getInstance();
-			VertexBuffer wr = t.getBuffer();
+			BufferBuilder wr = t.getBuffer();
 			wr.begin(7, DefaultVertexFormats.BLOCK);
 			World world = te.getWorld();
 			if (world == null)
-				world = Minecraft.getMinecraft().theWorld;
-			IBlockState state = world.getBlockState(te.getPos());
-			if (state.getBlock() != BlockDefs.arcaneReconstructor)
+				world = Minecraft.getInstance().world;
+			IForgeBlockState state = world.getBlockState(te.getPos());
+			if (state.getBlockState() != BlockDefs.arcaneReconstructor)
 				state = BlockDefs.arcaneReconstructor.getDefaultState();
-			Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelRenderer().renderModel(world, model, state, te.getPos(), wr, false);
+			Minecraft.getInstance().getBlockRendererDispatcher().getBlockModelRenderer().renderModel(world, model, state, te.getPos(), wr, false);
 			t.draw();
 			GlStateManager.popMatrix();
 		}catch (Throwable trowable){
@@ -148,7 +145,7 @@ public class TileArcaneReconstructorRenderer extends TileEntitySpecialRenderer<T
 	}
 
 	private void RenderItemAtCoords(ItemStack item, double x, double y, double z, float partialTick){
-		item.stackSize = 1;
+		item.setCount(1);
 		AMGuiHelper.instance.dummyItem.setEntityItemStack(item);
 		renderItem.doRender(AMGuiHelper.instance.dummyItem, x, y, z, AMGuiHelper.instance.dummyItem.rotationYaw, partialTick);
 	}

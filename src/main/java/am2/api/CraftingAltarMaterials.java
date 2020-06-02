@@ -5,17 +5,16 @@ import java.util.Map.Entry;
 
 import com.google.common.collect.ImmutableMap;
 
-import am2.common.blocks.BlockArsMagicaBlock;
 import am2.common.defs.BlockDefs;
 import am2.common.utils.KeyValuePair;
-import net.minecraft.block.BlockPlanks;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
+
+import net.minecraft.block.Blocks;
+import net.minecraftforge.common.extensions.IForgeBlockState;
 
 public class CraftingAltarMaterials {
 	
-	private static final HashMap<IBlockState, Integer> caps = new HashMap<>();
-	private static final HashMap<KeyValuePair<IBlockState, IBlockState>, Integer> main = new HashMap<>();
+	private static final HashMap<IForgeBlockState, Integer> caps = new HashMap<>();
+	private static final HashMap<KeyValuePair<IForgeBlockState, IForgeBlockState>, Integer> main = new HashMap<>();
 	
 	static {
 		addCapsMaterial(Blocks.GLASS.getDefaultState(), 1);
@@ -26,44 +25,44 @@ public class CraftingAltarMaterials {
 		addCapsMaterial(Blocks.GOLD_BLOCK.getDefaultState(), 6);
 		addCapsMaterial(Blocks.DIAMOND_BLOCK.getDefaultState(), 7);
 		addCapsMaterial(Blocks.EMERALD_BLOCK.getDefaultState(), 8);
-		addCapsMaterial(BlockDefs.blocks.getDefaultState().withProperty(BlockArsMagicaBlock.BLOCK_TYPE, BlockArsMagicaBlock.EnumBlockType.MOONSTONE), 9);
-		addCapsMaterial(BlockDefs.blocks.getDefaultState().withProperty(BlockArsMagicaBlock.BLOCK_TYPE, BlockArsMagicaBlock.EnumBlockType.SUNSTONE), 10);
+		addCapsMaterial(BlockDefs.blocks.getDefaultState(), 9);
+		addCapsMaterial(BlockDefs.blocks.getDefaultState(), 10);
 		
-		addMainMaterial(Blocks.PLANKS.getDefaultState(), Blocks.OAK_STAIRS.getDefaultState(), 1);
-		addMainMaterial(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.ACACIA), Blocks.ACACIA_STAIRS.getDefaultState(), 1);
-		addMainMaterial(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.BIRCH), Blocks.BIRCH_STAIRS.getDefaultState(), 1);
-		addMainMaterial(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.SPRUCE), Blocks.SPRUCE_STAIRS.getDefaultState(), 1);
-		addMainMaterial(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.JUNGLE), Blocks.JUNGLE_STAIRS.getDefaultState(), 1);
-		addMainMaterial(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.DARK_OAK), Blocks.DARK_OAK_STAIRS.getDefaultState(), 1);
-		addMainMaterial(Blocks.NETHER_BRICK.getDefaultState(), Blocks.NETHER_BRICK_STAIRS.getDefaultState(), 3);
+		addMainMaterial(Blocks.OAK_PLANKS.getDefaultState(), Blocks.OAK_STAIRS.getDefaultState(), 1);
+		addMainMaterial(Blocks.ACACIA_PLANKS.getDefaultState(), Blocks.ACACIA_STAIRS.getDefaultState(), 1);
+		addMainMaterial(Blocks.BIRCH_PLANKS.getDefaultState(), Blocks.BIRCH_STAIRS.getDefaultState(), 1);
+		addMainMaterial(Blocks.SPRUCE_PLANKS.getDefaultState(), Blocks.SPRUCE_STAIRS.getDefaultState(), 1);
+		addMainMaterial(Blocks.JUNGLE_PLANKS.getDefaultState(), Blocks.JUNGLE_STAIRS.getDefaultState(), 1);
+		addMainMaterial(Blocks.DARK_OAK_PLANKS.getDefaultState(), Blocks.DARK_OAK_STAIRS.getDefaultState(), 1);
+		addMainMaterial(Blocks.NETHER_BRICKS.getDefaultState(), Blocks.NETHER_BRICK_STAIRS.getDefaultState(), 3);
 		addMainMaterial(Blocks.QUARTZ_BLOCK.getDefaultState(), Blocks.QUARTZ_STAIRS.getDefaultState(), 3);
-		addMainMaterial(Blocks.STONEBRICK.getDefaultState(), Blocks.STONE_BRICK_STAIRS.getDefaultState(), 1);
+		addMainMaterial(Blocks.STONE_BRICKS.getDefaultState(), Blocks.STONE_BRICK_STAIRS.getDefaultState(), 1);
 		addMainMaterial(Blocks.SANDSTONE.getDefaultState(), Blocks.SANDSTONE_STAIRS.getDefaultState(), 1);
 		addMainMaterial(Blocks.PURPUR_BLOCK.getDefaultState(), Blocks.PURPUR_STAIRS.getDefaultState(), 4);
-		addMainMaterial(Blocks.BRICK_BLOCK.getDefaultState(), Blocks.BRICK_STAIRS.getDefaultState(), 2);
+		addMainMaterial(Blocks.BRICKS.getDefaultState(), Blocks.BRICK_STAIRS.getDefaultState(), 2);
 		addMainMaterial(Blocks.RED_SANDSTONE.getDefaultState(), Blocks.RED_SANDSTONE_STAIRS.getDefaultState(), 2);
 		addMainMaterial(BlockDefs.witchwoodPlanks.getDefaultState(), BlockDefs.witchwoodStairs.getDefaultState(), 3);
 	}
 	
-	public static void addCapsMaterial (IBlockState state, int value) {
+	public static void addCapsMaterial (IForgeBlockState state, int value) {
 		caps.put(state, Integer.valueOf(value));
 	}
 	
-	public static void addMainMaterial (IBlockState state, IBlockState stairs, int value) {
+	public static void addMainMaterial (IForgeBlockState state, IForgeBlockState stairs, int value) {
 		main.put(new KeyValuePair<>(state, stairs), Integer.valueOf(value));
 	}
 	
-	public static ImmutableMap<IBlockState, Integer> getCapsMap() {
+	public static ImmutableMap<IForgeBlockState, Integer> getCapsMap() {
 		return ImmutableMap.copyOf(caps);
 	}
 	
-	public static ImmutableMap<KeyValuePair<IBlockState, IBlockState>, Integer> getMainMap() {
+	public static ImmutableMap<KeyValuePair<IForgeBlockState, IForgeBlockState>, Integer> getMainMap() {
 		return ImmutableMap.copyOf(main);
 	}
 	
-	public static ImmutableMap<IBlockState, Integer> getSimpleMainMap() {
-		ImmutableMap.Builder<IBlockState, Integer> builder = ImmutableMap.builder();
-		for (Entry<KeyValuePair<IBlockState, IBlockState>, Integer> entry : getMainMap().entrySet()) {
+	public static ImmutableMap<IForgeBlockState, Integer> getSimpleMainMap() {
+		ImmutableMap.Builder<IForgeBlockState, Integer> builder = ImmutableMap.builder();
+		for (Entry<KeyValuePair<IForgeBlockState, IForgeBlockState>, Integer> entry : getMainMap().entrySet()) {
 			builder.put(entry.getKey().key, entry.getValue());
 		}
 		return builder.build();

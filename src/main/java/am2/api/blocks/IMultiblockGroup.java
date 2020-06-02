@@ -4,9 +4,10 @@ import java.util.ArrayList;
 
 import com.google.common.collect.ImmutableList;
 
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import net.minecraftforge.common.extensions.IForgeBlockState;
 
 public interface IMultiblockGroup {
 	boolean matches(World world, BlockPos pos);
@@ -18,8 +19,8 @@ public interface IMultiblockGroup {
 	int getMaxY();
 	int getMaxZ();
 	ImmutableList<BlockPos> getPositions();
-	ImmutableList<IBlockState> getStates();
-	void addState(IBlockState state);
-	ArrayList<IBlockState> getState(BlockPos pos);
+	ImmutableList<IForgeBlockState> getStates();
+	void addState(IForgeBlockState state);
+	ArrayList<IForgeBlockState> getState(BlockPos pos);
 	
 }

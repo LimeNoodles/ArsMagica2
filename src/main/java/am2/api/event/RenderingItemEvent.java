@@ -1,17 +1,17 @@
 package am2.api.event;
 
-import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.client.renderer.model.ItemCameraTransforms;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.eventhandler.Event;
+import net.minecraftforge.eventbus.api.Event;
 
 public class RenderingItemEvent extends Event {
 	
 	private final ItemStack stack;
-	private final TransformType cameraTransformType;
-	private final EntityLivingBase entity;
+	private final ItemCameraTransforms.TransformType cameraTransformType;
+	private final LivingEntity entity;
 	
-	public RenderingItemEvent(ItemStack stack, TransformType cameraTransformType, EntityLivingBase entity) {
+	public RenderingItemEvent(ItemStack stack, ItemCameraTransforms.TransformType cameraTransformType, LivingEntity entity) {
 		this.stack = stack;
 		this.cameraTransformType = cameraTransformType;
 		this.entity = entity;
@@ -21,11 +21,11 @@ public class RenderingItemEvent extends Event {
 		return stack;
 	}
 	
-	public TransformType getCameraTransformType() {
+	public ItemCameraTransforms.TransformType getCameraTransformType() {
 		return cameraTransformType;
 	}
 	
-	public EntityLivingBase getEntity() {
+	public LivingEntity getEntity() {
 		return entity;
 	}
 }

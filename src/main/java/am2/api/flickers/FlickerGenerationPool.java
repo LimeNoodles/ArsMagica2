@@ -33,7 +33,7 @@ public class FlickerGenerationPool {
 	}
 	
 	public void addWeightedAffinity(Affinity aff, int weight) {
-		if (map.containsKey(aff)) LogHelper.warn("Override : %s is already registered, report to the mod author", aff.getRegistryName().toString());
+		if (map.containsKey(aff)) LogHelper.warn("Override : %s is already registered, report to the mod author", aff.getName());
 		map.put(aff, weight);
 	}
 	

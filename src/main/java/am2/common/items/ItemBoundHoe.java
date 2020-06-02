@@ -4,15 +4,16 @@ import am2.api.IBoundItem;
 import am2.api.extensions.ISpellCaster;
 import am2.common.defs.ItemDefs;
 import am2.common.spell.SpellCaster;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemHoe;
+
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.HoeItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-public class ItemBoundHoe extends ItemHoe implements IBoundItem {
+public class ItemBoundHoe extends HoeItem implements IBoundItem
+{
 
 	public ItemBoundHoe() {
 		super(ItemDefs.BOUND);
@@ -39,17 +40,17 @@ public class ItemBoundHoe extends ItemHoe implements IBoundItem {
 
 	@SuppressWarnings("deprecation")
 	@Override
-	public boolean onDroppedByPlayer(ItemStack item, EntityPlayer player) {
+	public boolean onDroppedByPlayer(ItemStack item, PlayerEntity player) {
 		item.setItem(ItemDefs.spell);
 		return false;
 	}
 
 	@Override
-	public float maintainCost(EntityPlayer player, ItemStack stack) {
+	public float maintainCost(PlayerEntity player, ItemStack stack) {
 		return normalMaintain;
 	}
 
-	public ItemHoe registerAndName(String name) {
+	public HoeItem registerAndName(String name) {
 		this.setUnlocalizedName(new ResourceLocation("arsmagica2", name).toString());
 		GameRegistry.register(this, new ResourceLocation("arsmagica2", name));
 		return this;

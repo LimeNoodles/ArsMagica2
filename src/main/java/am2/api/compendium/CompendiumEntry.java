@@ -8,8 +8,6 @@ import com.google.common.collect.ImmutableList;
 
 import am2.api.compendium.pages.CompendiumPage;
 import net.minecraft.client.resources.I18n;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class CompendiumEntry {
 	

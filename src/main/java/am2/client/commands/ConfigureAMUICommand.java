@@ -5,9 +5,8 @@ import java.util.List;
 
 import am2.client.gui.GuiHudCustomization;
 import net.minecraft.client.Minecraft;
-import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
-import net.minecraft.command.ICommandSender;
+import net.minecraft.command.ICommandSource;
 import net.minecraft.server.MinecraftServer;
 
 public class ConfigureAMUICommand extends CommandBase{
@@ -16,7 +15,7 @@ public class ConfigureAMUICommand extends CommandBase{
 
 	public static void showIfQueued(){
 		if (showGUI){
-			Minecraft.getMinecraft().displayGuiScreen(new GuiHudCustomization());
+			Minecraft.getInstance().displayGuiScreen(new GuiHudCustomization());
 			showGUI = false;
 		}
 	}
@@ -27,7 +26,7 @@ public class ConfigureAMUICommand extends CommandBase{
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender icommandsender){
+	public String getCommandUsage(ICommandSource icommandsender){
 		return "/amuicfg";
 	}
 
@@ -44,7 +43,7 @@ public class ConfigureAMUICommand extends CommandBase{
 	}
 
 	@Override
-	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
+	public void execute(MinecraftServer server, ICommandSource sender, String[] args) throws CommandException {
 		showGUI = true;
 	}
 

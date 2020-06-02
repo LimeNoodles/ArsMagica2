@@ -165,33 +165,28 @@ import am2.common.utils.InventoryUtilities;
 import am2.common.utils.NPCSpells;
 import am2.common.world.AM2WorldDecorator;
 import am2.common.world.BiomeWitchwoodForest;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
-import net.minecraft.inventory.EntityEquipmentSlot;
+
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.potion.Effect;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.common.BiomeManager;
 import net.minecraftforge.common.BiomeManager.BiomeEntry;
 import net.minecraftforge.common.BiomeManager.BiomeType;
-import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.fml.common.network.IGuiHandler;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.oredict.OreDictionary;
 
 
 public class CommonProxy implements IGuiHandler{
@@ -220,7 +215,7 @@ public class CommonProxy implements IGuiHandler{
 	}
 	
 	@Override
-	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object getServerGuiElement(int ID, PlayerEntity player, World world, int x, int y, int z) {
 		TileEntity te = world.getTileEntity(new BlockPos(x, y, z));
 		switch (ID) {
 		case GUI_OCCULUS: return null;
@@ -408,11 +403,11 @@ public class CommonProxy implements IGuiHandler{
 		packetProcessor = new AMPacketProcessorServer();
 	}
 	
-	public void addDeferredTargetSet(EntityLiving ent, EntityLivingBase target){
+	public void addDeferredTargetSet(LivingEntity ent, EntityLivingBase target){
 		serverTickHandler.addDeferredTarget(ent, target);
 	}
 	
-	public ImmutableMap<EntityLivingBase, ArrayList<PotionEffect>> getDeferredPotionEffects(){
+	public ImmutableMap<EntityLivingBase, ArrayList<Effect>> getDeferredPotionEffects(){
 		return ImmutableMap.copyOf(deferredPotionEffects);
 	}
 	
@@ -452,7 +447,7 @@ public class CommonProxy implements IGuiHandler{
 		return null;
 	}
 
-	public void drawPowerOnBlockHighlight(EntityPlayer player, RayTraceResult target, float partialTicks) {}
+	public void drawPowerOnBlockHighlight(PlayerEntity player, RayTraceResult target, float partialTicks) {}
 
 	public void receivePowerPathVisuals(HashMap<PowerTypes, ArrayList<LinkedList<BlockPos>>> nodePaths) {}
 
@@ -462,7 +457,7 @@ public class CommonProxy implements IGuiHandler{
 		return null;
 	}
 
-	public void blackoutArmorPiece(EntityPlayerMP player, EntityEquipmentSlot slot, int cooldown){
+	public void blackoutArmorPiece(EntityPlayerMP player, EquipmentSlotType slot, int cooldown){
 		serverTickHandler.blackoutArmorPiece(player, slot, cooldown);
 	}
 	

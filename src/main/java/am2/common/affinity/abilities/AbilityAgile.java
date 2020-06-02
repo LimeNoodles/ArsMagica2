@@ -4,8 +4,10 @@ import am2.api.affinity.AbstractAffinityAbility;
 import am2.api.affinity.Affinity;
 import am2.common.extensions.AffinityData;
 import am2.common.extensions.EntityExtension;
-import net.minecraft.entity.player.EntityPlayer;
+
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
+
 import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 
@@ -26,7 +28,7 @@ public class AbilityAgile extends AbstractAffinityAbility {
 	}
 	
 	@Override
-	public void applyJump(EntityPlayer player, LivingJumpEvent event) {
+	public void applyJump(PlayerEntity player, LivingJumpEvent event) {
 		double airDepth = AffinityData.For(player).getAffinityDepth(Affinity.AIR);
 		double velocity = airDepth * 0.35f;
 		if (EntityExtension.For(player).getIsFlipped())
@@ -35,7 +37,7 @@ public class AbilityAgile extends AbstractAffinityAbility {
 	}
 	
 	@Override
-	public void applyFall(EntityPlayer player, LivingFallEvent event) {
+	public void applyFall(PlayerEntity player, LivingFallEvent event) {
 		double airDepth = AffinityData.For(player).getAffinityDepth(Affinity.AIR);
 		event.setDistance((float) (event.getDistance() - (2 * airDepth)));
 		if (event.getDistance() < 0) event.setDistance(0);

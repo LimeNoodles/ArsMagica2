@@ -4,10 +4,9 @@ import java.util.Random;
 
 import am2.ArsMagica2;
 import am2.common.entity.EntityDryad;
-import net.minecraft.entity.passive.EntityWolf;
+import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 
 public class BiomeWitchwoodForest extends Biome{
 
@@ -18,7 +17,7 @@ public class BiomeWitchwoodForest extends Biome{
 
 	public BiomeWitchwoodForest(BiomeProperties par1){
 		super(par1);
-		this.spawnableCreatureList.add(new SpawnListEntry(EntityWolf.class, 5, 4, 4));
+		this.spawnableCreatureList.add(new SpawnListEntry(WolfEntity.class, 5, 4, 4));
 		this.spawnableCreatureList.add(new SpawnListEntry(EntityDryad.class, 5, 4, 4));
 		this.theBiomeDecorator.treesPerChunk = 10;
 		this.theBiomeDecorator.grassPerChunk = 4;

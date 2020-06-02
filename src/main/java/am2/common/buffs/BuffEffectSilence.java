@@ -1,7 +1,8 @@
 package am2.common.buffs;
 
 import am2.common.defs.PotionEffectsDefs;
-import net.minecraft.entity.EntityLivingBase;
+
+import net.minecraft.entity.LivingEntity;
 
 public class BuffEffectSilence extends BuffEffect{
 
@@ -10,11 +11,11 @@ public class BuffEffectSilence extends BuffEffect{
 	}
 
 	@Override
-	public void applyEffect(EntityLivingBase entityliving){
+	public void applyEffect(LivingEntity entityliving){
 	}
 
 	@Override
-	public void stopEffect(EntityLivingBase entityliving){
+	public void stopEffect(LivingEntity entityliving){
 	}
 
 	@Override

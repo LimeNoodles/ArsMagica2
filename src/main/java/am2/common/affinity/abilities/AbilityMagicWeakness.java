@@ -2,7 +2,8 @@ package am2.common.affinity.abilities;
 
 import am2.api.affinity.AbstractAffinityAbility;
 import am2.api.affinity.Affinity;
-import net.minecraft.entity.player.EntityPlayer;
+
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
@@ -23,7 +24,7 @@ public class AbilityMagicWeakness extends AbstractAffinityAbility {
 	}
 	
 	@Override
-	public void applyHurt(EntityPlayer player, LivingHurtEvent event, boolean isAttacker) {
+	public void applyHurt(PlayerEntity player, LivingHurtEvent event, boolean isAttacker) {
 		if (!isAttacker) {
 			event.setAmount(event.getAmount() * 1.1F);
 		}

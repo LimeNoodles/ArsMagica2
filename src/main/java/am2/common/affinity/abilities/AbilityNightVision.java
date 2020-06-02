@@ -3,9 +3,9 @@ package am2.common.affinity.abilities;
 import am2.api.affinity.AbstractToggledAffinityAbility;
 import am2.api.affinity.Affinity;
 import am2.common.extensions.AffinityData;
-import net.minecraft.entity.player.EntityPlayer;
+
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 
 public class AbilityNightVision extends AbstractToggledAffinityAbility {
@@ -15,7 +15,7 @@ public class AbilityNightVision extends AbstractToggledAffinityAbility {
 	}
 
 	@Override
-	protected boolean isEnabled(EntityPlayer player) {
+	protected boolean isEnabled(PlayerEntity player) {
 		return AffinityData.For(player).getAbilityBoolean(AffinityData.NIGHT_VISION);
 	}
 
@@ -30,9 +30,9 @@ public class AbilityNightVision extends AbstractToggledAffinityAbility {
 	}
 
 	@Override
-	public void applyTick(EntityPlayer player) {
+	public void applyTick(PlayerEntity player) {
 		Potion nightVision = Potion.getPotionFromResourceLocation("night_vision");
-		if (!player.worldObj.isRemote && (!player.isPotionActive(nightVision) || player.getActivePotionEffect(nightVision).getDuration() <= 220)){
+		if (!player.world.isRemote && (!player.isPotionActive(nightVision) || player.getActivePotionEffect(nightVision).getDuration() <= 220)){
 			player.addPotionEffect(new PotionEffect(nightVision, 300, 0, true, false));
 		}
 	}

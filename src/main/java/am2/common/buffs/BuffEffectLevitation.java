@@ -1,8 +1,8 @@
 package am2.common.buffs;
 
 import am2.common.defs.PotionEffectsDefs;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 
 public class BuffEffectLevitation extends BuffEffect{
 
@@ -11,17 +11,17 @@ public class BuffEffectLevitation extends BuffEffect{
 	}
 
 	@Override
-	public void applyEffect(EntityLivingBase entityliving){
-		if (entityliving instanceof EntityPlayer){
-			((EntityPlayer)entityliving).capabilities.allowFlying = true;
-			((EntityPlayer)entityliving).sendPlayerAbilities();
+	public void applyEffect(LivingEntity entityliving){
+		if (entityliving instanceof PlayerEntity){
+			((PlayerEntity)entityliving).capabilities.allowFlying = true;
+			((PlayerEntity)entityliving).sendPlayerAbilities();
 		}
 	}
 
 	@Override
-	public void performEffect(EntityLivingBase entityliving){
-		if (entityliving instanceof EntityPlayer){
-			if (((EntityPlayer)entityliving).capabilities.isFlying){
+	public void performEffect(LivingEntity entityliving){
+		if (entityliving instanceof PlayerEntity){
+			if (((PlayerEntity)entityliving).capabilities.isFlying){
 				float factor = 0.4f;
 				entityliving.motionX *= factor;
 				entityliving.motionZ *= factor;
@@ -31,9 +31,9 @@ public class BuffEffectLevitation extends BuffEffect{
 	}
 
 	@Override
-	public void stopEffect(EntityLivingBase entityliving){
-		if (entityliving instanceof EntityPlayer){
-			EntityPlayer player = (EntityPlayer)entityliving;
+	public void stopEffect(LivingEntity entityliving){
+		if (entityliving instanceof PlayerEntity){
+			PlayerEntity player = (PlayerEntity)entityliving;
 			if (!player.capabilities.isCreativeMode){
 				player.capabilities.allowFlying = false;
 				player.capabilities.isFlying = false;

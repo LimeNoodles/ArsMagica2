@@ -4,18 +4,18 @@ import java.util.ArrayList;
 
 import com.google.common.collect.ImmutableList;
 
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.extensions.IForgeBlockState;
 
 public class MultiblockGroup implements IMultiblockGroup{
 	
 	protected ArrayList<BlockPos> positions;
-	protected ArrayList<IBlockState> states;
+	protected ArrayList<IForgeBlockState> states;
 	protected boolean ignoreState;
 	protected String name;
 	
-	public MultiblockGroup(String name, ArrayList<IBlockState> arrayList, boolean ignoreState) {
+	public MultiblockGroup(String name, ArrayList<IForgeBlockState> arrayList, boolean ignoreState) {
 		positions = new ArrayList<BlockPos>();
 		this.states = arrayList;
 		this.ignoreState = ignoreState;
@@ -28,7 +28,7 @@ public class MultiblockGroup implements IMultiblockGroup{
 	}
 	
 	@Override
-	public void addState (IBlockState state) {
+	public void addState (IForgeBlockState state) {
 		states.add(state);
 	}
 	
@@ -38,8 +38,8 @@ public class MultiblockGroup implements IMultiblockGroup{
 		for (BlockPos pos : positions) {
 			if (ignoreState) {
 				boolean subFlag = false;
-				for (IBlockState state : states) {
-					subFlag = world.getBlockState(startCheckPos.add(pos)).getBlock().equals(state.getBlock());
+				for (IForgeBlockState state : states) {
+					subFlag = world.getBlockState(startCheckPos.add(pos)).getBlock().equals(state.getBlockState());
 					if (subFlag)
 						break;
 				}
@@ -47,7 +47,7 @@ public class MultiblockGroup implements IMultiblockGroup{
 			}
 			else {
 				boolean subFlag = false;
-				for (IBlockState state : states) {
+				for (IForgeBlockState state : states) {
 					subFlag = world.getBlockState(startCheckPos.add(pos)).equals(state);
 					//System.out.println(this.name + " " + pos + " " + subFlag);
 					if (subFlag)
@@ -160,12 +160,12 @@ public class MultiblockGroup implements IMultiblockGroup{
 	}
 	
 	@Override
-	public ImmutableList<IBlockState> getStates() {
+	public ImmutableList<IForgeBlockState> getStates() {
 		return ImmutableList.copyOf(states);
 	}
 
 	@Override
-	public ArrayList<IBlockState> getState(BlockPos pos) {
+	public ArrayList<IForgeBlockState> getState(BlockPos pos) {
 		return states;
 	}
 }

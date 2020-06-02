@@ -1,6 +1,6 @@
 package am2.common.buffs;
 
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.Potion;
 
 public class BuffEffectShield extends BuffEffect{
@@ -10,11 +10,11 @@ public class BuffEffectShield extends BuffEffect{
 	}
 
 	@Override
-	public void applyEffect(EntityLivingBase entityliving){
+	public void applyEffect(LivingEntity entityliving){
 	}
 
 	@Override
-	public void stopEffect(EntityLivingBase entityliving){
+	public void stopEffect(LivingEntity entityliving){
 		
 	}
 

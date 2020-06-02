@@ -2,12 +2,12 @@ package am2.api.spell;
 
 import java.util.EnumSet;
 
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraftforge.registries.IForgeRegistryEntry;
 
 
-public abstract class AbstractSpellPart extends IForgeRegistryEntry.Impl<AbstractSpellPart> implements Comparable<AbstractSpellPart> {
-	
+public abstract class AbstractSpellPart implements Comparable<AbstractSpellPart>, IForgeRegistryEntry {
+
 	/**
 	 * Supports :
 	 *     ItemStacks
@@ -17,7 +17,7 @@ public abstract class AbstractSpellPart extends IForgeRegistryEntry.Impl<Abstrac
 	 */
 	public abstract Object[] getRecipe();
 	
-	public abstract void encodeBasicData(NBTTagCompound tag, Object[] recipe);
+	public abstract void encodeBasicData(CompoundNBT tag, Object[] recipe);
 	
 	/**
 	 * What modifier affect this spell part?

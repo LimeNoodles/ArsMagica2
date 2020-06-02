@@ -10,9 +10,8 @@ import am2.client.models.ModelEarthGuardianChest;
 import am2.client.models.ModelFireGuardianEars;
 import am2.client.models.ModelWaterGuardianOrbs;
 import am2.common.entity.EntityBroom;
+
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class ModelLibrary{
@@ -20,7 +19,7 @@ public class ModelLibrary{
 	public static final ModelLibrary instance = new ModelLibrary();
 
 	private ModelLibrary(){
-		dummyBroom = new EntityBroom(Minecraft.getMinecraft().theWorld);
+		dummyBroom = new EntityBroom(Minecraft.getInstance().world;
 		sickle.setNoSpin();
 
 		dummyArcaneSpellbook = new ModelArcaneGuardianSpellBook();

@@ -1,7 +1,7 @@
 package am2.common.buffs;
 
 import am2.common.defs.PotionEffectsDefs;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.world.World;
 
 public class BuffEffectRegeneration extends BuffEffect{
@@ -11,17 +11,17 @@ public class BuffEffectRegeneration extends BuffEffect{
 	}
 
 	@Override
-	public void applyEffect(EntityLivingBase entityliving){
+	public void applyEffect(LivingEntity entityliving){
 	}
 
 	@Override
-	public void stopEffect(EntityLivingBase entityliving){
+	public void stopEffect(LivingEntity entityliving){
 
 	}
 
-	public boolean onUpdate(EntityLivingBase entityliving){
+	public boolean onUpdate(LivingEntity entityliving){
 
-		World world = entityliving.worldObj;
+		World world = entityliving.world;
 		double ticks = 80 / Math.pow(2, this.getAmplifier());
 
 		if (getDuration() != 0 && (getDuration() % ticks) == 0){

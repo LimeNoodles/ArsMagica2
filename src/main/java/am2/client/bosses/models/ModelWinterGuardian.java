@@ -1,5 +1,6 @@
 package am2.client.bosses.models;
 
+import net.minecraft.client.renderer.model.Model;
 import org.lwjgl.opengl.GL11;
 
 import am2.client.entity.render.AM2ModelRenderer;
@@ -7,7 +8,7 @@ import am2.common.bosses.EntityWinterGuardian;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.entity.Entity;
 
-public class ModelWinterGuardian extends ModelBase{
+public class ModelWinterGuardian extends Model {
 	//fields
 	AM2ModelRenderer Shape1;
 	AM2ModelRenderer Shape2;

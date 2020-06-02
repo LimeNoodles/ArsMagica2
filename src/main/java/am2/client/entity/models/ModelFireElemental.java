@@ -1,13 +1,13 @@
 package am2.client.entity.models;
 
-import net.minecraft.client.model.ModelBiped;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+
+import net.minecraft.client.renderer.entity.model.BipedModel;
 
 @SideOnly(Side.CLIENT)
-public class ModelFireElemental extends ModelBiped{
+public class ModelFireElemental extends BipedModel
+{
 	public ModelFireElemental(){
 		super();
-		this.rightArmPose = ArmPose.ITEM;
+		this.rightArmPose = BipedModel.ArmPose.ITEM;
 	}
 }

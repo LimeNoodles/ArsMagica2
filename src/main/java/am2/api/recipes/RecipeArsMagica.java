@@ -1,7 +1,6 @@
 package am2.api.recipes;
 
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
 
 public class RecipeArsMagica{
 	private ItemStack[] craftingComponents;
@@ -27,9 +26,9 @@ public class RecipeArsMagica{
 			if (recipeItems[i] != null && craftingComponents[i] == null)
 				return false;
 			if (recipeItems[i].getItem() != craftingComponents[i].getItem()
-					|| (craftingComponents[i].getItemDamage() != OreDictionary.WILDCARD_VALUE && recipeItems[i]
-					.getItemDamage() != craftingComponents[i]
-					.getItemDamage())){
+					|| (craftingComponents[i].getDamage() != OreDictionary.WILDCARD_VALUE && recipeItems[i]
+					.getDamage() != craftingComponents[i]
+					.getDamage())){
 				return false;
 			}
 		}

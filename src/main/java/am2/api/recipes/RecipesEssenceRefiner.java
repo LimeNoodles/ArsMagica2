@@ -8,8 +8,8 @@ import am2.common.defs.BlockDefs;
 import am2.common.defs.ItemDefs;
 import am2.common.items.ItemCore;
 import am2.common.items.ItemOre;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
+import net.minecraft.block.Blocks;
+import net.minecraft.item.Items;
 import net.minecraft.item.ItemStack;
 
 public class RecipesEssenceRefiner extends RecipesArsMagica{
@@ -97,19 +97,19 @@ public class RecipesEssenceRefiner extends RecipesArsMagica{
 				new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.WATER)));
 
 		AddRecipe(new ItemStack[]{
-						new ItemStack(Items.POTIONITEM, 1, 0),
+						new ItemStack(Items.POTION, 1, 0),
 						new ItemStack(BlockDefs.wakebloom),
 						new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_ARCANEASH),
 						new ItemStack(BlockDefs.wakebloom),
-						new ItemStack(Items.POTIONITEM, 1, 0)
+						new ItemStack(Items.POTION, 1, 0)
 				},
 				new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.WATER)));
 
 		AddRecipe(new ItemStack[]{
 						new ItemStack(BlockDefs.wakebloom),
-						new ItemStack(Items.POTIONITEM, 1, 0),
+						new ItemStack(Items.POTION, 1, 0),
 						new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_ARCANEASH),
-						new ItemStack(Items.POTIONITEM, 1, 0),
+						new ItemStack(Items.POTION, 1, 0),
 						new ItemStack(BlockDefs.wakebloom)
 				},
 				new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.WATER)));

@@ -11,8 +11,10 @@ import am2.common.packet.AMNetHandler;
 import am2.common.utils.NPCSpells;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -44,7 +46,7 @@ public class EntityArcaneGuardian extends AM2Boss{
 	@Override
 	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
-		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(115D);
+		this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(115D);
 	}
 
 	@Override
@@ -100,7 +102,7 @@ public class EntityArcaneGuardian extends AM2Boss{
 
 	@Override
 	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2){
-		if (par1DamageSource.getSourceOfDamage() == null){
+		if (par1DamageSource.getTrueSource() == null){
 			return super.attackEntityFrom(par1DamageSource, par2);
 		}
 
@@ -111,7 +113,7 @@ public class EntityArcaneGuardian extends AM2Boss{
 	}
 
 	private boolean checkRuneRetaliation(DamageSource damagesource){
-		Entity source = damagesource.getSourceOfDamage();
+		Entity source = damagesource.getTrueSource();
 		if (source instanceof EntityArcaneGuardian) {
 			return true;
 		}
@@ -126,18 +128,18 @@ public class EntityArcaneGuardian extends AM2Boss{
 		float targetRuneRotationY = (float)angle;
 
 		if (isWithin(runeRotationY, targetRuneRotationY, 0.5f)){
-			if (this.getDistanceSqToEntity(source) < 9){
+			if (this.getDistanceSq(source) < 9){
 				double speed = 2.5;
 				double vertSpeed = 0.325;
 
-				deltaZ = source.posZ - this.posZ;
-				deltaX = source.posX - this.posX;
+				deltaZ = source.getPosZ() - this.getPosZ();
+				deltaX = source.getPosX() - this.getPosX();
 				angle = Math.atan2(deltaZ, deltaX);
 
 				double radians = angle;
 
-				if (source instanceof EntityPlayer){
-					AMNetHandler.INSTANCE.sendVelocityAddPacket(source.worldObj, (EntityLivingBase)source, speed * Math.cos(radians), vertSpeed, speed * Math.sin(radians));
+				if (source instanceof PlayerEntity){
+					AMNetHandler.INSTANCE.sendVelocityAddPacket(source.world, (LivingEntity)source, speed * Math.cos(radians), vertSpeed, speed * Math.sin(radians));
 				}
 				source.motionX = (speed * Math.cos(radians));
 				source.motionZ = (speed * Math.sin(radians));
@@ -162,7 +164,7 @@ public class EntityArcaneGuardian extends AM2Boss{
 	public Entity getTarget(){
 		int eid = this.dataManager.get(DW_TARGET_ID);
 		if (eid == -1) return null;
-		return this.worldObj.getEntityByID(eid);
+		return this.world.getEntityByID(eid);
 	}
 
 	public float getRuneRotationZ(){

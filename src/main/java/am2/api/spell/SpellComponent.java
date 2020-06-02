@@ -5,10 +5,11 @@ import java.util.Set;
 
 import am2.api.affinity.Affinity;
 import am2.common.config.AMConfig;
+
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -26,7 +27,7 @@ public abstract class SpellComponent extends AbstractSpellPart {
 	 * @param caster    The caster of the spell
 	 * @return True if the effect was successfully applied to the block
 	 */
-	public abstract boolean applyEffectBlock(SpellData spell, World world, BlockPos blockPos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster);
+	public abstract boolean applyEffectBlock(SpellData spell, World world, BlockPos blockPos, Direction blockFace, double impactX, double impactY, double impactZ, LivingEntity caster);
 
 	/**
 	 * Apply the effect to a single entity
@@ -37,7 +38,7 @@ public abstract class SpellComponent extends AbstractSpellPart {
 	 * @param target The current target of the spell
 	 * @return True if the effect was applied successfully to the entity
 	 */
-	public abstract boolean applyEffectEntity(SpellData spell, World world, EntityLivingBase caster, Entity target);
+	public abstract boolean applyEffectEntity(SpellData spell, World world, LivingEntity caster, Entity target);
 
 	/**
 	 * Gets the mana cost of the spell
@@ -48,14 +49,14 @@ public abstract class SpellComponent extends AbstractSpellPart {
 	 * Gets any reagents that must be present in the caster's inventory in order
 	 * to cast the spell.
 	 */
-	public abstract ItemStack[] reagents(EntityLivingBase caster);
+	public abstract ItemStack[] reagents(LivingEntity caster);
 
 	/**
 	 * Spawn visual effects for the component
 	 *
 	 * @param colorModifier The color from the color modifier.  -1 if missing.
 	 */
-	public abstract void spawnParticles(World world, double x, double y, double z, EntityLivingBase caster, Entity target, Random rand, int colorModifier);
+	public abstract void spawnParticles(World world, double x, double y, double z, LivingEntity caster, Entity target, Random rand, int colorModifier);
 
 	/**
 	 * Gets the affinity of the spell
@@ -65,7 +66,7 @@ public abstract class SpellComponent extends AbstractSpellPart {
 	/**
 	 * Gets the burnout of the spell
 	 */
-	public float burnout(EntityLivingBase caster) {
+	public float burnout(LivingEntity caster) {
 		return manaCost() * AMConfig.MANA_BURNOUT_RATIO;
 	}
 	

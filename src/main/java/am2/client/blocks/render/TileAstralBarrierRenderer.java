@@ -4,7 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import am2.client.models.ModelAstralBarrier;
 import am2.common.blocks.tileentity.TileEntityAstralBarrier;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+
 import net.minecraft.util.ResourceLocation;
 
 public class TileAstralBarrierRenderer extends TileEntitySpecialRenderer<TileEntityAstralBarrier>{

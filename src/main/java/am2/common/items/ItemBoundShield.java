@@ -3,8 +3,10 @@ package am2.common.items;
 import am2.api.IBoundItem;
 import am2.common.defs.ItemDefs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemShield;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ShieldItem;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.client.resources.I18n;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -12,7 +14,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SuppressWarnings("deprecation")
-public class ItemBoundShield extends ItemShield implements IBoundItem {
+public class ItemBoundShield extends ShieldItem implements IBoundItem {
 
 	public ItemBoundShield() {
 		super();
@@ -27,13 +29,13 @@ public class ItemBoundShield extends ItemShield implements IBoundItem {
 	}
 
 	@Override
-	public boolean onDroppedByPlayer(ItemStack item, EntityPlayer player) {
+	public boolean onDroppedByPlayer(ItemStack item, PlayerEntity player) {
 		item.setItem(ItemDefs.spell);
 		return false;
 	}
 
 	@Override
-	public float maintainCost(EntityPlayer player, ItemStack stack) {
+	public float maintainCost(PlayerEntity player, ItemStack stack) {
 		return normalMaintain;
 	}
 	

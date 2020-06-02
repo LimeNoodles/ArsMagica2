@@ -4,6 +4,7 @@ import am2.api.affinity.AbstractAffinityAbility;
 import am2.api.affinity.Affinity;
 import am2.common.extensions.AffinityData;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 
 public class AbilityPhotosynthesis extends AbstractAffinityAbility {
@@ -23,18 +24,18 @@ public class AbilityPhotosynthesis extends AbstractAffinityAbility {
 	}
 	
 	@Override
-	public void applyTick(EntityPlayer player) {
+	public void applyTick(PlayerEntity player) {
 		AffinityData affinityData = AffinityData.For(player);
-		if (player.worldObj.isRemote) return;
+		if (player.world.isRemote) return;
 		
-		if (player.worldObj.canBlockSeeSky(player.getPosition()) && player.worldObj.isDaytime()){
+		if (player.world.canBlockSeeSky(player.getPosition()) && player.world.isDaytime()){
 			affinityData.accumulatedHungerRegen += 0.02f;
 			if (affinityData.accumulatedHungerRegen > 1.0f){
-				((EntityPlayer)player).getFoodStats().addStats(1, 0.025f);
+				((PlayerEntity)player).getFoodStats().addStats(1, 0.025f);
 				affinityData.accumulatedHungerRegen -= 1;
 			}
 		}else{
-			((EntityPlayer)player).addExhaustion(0.025f);
+			((PlayerEntity)player).addExhaustion(0.025f);
 		}
 	}
 

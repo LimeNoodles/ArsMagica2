@@ -2,7 +2,8 @@ package am2.common.affinity.abilities;
 
 import am2.api.affinity.AbstractAffinityAbility;
 import am2.api.affinity.Affinity;
-import net.minecraft.entity.player.EntityPlayer;
+
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 
 public class AbilityExpandedLungs extends AbstractAffinityAbility {
@@ -22,8 +23,8 @@ public class AbilityExpandedLungs extends AbstractAffinityAbility {
 	}
 
 	@Override
-	public void applyTick(EntityPlayer player) {
-		if (player.isInWater() && player.worldObj.rand.nextInt(20) < 4) {
+	public void applyTick(PlayerEntity player) {
+		if (player.isInWater() && player.world.rand.nextInt(20) < 4) {
 			player.setAir(player.getAir() + 1);
 		}
 	}

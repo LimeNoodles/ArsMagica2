@@ -2,10 +2,12 @@ package am2.common.defs;
 
 import am2.ArsMagica2;
 import am2.common.utils.RenderUtils;
+
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.potion.Effect;
 import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 
 public class AMPotion extends Potion {
@@ -25,7 +27,7 @@ public class AMPotion extends Potion {
 	}
 	
 	@Override
-	public void renderInventoryEffect(int x, int y, PotionEffect effect, Minecraft mc) {
+	public void renderInventoryEffect(int x, int y, Effect effect, Minecraft mc) {
 		mc.renderEngine.bindTexture(new ResourceLocation(ArsMagica2.MODID, "textures/gui/buffs_1.png"));
 		float f = 1F/256F;
 		GlStateManager.enableBlend();
@@ -33,7 +35,7 @@ public class AMPotion extends Potion {
 	}
 	
 	@Override
-	public void renderHUDEffect(int x, int y, PotionEffect effect, Minecraft mc, float alpha) {
+	public void renderHUDEffect(int x, int y, Effect effect, Minecraft mc, float alpha) {
 		renderInventoryEffect(x - 3, y - 3, effect, mc);
 	}
 

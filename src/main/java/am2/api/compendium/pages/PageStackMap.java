@@ -6,7 +6,8 @@ import java.util.Map.Entry;
 
 import am2.api.compendium.wrapper.StackMapWrapper;
 import am2.client.gui.controls.GuiButtonCompendiumNext;
-import net.minecraft.client.gui.GuiButton;
+
+import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.ItemStack;
 
@@ -23,18 +24,18 @@ public class PageStackMap extends CompendiumPage<StackMapWrapper> {
 	}
 	
 	@Override
-	public GuiButton[] getButtons(int id, int posX, int posY) {
+	public Button[] getButtons(int id, int posX, int posY) {
 		if (nextPage == null)
 			nextPage = new GuiButtonCompendiumNext(id++, posX + 125, posY + 20, true);
 		if (prevPage == null)
 			prevPage = new GuiButtonCompendiumNext(id++, posX + 5, posY + 20, false);
 		nextPage.visible = page < maxPages;
 		prevPage.visible = page > 0;
-		return new GuiButton[] {nextPage, prevPage};
+		return new Button[] {nextPage, prevPage};
 	}
 	
 	@Override
-	public void actionPerformed(GuiButton button) throws IOException {
+	public void actionPerformed(Button button) throws IOException {
 		if (button == nextPage) {
 			page++;
 			if (page > maxPages)
@@ -64,11 +65,11 @@ public class PageStackMap extends CompendiumPage<StackMapWrapper> {
 	@Override
 	protected void renderPage(int posX, int posY, int mouseX, int mouseY) {
 		String loc = element.getLocalizedName();
-		mc.fontRendererObj.drawString(loc, posX + 72 - (mc.fontRendererObj.getStringWidth(loc) / 2), posY, 0x000000);
+		mc.fontRenderer.drawString(loc, posX + 72 - (mc.fontRenderer.getStringWidth(loc) / 2), posY, 0x000000);
 		int index = 0;
 		int offsetX = 16;
 		int offsetY = 24;
-		RenderHelper.enableGUIStandardItemLighting();
+		RenderHelper.enableStandardItemLighting();
 		int max = -1;
 		HashMap<ItemStack, Integer> map = new HashMap<>();
 		map.putAll(element.getInput());
@@ -83,8 +84,8 @@ public class PageStackMap extends CompendiumPage<StackMapWrapper> {
 					int entryPage = (int) Math.floor(index / 24D);
 					index++;
 					if (entryPage == page) {
-						mc.getRenderItem().renderItemIntoGUI(entry.getKey(), posX + offsetX, posY + offsetY);
-						mc.fontRendererObj.drawString(entry.getValue().toString(), posX + offsetX + 8 - (mc.fontRendererObj.getStringWidth(entry.getValue().toString()) / 2), posY + offsetY + 18, 0xffffff);
+						mc.getItemRenderer().renderItemIntoGUI(entry.getKey(), posX + offsetX, posY + offsetY);
+						mc.fontRenderer.drawString(entry.getValue().toString(), posX + offsetX + 8 - (mc.fontRendererObj.getStringWidth(entry.getValue().toString()) / 2), posY + offsetY + 18, 0xffffff);
 					}
 					if (mouseX > posX + offsetX && mouseX < posX + offsetX + 16 && mouseY > posY + offsetY && mouseY < posY + offsetY + 16)
 						tip = entry.getKey();

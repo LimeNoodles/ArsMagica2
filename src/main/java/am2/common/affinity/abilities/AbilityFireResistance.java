@@ -3,8 +3,10 @@ package am2.common.affinity.abilities;
 import am2.api.affinity.AbstractAffinityAbility;
 import am2.api.affinity.Affinity;
 import am2.common.extensions.AffinityData;
-import net.minecraft.entity.player.EntityPlayer;
+
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
+
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
 public class AbilityFireResistance extends AbstractAffinityAbility {
@@ -24,7 +26,8 @@ public class AbilityFireResistance extends AbstractAffinityAbility {
 	}
 	
 	@Override
-	public void applyHurt(EntityPlayer player, LivingHurtEvent event, boolean isAttacker) {
+	public void applyHurt(PlayerEntity player, LivingHurtEvent event, boolean isAttacker)
+	{
 		if (!isAttacker && event.getSource().isFireDamage()) {
 			double fireDepth = AffinityData.For(player).getAffinityDepth(Affinity.FIRE);
 			double reduction = 1 - (0.6f * fireDepth);

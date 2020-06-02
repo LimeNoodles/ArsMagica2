@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttribute;
@@ -17,7 +17,7 @@ import am2.common.utils.ResourceUtils;
 public class BuffStatModifiers {
 	public static final BuffStatModifiers instance = new BuffStatModifiers();
 
-	public void applyStatModifiersBasedOnBuffs(EntityLivingBase entity){
+	public void applyStatModifiersBasedOnBuffs(LivingEntity entity){
 		//entangled
 		applyOrRemoveModifiersForBuff(entity, PotionEffectsDefs.ENTANGLE, ResourceUtils.createHashMap(SharedMonsterAttributes.MOVEMENT_SPEED, entangled));
 		//frost slow
@@ -29,7 +29,7 @@ public class BuffStatModifiers {
 		applyOrRemoveModifiersForBuff(entity, PotionEffectsDefs.FURY, fury);
 	}
 
-	private void applyOrRemoveModifiersForBuff(EntityLivingBase entity, Potion buffID, Map<IAttribute, AttributeModifier> modifiers){
+	private void applyOrRemoveModifiersForBuff(LivingEntity entity, Potion buffID, Map<IAttribute, AttributeModifier> modifiers){
 		if (entity.isPotionActive(buffID)){
 			applyAllModifiers(entity, modifiers);
 		}else{
@@ -37,7 +37,7 @@ public class BuffStatModifiers {
 		}
 	}
 
-	private void applyOrRemoveScalingModifiersForBuff(EntityLivingBase entity, Potion potionID, IAttribute attribute, AttributeModifier... modifiers){
+	private void applyOrRemoveScalingModifiersForBuff(LivingEntity entity, Potion potionID, IAttribute attribute, AttributeModifier... modifiers){
 		IAttributeInstance inst = entity.getEntityAttribute(attribute);
 		if (inst == null) {
 			return;
@@ -60,7 +60,7 @@ public class BuffStatModifiers {
 		}
 	}
 
-	private void applyAllModifiers(EntityLivingBase entity, Map<IAttribute, AttributeModifier> modifiers){
+	private void applyAllModifiers(LivingEntity entity, Map<IAttribute, AttributeModifier> modifiers){
 		for (Entry<IAttribute, AttributeModifier> entry : modifiers.entrySet()){
 			IAttributeInstance inst = entity.getEntityAttribute(entry.getKey());
 			if (inst == null)
@@ -75,7 +75,7 @@ public class BuffStatModifiers {
 		}
 	}
 
-	private void clearAllModifiers(EntityLivingBase entity, Map<IAttribute, AttributeModifier> modifiers){
+	private void clearAllModifiers(LivingEntity entity, Map<IAttribute, AttributeModifier> modifiers){
 		for (Entry<IAttribute, AttributeModifier> entry : modifiers.entrySet()){
 			IAttributeInstance inst = entity.getEntityAttribute(entry.getKey());
 			if (inst == null)

@@ -7,11 +7,11 @@ import am2.api.compendium.CompendiumCategory;
 import am2.api.compendium.CompendiumEntry;
 import am2.common.lore.ArcaneCompendium;
 import am2.common.utils.NBTUtils;
+
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
 
@@ -49,28 +49,28 @@ public interface IArcaneCompendium {
 	public static class Storage implements IStorage<IArcaneCompendium> {
 
 		@Override
-		public NBTBase writeNBT(Capability<IArcaneCompendium> capability, IArcaneCompendium instance, EnumFacing side) {
-			NBTTagCompound compound = new NBTTagCompound();
-			NBTTagCompound am2tag = NBTUtils.getAM2Tag(compound);
-			NBTTagList unlocks = NBTUtils.addCompoundList(am2tag, "Unlocks");
+		public CompoundNBT writeNBT(Capability<IArcaneCompendium> capability, IArcaneCompendium instance, Direction side) {
+			CompoundNBT compound = new CompoundNBT();
+			CompoundNBT am2tag = NBTUtils.getAM2Tag(compound);
+			ListNBT unlocks = NBTUtils.addCompoundList(am2tag, "Unlocks");
 			for (CompendiumCategory categroy : CompendiumCategory.getCategories()) {
 				for (CompendiumEntry entry : categroy.getEntries()) {
-					NBTTagCompound tmp = new NBTTagCompound();
-					tmp.setString("ID", entry.getID());
-					tmp.setBoolean("Unlocked", instance.isUnlocked(entry.getID()));
-					unlocks.appendTag(tmp);
+					CompoundNBT tmp = new CompoundNBT();
+					tmp.putString("ID", entry.getID());
+					tmp.putBoolean("Unlocked", instance.isUnlocked(entry.getID()));
+					unlocks.add(tmp);
 				}
 			}
-			am2tag.setString("Path", instance.getPath());
+			am2tag.putString("Path", instance.getPath());
 			return compound;
 		}
 
 		@Override
 		public void readNBT(Capability<IArcaneCompendium> capability, IArcaneCompendium instance, EnumFacing side, NBTBase nbt) {
-			NBTTagCompound am2tag = NBTUtils.getAM2Tag((NBTTagCompound) nbt);			
-			NBTTagList unlocks = NBTUtils.addCompoundList(am2tag, "Unlocks");
+			CompoundNBT am2tag = NBTUtils.getAM2Tag((CompoundNBT) nbt);
+			ListNBT unlocks = NBTUtils.addCompoundList(am2tag, "Unlocks");
 			for (int i = 0; i < unlocks.tagCount(); i++) {
-				NBTTagCompound tmp = unlocks.getCompoundTagAt(i);
+				CompoundNBT tmp = unlocks.getCompoundTagAt(i);
 				if (tmp.getBoolean("Unlocked")) {
 					instance.unlockEntry(tmp.getString("ID"));
 				}

@@ -1,6 +1,6 @@
 package am2.api.affinity;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 
 public abstract class AbstractToggledAffinityAbility extends AbstractAffinityAbility{
@@ -9,10 +9,10 @@ public abstract class AbstractToggledAffinityAbility extends AbstractAffinityAbi
 		super(identifier);
 	}
 	
-	protected abstract boolean isEnabled(EntityPlayer player);
+	protected abstract boolean isEnabled(PlayerEntity player);
 	
 	@Override
-	public boolean canApply(EntityPlayer player) {
+	public boolean canApply(PlayerEntity player) {
 		return super.canApply(player) && isEnabled(player);
 	}
 }

@@ -1,15 +1,18 @@
 package am2.client.blocks.render;
 
-import org.lwjgl.opengl.GL11;
 
 import am2.ArsMagica2;
 import am2.common.blocks.tileentity.TileEntityBlackAurem;
+
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
+
+import org.lwjgl.opengl.GL11;
 
 public class TileBlackAuremRenderer extends TileEntitySpecialRenderer<TileEntityBlackAurem> {
 	

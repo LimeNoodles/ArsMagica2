@@ -2,8 +2,9 @@ package am2.api.spell;
 
 import am2.api.affinity.Affinity;
 import am2.common.spell.SpellCastResult;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.EnumFacing;
+
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.util.Direction;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 
@@ -49,7 +50,7 @@ public abstract class SpellShape extends AbstractSpellPart{
 	 * @param useCount The number of ticks the spell item has been in use for
 	 * @return The result of the spell cast.
 	 */
-	public abstract SpellCastResult beginStackStage(SpellData spell, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount);
+	public abstract SpellCastResult beginStackStage(SpellData spell, LivingEntity caster, LivingEntity target, World world, double x, double y, double z, Direction side, boolean giveXP, int useCount);
 
 	
 }

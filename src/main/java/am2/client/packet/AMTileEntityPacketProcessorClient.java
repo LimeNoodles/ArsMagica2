@@ -5,18 +5,19 @@ import am2.common.blocks.tileentity.ITileEntityPacketSync;
 import am2.common.packet.AMDataReader;
 import am2.common.packet.AMTileEntityNetHandler;
 import am2.common.packet.AMTileEntityPacketProcessorServer;
+
 import io.netty.buffer.ByteBufInputStream;
+
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientCustomPacketEvent;
-import net.minecraftforge.fml.relauncher.Side;
+
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class AMTileEntityPacketProcessorClient extends AMTileEntityPacketProcessorServer {
-	 
+
 	@SubscribeEvent 
 	public void onPacketData(ClientCustomPacketEvent event) {
 		ByteBufInputStream bbis = new ByteBufInputStream(event.getPacket().payload());
@@ -27,8 +28,8 @@ public class AMTileEntityPacketProcessorClient extends AMTileEntityPacketProcess
 			}
 			//constant details all packets share:  ID, player, and remaining data
 			packetID = bbis.readByte();
-			EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-			World world = player.worldObj;
+			PlayerEntity player = Minecraft.getInstance().player;
+			World world = player.world;
 			byte[] remaining = new byte[bbis.available()];
 			bbis.readFully(remaining);
 			AMDataReader reader = new AMDataReader(remaining, false);

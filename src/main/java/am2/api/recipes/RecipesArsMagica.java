@@ -6,7 +6,8 @@ import java.util.Map;
 import com.google.common.collect.Lists;
 
 import am2.common.blocks.CraftingEssenceExtractor;
-import net.minecraft.entity.player.EntityPlayer;
+
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 
 public abstract class RecipesArsMagica{
@@ -34,11 +35,11 @@ public abstract class RecipesArsMagica{
 		RecipeList.put(RecipeList.size(), newRecipe);
 	}
 
-	public ItemStack GetResult(ItemStack[] items, EntityPlayer player){
+	public ItemStack GetResult(ItemStack[] items, PlayerEntity player){
 		return matchingRecipe(items, player);
 	}
 
-	public ItemStack getRecipeFuel(ItemStack[] contents, EntityPlayer player){
+	public ItemStack getRecipeFuel(ItemStack[] contents, PlayerEntity player){
 		for (int i = 0; i < RecipeList.size(); ++i){
 			RecipeArsMagica item = itemAt(i);
 			if (item.recipeIsMatch(contents)){
@@ -48,7 +49,7 @@ public abstract class RecipesArsMagica{
 		return null;
 	}
 
-	public ItemStack matchingRecipe(ItemStack[] contents, EntityPlayer player){
+	public ItemStack matchingRecipe(ItemStack[] contents, PlayerEntity player){
 		for (int i = 0; i < RecipeList.size(); ++i){
 			RecipeArsMagica item = itemAt(i);
 			if (item.recipeIsMatch(contents)){
@@ -70,7 +71,7 @@ public abstract class RecipesArsMagica{
 	public RecipeArsMagica recipeFor(ItemStack stack){
 		for (int i = 0; i < RecipeList.size(); ++i){
 			RecipeArsMagica item = itemAt(i);
-			if (item.getOutput().getItem() == stack.getItem() && item.getOutput().getItemDamage() == stack.getItemDamage()){
+			if (item.getOutput().getItem() == stack.getItem() && item.getOutput().getDamage() == stack.getDamage()){
 				return item;
 			}
 		}

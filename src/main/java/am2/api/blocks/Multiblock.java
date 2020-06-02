@@ -6,10 +6,10 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.extensions.IForgeBlockState;
 
 public class Multiblock implements IMultiblock{
 	
@@ -59,8 +59,8 @@ public class Multiblock implements IMultiblock{
 		return list;
 	}
 	
-	public HashMap<BlockPos, List<IBlockState>> getStructureLayer(MultiblockGroup selected, int layer) {
-		HashMap<BlockPos, List<IBlockState>> stateMap = new HashMap<>();
+	public HashMap<BlockPos, List<IForgeBlockState>> getStructureLayer(MultiblockGroup selected, int layer) {
+		HashMap<BlockPos, List<IForgeBlockState>> stateMap = new HashMap<>();
 		for (BlockPos entry : selected.getPositions()) {
 			if (entry.getY() == layer)
 				stateMap.put(entry, selected.getStates());

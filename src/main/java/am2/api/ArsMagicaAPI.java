@@ -8,13 +8,17 @@ import am2.api.flickers.AbstractFlickerFunctionality;
 import am2.api.items.armor.ArmorImbuement;
 import am2.api.skill.Skill;
 import am2.api.spell.AbstractSpellPart;
+
 import com.google.common.collect.BiMap;
+
 import net.minecraft.entity.ai.attributes.IAttribute;
 import net.minecraft.entity.ai.attributes.RangedAttribute;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.ModContainer;
-import net.minecraftforge.fml.common.registry.*;
+
+import net.minecraftforge.fml.ModContainer;
+import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.registries.IForgeRegistryEntry;
+import net.minecraftforge.registries.RegistryBuilder;
 
 public class ArsMagicaAPI {
 	

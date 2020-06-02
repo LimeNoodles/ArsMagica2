@@ -3,7 +3,8 @@ package am2.common.affinity.abilities;
 import am2.api.affinity.AbstractAffinityAbility;
 import am2.api.affinity.Affinity;
 import am2.common.extensions.AffinityData;
-import net.minecraft.entity.player.EntityPlayer;
+
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 
 public class AbilityFastHealing extends AbstractAffinityAbility {
@@ -23,9 +24,12 @@ public class AbilityFastHealing extends AbstractAffinityAbility {
 	}
 	
 	@Override
-	public void applyTick(EntityPlayer player) {
+	public void applyTick(EntityPlayer player)
+	{
 		AffinityData.For(player).accumulatedLifeRegen += 0.025 * AffinityData.For(player).getAffinityDepth(Affinity.LIFE);
-		if (AffinityData.For(player).accumulatedLifeRegen > 1.0f){
+
+		if (AffinityData.For(player).accumulatedLifeRegen > 1.0f)
+		{
 			AffinityData.For(player).accumulatedLifeRegen -= 1.0f;
 			player.heal(1);
 		}

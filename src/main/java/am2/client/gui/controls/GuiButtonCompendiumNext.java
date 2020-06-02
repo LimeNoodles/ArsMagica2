@@ -1,14 +1,14 @@
 package am2.client.gui.controls;
 
+import net.minecraft.client.gui.widget.button.Button;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 
-public class GuiButtonCompendiumNext extends GuiButton{
+public class GuiButtonCompendiumNext extends Button {
 	/**
 	 * True for pointing right (next page), false for pointing left (previous page).
 	 */
@@ -34,7 +34,7 @@ public class GuiButtonCompendiumNext extends GuiButton{
 	@Override
 	public void drawButton(Minecraft par1Minecraft, int par2, int par3){
 		if (this.visible){
-			boolean isMousedOver = par2 >= this.xPosition && par3 >= this.yPosition && par2 < this.xPosition + this.width && par3 < this.yPosition + this.height;
+			boolean isMousedOver = par2 >= this.x && par3 >= this.y && par2 < this.x + this.width && par3 < this.y + this.height;
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			par1Minecraft.renderEngine.bindTexture(buttonImage);
 
@@ -49,7 +49,7 @@ public class GuiButtonCompendiumNext extends GuiButton{
 			}
 
 			GL11.glDisable(GL11.GL_LIGHTING);
-			this.drawTexturedModalRect_Classic(this.xPosition, this.yPosition, u, v, 12, 12, 12, 14);
+			this.drawTexturedModalRect_Classic(this.x, this.y, u, v, 12, 12, 12, 14);
 			GL11.glEnable(GL11.GL_LIGHTING);
 		}
 	}
@@ -62,10 +62,10 @@ public class GuiButtonCompendiumNext extends GuiButton{
 		Tessellator var9 = Tessellator.getInstance();
 
 		var9.getBuffer().begin(7, DefaultVertexFormats.POSITION_TEX);
-		var9.getBuffer().pos(dst_x + 0, dst_y + dst_height, this.zLevel).tex((src_x + 0) * var7, (src_y + src_height) * var8).endVertex();
-		var9.getBuffer().pos(dst_x + dst_width, dst_y + dst_height, this.zLevel).tex((src_x + src_width) * var7, (src_y + src_height) * var8).endVertex();
-		var9.getBuffer().pos(dst_x + dst_width, dst_y + 0, this.zLevel).tex((src_x + src_width) * var7, (src_y + 0) * var8).endVertex();
-		var9.getBuffer().pos(dst_x + 0, dst_y + 0, this.zLevel).tex((src_x + 0) * var7, (src_y + 0) * var8).endVertex();
+		var9.getBuffer().pos(dst_x + 0, dst_y + dst_height, Minecraft.getInstance().getItemRenderer().zLevel).tex((src_x + 0) * var7, (src_y + src_height) * var8).endVertex();
+		var9.getBuffer().pos(dst_x + dst_width, dst_y + dst_height, Minecraft.getInstance().getItemRenderer().zLevel).tex((src_x + src_width) * var7, (src_y + src_height) * var8).endVertex();
+		var9.getBuffer().pos(dst_x + dst_width, dst_y + 0, Minecraft.getInstance().getItemRenderer().zLevel).tex((src_x + src_width) * var7, (src_y + 0) * var8).endVertex();
+		var9.getBuffer().pos(dst_x + 0, dst_y + 0, Minecraft.getInstance().getItemRenderer().zLevel).tex((src_x + 0) * var7, (src_y + 0) * var8).endVertex();
 		var9.draw();
 	}
 }

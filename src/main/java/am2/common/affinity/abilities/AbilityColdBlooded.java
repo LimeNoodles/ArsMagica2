@@ -9,6 +9,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
@@ -29,13 +30,13 @@ public class AbilityColdBlooded extends AbstractAffinityAbility {
 	}
 	
 	@Override
-	public void applyTick(EntityPlayer player) {
+	public void applyTick(PlayerEntity player) {
 		IAttributeInstance attribute = player.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
 		AffinityAbilityModifiers.instance.applyOrRemoveModifier(attribute, AffinityAbilityModifiers.iceAffinityColdBlooded, !AffinityAbilityModifiers.instance.isOnIce(player));
 	}
 	
 	@Override
-	public void applyHurt(EntityPlayer player, LivingHurtEvent event, boolean isAttacker) {
+	public void applyHurt(PlayerEntity player, LivingHurtEvent event, boolean isAttacker) {
 		if (!isAttacker && event.getSource().getEntity() instanceof EntityLivingBase){
 			double iceDepth = AffinityData.For(player).getAffinityDepth(Affinity.ICE);
 			BuffEffectFrostSlowed effect = new BuffEffectFrostSlowed(40, 0);
@@ -55,7 +56,7 @@ public class AbilityColdBlooded extends AbstractAffinityAbility {
 	}
 	
 	@Override
-	public void removeEffects(EntityPlayer player) {
+	public void removeEffects(PlayerEntity player) {
 		IAttributeInstance attribute = player.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
 		AffinityAbilityModifiers.instance.applyOrRemoveModifier(attribute, AffinityAbilityModifiers.iceAffinityColdBlooded, false);
 	}

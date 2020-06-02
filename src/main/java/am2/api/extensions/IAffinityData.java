@@ -2,20 +2,22 @@ package am2.api.extensions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.Callable;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
+
 import am2.api.affinity.Affinity;
 import am2.common.extensions.AffinityData;
 import am2.common.utils.NBTUtils;
+import net.minecraftforge.common.util.Constants;
 
 public interface IAffinityData {	
 
@@ -25,65 +27,66 @@ public interface IAffinityData {
 	
 	public HashMap<Affinity, Double> getAffinities();
 
-	public void init(EntityPlayer entity);
+	public void init(PlayerEntity entity);
 	
 	public static class Storage implements IStorage<IAffinityData> {
 		
 		@Override
-		public NBTBase writeNBT(Capability<IAffinityData> capability, IAffinityData instance, EnumFacing side) {
-			NBTTagCompound nbt = new NBTTagCompound();
+		public CompoundNBT writeNBT(Capability<IAffinityData> capability, IAffinityData instance, EnumFacing side) {
+			CompoundNBT nbt = new CompoundNBT();
 			for (Entry<Affinity, Double> entry : instance.getAffinities().entrySet()) {
 				Affinity.writeToNBT(nbt, entry.getKey(), entry.getValue());
 			}
-			NBTTagCompound am2Tag = NBTUtils.getAM2Tag(nbt);
-			NBTTagList cooldowns = NBTUtils.addCompoundList(am2Tag, "Cooldowns");
+			CompoundNBT am2Tag = NBTUtils.getAM2Tag(nbt);
+			ListNBT cooldowns = NBTUtils.addCompoundList(am2Tag, "Cooldowns");
 			for (Entry<String, Integer> entry : instance.getCooldowns().entrySet()) {
-				NBTTagCompound tmp = new NBTTagCompound();
-				tmp.setString("Name", entry.getKey());
-				tmp.setInteger("Value", entry.getValue());
-				cooldowns.appendTag(tmp);
+				CompoundNBT tmp = new CompoundNBT();
+				tmp.put("Name", entry.getKey());
+				tmp.put("Value", entry.getValue());
+				cooldowns.add(tmp);
 			}
 			am2Tag.setTag("Cooldowns", cooldowns);
-			NBTTagList floats = NBTUtils.addCompoundList(am2Tag, "Floats");
-			NBTTagList booleans = NBTUtils.addCompoundList(am2Tag, "Booleans");
+			ListNBT floats = NBTUtils.addCompoundList(am2Tag, "Floats");
+			List booleans = NBTUtils.addCompoundList(am2Tag, "Booleans");
 			for (Entry<String, Float> entry : instance.getAbilityFloatMap().entrySet()) {
-				NBTTagCompound tmp = new NBTTagCompound();
-				tmp.setString("Name", entry.getKey());
-				tmp.setFloat("Value", entry.getValue());
-				floats.appendTag(tmp);
+				CompoundNBT tmp = new CompoundNBT();
+				tmp.putString("Name", entry.getKey());
+				tmp.putFloat("Value", entry.getValue());
+				floats.add(tmp);
 			}
 			for (Entry<String, Boolean> entry : instance.getAbilityBooleanMap().entrySet()) {
-				NBTTagCompound tmp = new NBTTagCompound();
-				tmp.setString("Name", entry.getKey());
-				tmp.setBoolean("Value", entry.getValue());
-				booleans.appendTag(tmp);
+				CompoundNBT tmp = new CompoundNBT();
+				tmp.putString("Name", entry.getKey());
+				tmp.putBoolean("Value", entry.getValue());
+				booleans.add(tmp);
 			}
-			am2Tag.setTag("Floats", floats);
+			am2Tag.put("Floats", floats);
 			am2Tag.setTag("Booleans", booleans);
 			
 			return nbt;
 		}
 
 		@Override
-		public void readNBT(Capability<IAffinityData> capability, IAffinityData instance, EnumFacing side, NBTBase nbt) {
-			ArrayList<Affinity> affinities = Affinity.readFromNBT((NBTTagCompound) nbt);
+		public void readNBT(Capability<IAffinityData> capability, IAffinityData instance, Direction side, CompoundNBT nbt) {
+			ArrayList<Affinity> affinities = Affinity.readFromNBT((CompoundNBT) nbt);
 			for (Affinity aff : affinities) {
-				instance.setAffinityDepth(aff, aff.readDepth((NBTTagCompound) nbt));
+				instance.setAffinityDepth(aff, aff.readDepth((CompoundNBT) nbt));
 			}
-			NBTTagCompound am2Tag = NBTUtils.getAM2Tag((NBTTagCompound) nbt);
-			NBTTagList cooldowns = NBTUtils.addCompoundList(am2Tag, "Cooldowns");
-			NBTTagList floats = NBTUtils.addCompoundList(am2Tag, "Floats");
-			NBTTagList booleans = NBTUtils.addCompoundList(am2Tag, "Booleans");
+
+			CompoundNBT am2Tag = NBTUtils.getAM2Tag((CompoundNBT) nbt);
+			ListNBT cooldowns = NBTUtils.addCompoundList(am2Tag, "Cooldowns");
+			ListNBT floats = NBTUtils.addCompoundList(am2Tag, "Floats");
+			ListNBT booleans = NBTUtils.addCompoundList(am2Tag, "Booleans");
 			for (int i = 0; i < cooldowns.tagCount(); i++) {
-				NBTTagCompound tmp = cooldowns.getCompoundTagAt(i);
+				CompoundNBT tmp = cooldowns.getCompoundTagAt(i);
 				instance.addCooldown(tmp.getString("Name"), tmp.getInteger("Value"));
 			}
 			for (int i = 0; i < floats.tagCount(); i++) {
-				NBTTagCompound tmp = floats.getCompoundTagAt(i);
+				CompoundNBT tmp = floats.getCompoundTagAt(i);
 				instance.addAbilityFloat(tmp.getString("Name"), tmp.getFloat("Value"));
 			}
 			for (int i = 0; i < booleans.tagCount(); i++) {
-				NBTTagCompound tmp = booleans.getCompoundTagAt(i);
+				CompoundNBT tmp = booleans.get(i);
 				instance.addAbilityBoolean(tmp.getString("Name"), tmp.getBoolean("Value"));
 			}
 		}

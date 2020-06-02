@@ -1,14 +1,17 @@
 package am2.client.entity.models;
 
+import net.minecraft.client.renderer.model.Model;
+import net.minecraft.client.renderer.model.ModelRenderer;
+
 import org.lwjgl.opengl.GL11;
 
 import am2.api.affinity.Affinity;
 import am2.common.entity.EntityFlicker;
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelRenderer;
+
 import net.minecraft.entity.Entity;
 
-public class ModelFlicker extends ModelBase{
+public class ModelFlicker extends Model
+{
 	ModelRenderer Body;
 	ModelRenderer Head;
 	ModelRenderer RightArm;

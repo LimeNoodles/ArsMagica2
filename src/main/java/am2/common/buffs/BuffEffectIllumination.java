@@ -2,7 +2,8 @@ package am2.common.buffs;
 
 import am2.common.defs.BlockDefs;
 import am2.common.defs.PotionEffectsDefs;
-import net.minecraft.entity.EntityLivingBase;
+
+import net.minecraft.entity.LivingEntity;
 
 public class BuffEffectIllumination extends BuffEffect{
 
@@ -11,18 +12,18 @@ public class BuffEffectIllumination extends BuffEffect{
 	}
 
 	@Override
-	public void applyEffect(EntityLivingBase entityliving){
+	public void applyEffect(LivingEntity entityliving){
 	}
 
 	@Override
-	public void stopEffect(EntityLivingBase entityliving){
+	public void stopEffect(LivingEntity entityliving){
 	}
 
 	@Override
-	public void performEffect(EntityLivingBase entityliving){
-		if (!entityliving.worldObj.isRemote && entityliving.ticksExisted % 10 == 0) {
-			if (entityliving.worldObj.isAirBlock(entityliving.getPosition()) && entityliving.worldObj.getLight(entityliving.getPosition()) < 7){
-				entityliving.worldObj.setBlockState(entityliving.getPosition(), BlockDefs.invisibleLight.getDefaultState());
+	public void performEffect(LivingEntity entityliving){
+		if (!entityliving.world.isRemote && entityliving.ticksExisted % 10 == 0) {
+			if (entityliving.world.isAirBlock(entityliving.getPosition()) && entityliving.world.getLight(entityliving.getPosition()) < 7){
+				entityliving.world.setBlockState(entityliving.getPosition(), BlockDefs.invisibleLight.getDefaultState());
 			}
 		}
 	}

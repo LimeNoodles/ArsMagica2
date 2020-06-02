@@ -1,9 +1,9 @@
 package am2.common.buffs;
 
 import am2.common.defs.PotionEffectsDefs;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.MobEffects;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.potion.Effect;
+import net.minecraft.potion.Effects;
 
 public class BuffEffectFury extends BuffEffect{
 
@@ -12,19 +12,19 @@ public class BuffEffectFury extends BuffEffect{
 	}
 
 	@Override
-	public void applyEffect(EntityLivingBase entityliving){
+	public void applyEffect(LivingEntity entityliving){
 	}
 
 	@Override
-	public void stopEffect(EntityLivingBase entityliving){
-		if (!entityliving.worldObj.isRemote){
-			entityliving.addPotionEffect(new PotionEffect(MobEffects.HUNGER, 200, 1));
-			entityliving.addPotionEffect(new PotionEffect(MobEffects.NAUSEA, 200, 1));
+	public void stopEffect(LivingEntity entityliving){
+		if (!entityliving.world.isRemote){
+			entityliving.addPotionEffect(new Effect(Effects.HUNGER, 200, 1));
+			entityliving.addPotionEffect(new Effect(Effects.NAUSEA, 200, 1));
 		}
 	}
 
 	@Override
-	public void combine(PotionEffect potioneffect){
+	public void combine(Effect potioneffect){
 	}
 
 	@Override

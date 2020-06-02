@@ -15,14 +15,14 @@ import am2.api.blocks.MultiblockGroup;
 import am2.api.blocks.TypedMultiblockGroup;
 import am2.common.LogHelper;
 import am2.common.defs.BlockDefs;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.init.Blocks;
+
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.common.extensions.IForgeBlockState;
 
 public class RitualShapeHelper {
 	
@@ -34,14 +34,14 @@ public class RitualShapeHelper {
 	public IMultiblock ringedCross = new Multiblock("ringedCross");
 	
 	public boolean matchesRitual(IRitualInteraction ritual, World world, BlockPos pos) {
-		List<EntityItem> items = world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(pos, pos.add(1, 1, 1)).expand(ritual.getRitualReagentSearchRadius(), ritual.getRitualReagentSearchRadius(), ritual.getRitualReagentSearchRadius()));
+		List<ItemEntity> items = world.getEntitiesWithinAABB(ItemEntity.class, new AxisAlignedBB(pos, pos.add(1, 1, 1)).expand(ritual.getRitualReagentSearchRadius(), ritual.getRitualReagentSearchRadius(), ritual.getRitualReagentSearchRadius()));
 		if (!ritual.getRitualShape().matches(world, pos)) {
 			return false;
 		}
 		for (ItemStack stack : ritual.getRitualReagents()) {
 			boolean matches = false;
-			for (EntityItem item : items) {
-				ItemStack is = item.getEntityItem();
+			for (ItemEntity item : items) {
+				ItemStack is = item.getItem();
 				if (is.getItem().equals(stack.getItem()) && (stack.getMetadata() == OreDictionary.WILDCARD_VALUE || is.getMetadata() == stack.getMetadata()) && is.stackSize >= stack.stackSize)
 					matches = true;
 			}
@@ -52,26 +52,26 @@ public class RitualShapeHelper {
 	}
 	
 	public ItemStack[] checkForRitual(IRitualInteraction ritual, World world, BlockPos pos){
-		ArrayList<EntityItem> items = (ArrayList<EntityItem>)world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(pos, pos.add(1, 1, 1)).expand(ritual.getRitualReagentSearchRadius(), ritual.getRitualReagentSearchRadius(), ritual.getRitualReagentSearchRadius()));
-		Collections.sort(items, new EntityItemComparator());
+		ArrayList<ItemEntity> items = (ArrayList<ItemEntity>)world.getEntitiesWithinAABB(ItemEntity.class, new AxisAlignedBB(pos, pos.add(1, 1, 1)).expand(ritual.getRitualReagentSearchRadius(), ritual.getRitualReagentSearchRadius(), ritual.getRitualReagentSearchRadius()));
+		Collections.sort(items, new ItemEntityComparator());
 		ItemStack[] toReturn = new ItemStack[items.size()];
 		for (int i = 0; i < items.size(); ++i)
-			toReturn[i] = items.get(i).getEntityItem();
+			toReturn[i] = items.get(i).getItem();
 		
 		return toReturn;
 	}
 	
 	public void consumeReagents(IRitualInteraction ritual, World world, BlockPos pos) {
-		List<EntityItem> items = world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(pos, pos.add(1, 1, 1)).expand(ritual.getRitualReagentSearchRadius(), ritual.getRitualReagentSearchRadius(), ritual.getRitualReagentSearchRadius()));
+		List<ItemEntity> items = world.getEntitiesWithinAABB(ItemEntity.class, new AxisAlignedBB(pos, pos.add(1, 1, 1)).expand(ritual.getRitualReagentSearchRadius(), ritual.getRitualReagentSearchRadius(), ritual.getRitualReagentSearchRadius()));
 		for (ItemStack stack : ritual.getRitualReagents()) {
-			for (EntityItem item : items) {
-				ItemStack is = item.getEntityItem();
-				if (is.getItem().equals(stack.getItem()) && is.getMetadata() == stack.getMetadata() && is.stackSize >= stack.stackSize) {
+			for (ItemEntity item : items) {
+				ItemStack is = item.getItem();
+				if (is.getItem().equals(stack.getItem()) && is.getMetadata() == stack.getMetadata() && is.getCount() >= stack.getMaxStackSize()) {
 					is.stackSize -= stack.stackSize;
-					if (is.stackSize <= 0)
+					if (is.getCount() <= 0)
 						item.setDead();
 					else
-						item.setEntityItemStack(is);
+						item.setItem(is);
 				}
 			}
 		}
@@ -79,9 +79,9 @@ public class RitualShapeHelper {
 	
 	public void consumeAllReagents(IRitualInteraction interaction, World world, BlockPos pos){
 		int r = interaction.getRitualReagentSearchRadius();
-		List<EntityItem> items = world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(pos, pos.add(1, 1, 1)).expand(r, r, r));
-		for (EntityItem item : items) {
-			LogHelper.debug("Removing Item %s", item.getEntityItem().toString());
+		List<ItemEntity> items = world.getEntitiesWithinAABB(ItemEntity.class, new AxisAlignedBB(pos, pos.add(1, 1, 1)).expand(r, r, r));
+		for (ItemEntity item : items) {
+			LogHelper.debug("Removing Item %s", item.getItem().toString());
 			item.setDead();
 		}
 	}
@@ -89,7 +89,7 @@ public class RitualShapeHelper {
 	public void consumeShape(IRitualInteraction ritual, World world, BlockPos pos) {
 		for (IMultiblockGroup group : ritual.getRitualShape().getMatchingGroups(world, pos)) {
 			for (BlockPos blockPos : group.getPositions()) {
-				IBlockState state = world.getBlockState(pos.add(blockPos));
+				IForgeBlockState state = world.getBlockState(pos.add(blockPos));
 				world.setBlockToAir(pos.add(blockPos));
 				world.notifyBlockUpdate(pos.add(blockPos), state, Blocks.AIR.getDefaultState(), 3);
 			}
@@ -105,7 +105,7 @@ public class RitualShapeHelper {
 	
 	@SuppressWarnings("unchecked")
 	private void corruptionRitual() {
-		HashMap<Integer, IBlockState> corruptionMap = new HashMap<>();
+		HashMap<Integer, IForgeBlockState> corruptionMap = new HashMap<>();
 		corruptionMap.put(0, BlockDefs.wizardChalk.getDefaultState());
 		corruptionMap.put(1, BlockDefs.wardingCandle.getDefaultState());
 		TypedMultiblockGroup defaultRotation = new TypedMultiblockGroup("defaultRotation", Lists.newArrayList(corruptionMap), true);
@@ -271,10 +271,10 @@ public class RitualShapeHelper {
 		ringedCross.addGroup(chalks);
 	}
 	
-	private class EntityItemComparator implements Comparator<EntityItem>{
+	private class ItemEntityComparator implements Comparator<ItemEntity>{
 
 		@Override
-		public int compare(EntityItem o1, EntityItem o2){
+		public int compare(ItemEntity o1, ItemEntity o2){
 			if (o1.ticksExisted == o2.ticksExisted)
 				return 0;
 			else if (o1.ticksExisted > o2.ticksExisted)

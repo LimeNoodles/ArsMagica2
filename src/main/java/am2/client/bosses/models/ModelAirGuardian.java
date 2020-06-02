@@ -1,14 +1,16 @@
 package am2.client.bosses.models;
 
+import net.minecraft.client.renderer.model.Model;
 import org.lwjgl.opengl.GL11;
 
 import am2.client.entity.render.AM2ModelRenderer;
 import am2.common.bosses.BossActions;
 import am2.common.bosses.EntityAirGuardian;
-import net.minecraft.client.model.ModelBase;
+
 import net.minecraft.entity.Entity;
 
-public class ModelAirGuardian extends ModelBase{
+public class ModelAirGuardian extends Model
+{
 	//fields
 	AM2ModelRenderer Ball1;
 	AM2ModelRenderer Ball2;
@@ -21,6 +23,7 @@ public class ModelAirGuardian extends ModelBase{
 	AM2ModelRenderer Head;
 
 	public ModelAirGuardian(){
+		super();
 		textureWidth = 64;
 		textureHeight = 64;
 

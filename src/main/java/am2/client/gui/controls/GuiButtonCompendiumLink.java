@@ -1,17 +1,18 @@
 package am2.client.gui.controls;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+import net.minecraft.client.gui.widget.button.Button;
 import org.lwjgl.opengl.GL11;
 
 import am2.api.compendium.CompendiumCategory;
 import am2.api.compendium.CompendiumEntry;
 import am2.client.gui.AMGuiHelper;
 import am2.client.gui.AMGuiIcons;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.renderer.GlStateManager;
 
-public class GuiButtonCompendiumLink extends GuiButton{
+public class GuiButtonCompendiumLink extends Button {
 	private final FontRenderer fontRenderer;
 	private final CompendiumEntry entry;
 	private final CompendiumCategory category;
@@ -62,8 +63,8 @@ public class GuiButtonCompendiumLink extends GuiButton{
 	@Override
 	public void drawButton(Minecraft par1Minecraft, int par2, int par3){
 		if (this.visible){
-			GlStateManager.color(1, 1, 1, 1);
-			boolean isMousedOver = par2 >= this.xPosition && par3 >= this.yPosition && par2 < this.xPosition + this.width && par3 < this.yPosition + this.height;
+			GlStateManager.colorPointer(1, 1, 1, 1);
+			boolean isMousedOver = par2 >= this.x && par3 >= this.y && par2 < this.x + this.width && par3 < this.y + this.height;
 			
 			int textColor = 0x000000;
 			if (category != null)
@@ -72,11 +73,11 @@ public class GuiButtonCompendiumLink extends GuiButton{
 				textColor = 0x6600FF;
 			}
 
-			fontRenderer.drawString(this.displayString, xPosition, yPosition, textColor);
+			fontRenderer.drawString(this.displayString, x, y, textColor);
 			//GL11.glDisable(GL11.GL_LIGHTING);
 			if (isNewItem){
 				GL11.glColor4f(1, 1, 1, 1);
-				AMGuiHelper.DrawIconAtXY(AMGuiIcons.newEntry, xPosition - 6, yPosition + 2, this.zLevel, 5, 5, true);
+				AMGuiHelper.DrawIconAtXY(AMGuiIcons.newEntry, x - 6, y + 2, Minecraft.getInstance().getItemRenderer().zLevel, 5, 5, true);
 			}
 			//GL11.glEnable(GL11.GL_LIGHTING);
 		}

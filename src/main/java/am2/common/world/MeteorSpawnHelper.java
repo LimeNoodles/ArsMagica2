@@ -7,14 +7,14 @@ import am2.api.math.AMVector3;
 import am2.common.blocks.tileentity.flickers.FlickerOperatorMoonstoneAttractor;
 import am2.common.entity.EntityThrownRock;
 import am2.common.extensions.EntityExtension;
+
 import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
 import net.minecraft.world.biome.Biome;
-import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraft.world.server.ServerWorld;
 
 public class MeteorSpawnHelper{
 	private final Random rand = new Random();
@@ -25,7 +25,7 @@ public class MeteorSpawnHelper{
 	public void tick(){
 		if (ticksSinceLastMeteor == 0){
 			if ( FMLCommonHandler.instance().getMinecraftServerInstance().worldServers.length < 1) return;
-			WorldServer ws = FMLCommonHandler.instance().getMinecraftServerInstance().worldServers[0];
+			ServerWorld ws = FMLCommonHandler.instance().getMinecraftServerInstance().worldServers[0];
 			if (rand.nextInt(2500 + (1000 * ws.provider.getMoonPhase(ws.provider.getWorldTime()))) == 0){
 				spawnMeteor();
 			}
@@ -38,21 +38,21 @@ public class MeteorSpawnHelper{
 		ticksSinceLastMeteor = FMLCommonHandler.instance().getMinecraftServerInstance().getEntityWorld().rand.nextInt(36000) + 12000;
 		if ( FMLCommonHandler.instance().getMinecraftServerInstance().worldServers.length < 1) return;
 
-		WorldServer ws = null;
-		for (WorldServer world : FMLCommonHandler.instance().getMinecraftServerInstance().worldServers){
-			if (world.provider.getDimension() == 0){
+		ServerWorld ws = null;
+		for (ServerWorld world : FMLCommonHandler.instance().getMinecraftServerInstance().worldServers){
+			if (world.getDimension() == 0){
 				ws = world;
 				break;
 			}
 		}
 		if (ws == null) return;
 
-		long time = ws.getWorldTime() % 24000;
+		long time = ws.getGameTime() % 24000;
 		if (time > 14500 && time < 21500){ //night time range (just past dusk and just before dawn)
-			if (ws.playerEntities.size() < 1) return;
+			if (ws.getPlayers().size() < 1) return;
 
-			int playerID = rand.nextInt(ws.playerEntities.size());
-			EntityPlayer player = (EntityPlayer)ws.playerEntities.get(playerID);
+			int playerID = rand.nextInt(ws.getPlayers().size());
+			PlayerEntity player = (PlayerEntity)ws.getPlayers().get(playerID);
 
 			if (EntityExtension.For(player).getCurrentLevel() < ArsMagica2.config.getMeteorMinSpawnLevel()) return;
 

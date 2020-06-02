@@ -21,23 +21,18 @@ import am2.common.packet.AMNetHandler;
 import am2.common.packet.AMPacketIDs;
 import am2.common.spell.ContingencyType;
 import am2.common.utils.EntityUtils;
+
+import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -121,7 +116,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 
 	@Override
 	public boolean hasEnoughMana(float cost) {
-		return this.entity instanceof EntityPlayer && ((EntityPlayer) this.entity).capabilities.isCreativeMode || !(this.getCurrentMana() + this.getBonusCurrentMana() < cost);
+		return this.entity instanceof PlayerEntity && ((PlayerEntity) this.entity).capabilities.isCreativeMode || !(this.getCurrentMana() + this.getBonusCurrentMana() < cost);
 	}
 
 	@Override
@@ -257,10 +252,10 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 		if (currentLevel != this.currentLevel) {
 			this.addSyncCode(SYNC_LEVEL);
 			this.ticksForFullRegen = (int) Math.round(baseTicksForFullRegen * (0.75 - (0.25 * (this.getCurrentLevel() / 99f))));
-			if (this.entity instanceof EntityPlayer) {
-				MinecraftForge.EVENT_BUS.post(new PlayerMagicLevelChangeEvent((EntityPlayer) this.entity, currentLevel));
+			if (this.entity instanceof PlayerEntity) {
+				MinecraftForge.EVENT_BUS.post(new PlayerMagicLevelChangeEvent((PlayerEntity) this.entity, currentLevel));
 				if (this.currentLevel < currentLevel)
-					this.entity.worldObj.playSound(null, this.entity.posX, this.entity.posY, this.entity.posZ, SoundEvents.ENTITY_PLAYER_LEVELUP, this.entity.getSoundCategory(), 0.75F, 1.0F);
+					this.entity.world.playSound(null, this.entity.posX, this.entity.posY, this.entity.posZ, SoundEvents.ENTITY_PLAYER_LEVELUP, this.entity.getSoundCategory(), 0.75F, 1.0F);
 			}
 			this.currentLevel = currentLevel;
 		}
@@ -434,12 +429,12 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 
 	@Override
 	public int getMaxSummons() {
-		return this.entity instanceof EntityPlayer && SkillData.For(this.entity).hasSkill(SkillDefs.EXTRA_SUMMONS.getID()) ? 2 : 3;
+		return this.entity instanceof PlayerEntity && SkillData.For(this.entity).hasSkill(SkillDefs.EXTRA_SUMMONS.getID()) ? 2 : 3;
 	}
 
 	@Override
-	public boolean addSummon(EntityCreature entityliving) {
-		if (!this.entity.worldObj.isRemote) {
+	public boolean addSummon(CreatureEntity entityliving) {
+		if (!this.entity.world.isRemote) {
 			this.summon_ent_ids.add(entityliving.getEntityId());
 			this.setCurrentSummons(this.getCurrentSummons() + 1);
 		}
@@ -459,7 +454,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 		this.setCurrentSummons(this.summon_ent_ids.size());
 		for (int i = 0; i < this.summon_ent_ids.size(); ++i) {
 			int id = this.summon_ent_ids.get(i);
-			Entity e = this.entity.worldObj.getEntityByID(id);
+			Entity e = this.entity.world.getEntityByID(id);
 			if (e == null || !(e instanceof EntityLivingBase) || EntityUtils.getOwner((EntityLivingBase) e) != this.entity.getEntityId()) {
 				this.summon_ent_ids.remove(i);
 				i--;
@@ -473,7 +468,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 		if (this.getCurrentSummons() == 0) {
 			return false;
 		}
-		if (!this.entity.worldObj.isRemote) {
+		if (!this.entity.world.isRemote) {
 			this.setCurrentSummons(this.getCurrentSummons() - 1);
 		}
 		return true;
@@ -486,20 +481,20 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 			this.manaLinks.add(mle);
 		else
 			this.manaLinks.remove(mle);
-		if (!this.entity.worldObj.isRemote)
+		if (!this.entity.world.isRemote)
 			AMNetHandler.INSTANCE.sendPacketToAllClientsNear(entity.dimension, entity.posX, entity.posY, entity.posZ, 32, AMPacketIDs.MANA_LINK_UPDATE, this.getManaLinkUpdate());
 
 	}
 
 	@Override
 	public void deductMana(float manaCost) {
-		if (this.entity instanceof EntityPlayer && ((EntityPlayer) this.entity).capabilities.isCreativeMode)
+		if (this.entity instanceof PlayerEntity && ((PlayerEntity) this.entity).capabilities.isCreativeMode)
 			return;
 		float leftOver = manaCost - this.getCurrentMana();
 		this.setCurrentMana(this.getCurrentMana() - manaCost);
 		if (leftOver > 0) {
 			for (ManaLinkEntry entry : this.manaLinks) {
-				leftOver -= entry.deductMana(this.entity.worldObj, this.entity, leftOver);
+				leftOver -= entry.deductMana(this.entity.world, this.entity, leftOver);
 				if (leftOver <= 0)
 					break;
 			}
@@ -511,7 +506,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 		Iterator<ManaLinkEntry> it = this.manaLinks.iterator();
 		while (it.hasNext()) {
 			ManaLinkEntry entry = it.next();
-			Entity e = this.entity.worldObj.getEntityByID(entry.entityID);
+			Entity e = this.entity.world.getEntityByID(entry.entityID);
 			if (e == null)
 				it.remove();
 		}
@@ -521,7 +516,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	public float getBonusCurrentMana() {
 		float bonus = 0;
 		for (ManaLinkEntry entry : this.manaLinks) {
-			bonus += entry.getAdditionalCurrentMana(this.entity.worldObj, this.entity);
+			bonus += entry.getAdditionalCurrentMana(this.entity.world, this.entity);
 		}
 		return bonus;
 	}
@@ -530,7 +525,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	public float getBonusMaxMana() {
 		float bonus = 0;
 		for (ManaLinkEntry entry : this.manaLinks) {
-			bonus += entry.getAdditionalMaxMana(this.entity.worldObj, this.entity);
+			bonus += entry.getAdditionalMaxMana(this.entity.world, this.entity);
 		}
 		return bonus;
 	}
@@ -546,11 +541,11 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 
 	@Override
 	public void spawnManaLinkParticles() {
-		if (this.entity.worldObj != null && this.entity.worldObj.isRemote) {
+		if (this.entity.world != null && this.entity.world.isRemote) {
 			for (ManaLinkEntry entry : this.manaLinks) {
-				Entity e = this.entity.worldObj.getEntityByID(entry.entityID);
+				Entity e = this.entity.world.getEntityByID(entry.entityID);
 				if (e != null && e.getDistanceSqToEntity(this.entity) < entry.range && e.ticksExisted % 90 == 0) {
-					AMLineArc arc = (AMLineArc) ArsMagica2.proxy.particleManager.spawn(this.entity.worldObj, "textures/blocks/oreblockbluetopaz.png", e, this.entity);
+					AMLineArc arc = (AMLineArc) ArsMagica2.proxy.particleManager.spawn(this.entity.world, "textures/blocks/oreblockbluetopaz.png", e, this.entity);
 					if (arc != null) {
 						arc.setIgnoreAge(false);
 						arc.setRBGColorF(0.17f, 0.88f, 0.88f);
@@ -688,7 +683,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 		}
 		float actualMaxMana = this.getMaxMana();
 		if (this.getCurrentMana() < actualMaxMana) {
-			if (this.entity instanceof EntityPlayer && ((EntityPlayer) this.entity).capabilities.isCreativeMode) {
+			if (this.entity instanceof PlayerEntity && ((PlayerEntity) this.entity).capabilities.isCreativeMode) {
 				this.setCurrentMana(actualMaxMana);
 			} else {
 				if (this.getCurrentMana() < 0) {
@@ -703,8 +698,8 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 					regenTicks *= Math.max(0.01, 1.0f - ((pe.getAmplifier() + 1) * 0.25f));
 				}
 
-				if (this.entity instanceof EntityPlayer) {
-					EntityPlayer player = (EntityPlayer) this.entity;
+				if (this.entity instanceof PlayerEntity) {
+					PlayerEntity player = (PlayerEntity) this.entity;
 					int armorSet = ArmorHelper.getFullArsMagicaArmorSet(player);
 					if (armorSet == ArsMagicaArmorMaterial.MAGE.getMaterialID()) {
 						regenTicks *= 0.8;
@@ -741,7 +736,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 			float overloadMana = this.getCurrentMana() - this.getMaxMana();
 			float toRemove = Math.max(overloadMana * 0.002f, 1.0f);
 			this.deductMana(toRemove);
-			if (this.entity instanceof EntityPlayer && SkillData.For(this.entity).hasSkill(SkillDefs.SHIELD_OVERLOAD.getID())) {
+			if (this.entity instanceof PlayerEntity && SkillData.For(this.entity).hasSkill(SkillDefs.SHIELD_OVERLOAD.getID())) {
 				this.addMagicShieldingCapped(toRemove / 500F);
 			}
 		}
@@ -755,8 +750,8 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 
 		if (this.getCurrentBurnout() > 0) {
 			int numArmorPieces = 0;
-			if (this.entity instanceof EntityPlayer) {
-				EntityPlayer player = (EntityPlayer) this.entity;
+			if (this.entity instanceof PlayerEntity) {
+				PlayerEntity player = (PlayerEntity) this.entity;
 				for (int i = 0; i < 4; ++i) {
 					ItemStack stack = player.inventory.armorInventory[i];
 					if (stack == null) continue;
@@ -787,7 +782,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 		this.manaLinks.clear();
 		int numLinks = rdr.getInt();
 		for (int i = 0; i < numLinks; ++i) {
-			Entity e = this.entity.worldObj.getEntityByID(rdr.getInt());
+			Entity e = this.entity.world.getEntityByID(rdr.getInt());
 			if (e != null && e instanceof EntityLivingBase)
 				this.updateManaLink((EntityLivingBase) e);
 		}
@@ -834,7 +829,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 		//this.setInverted(true);
 		boolean flipped = this.getIsFlipped();
 
-		ItemStack boots = ((EntityPlayer) this.entity).inventory.armorInventory[0];
+		ItemStack boots = ((PlayerEntity) this.entity).inventory.armorInventory[0];
 		if (boots == null || boots.getItem() != ItemDefs.enderBoots)
 			this.setInverted(false);
 

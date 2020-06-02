@@ -10,24 +10,13 @@ import am2.common.config.AMConfig;
 import am2.common.config.SpellPartConfiguration;
 import am2.common.packet.MessageBoolean;
 import am2.common.packet.MessageCapabilities;
-import net.minecraftforge.common.ForgeModContainer;
-import net.minecraftforge.fluids.FluidRegistry;
+
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.Mod.Instance;
-import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import net.minecraftforge.fml.relauncher.Side;
 
 
-@Mod(modid=ArsMagica2.MODID, version=ArsMagica2.VERSION, guiFactory=ArsMagica2.GUIFACTORY, canBeDeactivated=false, acceptedMinecraftVersions = "[1.10.2,1.11)")
-public class ArsMagica2 {
-	
+@Mod(ArsMagica2.MODID)
+public class ArsMagica2
+{
 	public static final String MODID = "arsmagica2";
 	public static final String VERSION = "GRADLE:VERSION" + "GRADLE:BUILD";
 	public static final String GUIFACTORY = "am2.client.config.AMGuiFactory";

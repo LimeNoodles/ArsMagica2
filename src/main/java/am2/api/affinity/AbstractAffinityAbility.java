@@ -5,16 +5,18 @@ import javax.annotation.Nullable;
 import am2.api.event.SpellCastEvent;
 import am2.api.extensions.IAffinityData;
 import am2.common.extensions.AffinityData;
+
 import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
+
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
-import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
+import net.minecraftforge.registries.IForgeRegistryEntry;
 
-public abstract class AbstractAffinityAbility extends IForgeRegistryEntry.Impl<AbstractAffinityAbility>{
+public abstract class AbstractAffinityAbility implements IForgeRegistryEntry<AbstractAffinityAbility> {
 	
 	protected AbstractAffinityAbility(ResourceLocation identifier) {
 		this.setRegistryName(identifier);
@@ -59,11 +61,11 @@ public abstract class AbstractAffinityAbility extends IForgeRegistryEntry.Impl<A
 	 * @param player : the current player.
 	 * @return if the player can use this ability.
 	 */
-	public boolean canApply(EntityPlayer player) {
+	public boolean canApply(PlayerEntity player) {
 		return isEligible(player);
 	}
 	
-	public boolean isEligible(EntityPlayer player) {
+	public boolean isEligible(PlayerEntity player) {
 		Affinity aff = this.getAffinity();
 		if (aff == Affinity.NONE || aff == null)
 			return false;
@@ -79,25 +81,25 @@ public abstract class AbstractAffinityAbility extends IForgeRegistryEntry.Impl<A
 	 * 
 	 * @param player : the current player
 	 */
-	public void applyTick(EntityPlayer player) {}
+	public void applyTick(PlayerEntity player) {}
 	
-	public void applyKeyPress(EntityPlayer player) {};
+	public void applyKeyPress(PlayerEntity player) {};
 	
-	public void applyHurt(EntityPlayer player, LivingHurtEvent event, boolean isAttacker) {}
+	public void applyHurt(PlayerEntity player, LivingHurtEvent event, boolean isAttacker) {}
 	
-	public void applyFall(EntityPlayer player, LivingFallEvent event) {}
+	public void applyFall(PlayerEntity player, LivingFallEvent event) {}
 	
-	public void applySpellCast(EntityPlayer player, SpellCastEvent.Post event) {}
+	public void applySpellCast(PlayerEntity player, SpellCastEvent.Post event) {}
 	
-	public void applyPreSpellCast(EntityPlayer player, SpellCastEvent.Pre event) {}
+	public void applyPreSpellCast(PlayerEntity player, SpellCastEvent.Pre event) {}
 	
-	public void applyDeath(EntityPlayer player, LivingDeathEvent event) {}
+	public void applyDeath(PlayerEntity player, LivingDeathEvent event) {}
 	
-	public void applyKill(EntityPlayer player, LivingDeathEvent event) {}
+	public void applyKill(PlayerEntity player, LivingDeathEvent event) {}
 	
-	public void applyJump(EntityPlayer player, LivingJumpEvent event) {}
+	public void applyJump(PlayerEntity player, LivingJumpEvent event) {}
 	
-	public void removeEffects(EntityPlayer player) {}
+	public void removeEffects(PlayerEntity player) {}
 	
 	public boolean hasMax() {
 		return getMaximumDepth() >= 0F && getMaximumDepth() <= 1F && getMaximumDepth() > getMinimumDepth();

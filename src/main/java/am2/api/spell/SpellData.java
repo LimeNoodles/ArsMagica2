@@ -18,18 +18,16 @@ import am2.common.spell.shape.MissingShape;
 import am2.common.utils.AffinityShiftUtils;
 import am2.common.utils.EntityUtils;
 import am2.common.utils.NBTUtils;
+
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.nbt.NBTTagString;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializer;
 import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
@@ -39,20 +37,21 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.registries.DataSerializerEntry;
 
 public class SpellData {
-	
-    public static final DataSerializer<Optional<SpellData>> OPTIONAL_SPELL_DATA = new DataSerializer<Optional<SpellData>>()
+
+    public static final DataSerializerEntry OPTIONAL_SPELL_DATA = new DataSerializerEntry()
 	{
 		@Override
 		public void write(PacketBuffer buf, Optional<SpellData> value) {
-			buf.writeNBTTagCompoundToBuffer(value.isPresent() ? value.orNull().writeToNBT(new NBTTagCompound()) : null);
+			buf.writeCompoundTag(value.isPresent() ? value.orNull().writeToNBT(new CompoundNBT()) : null);
 		}
 
 		@Override
 		public Optional<SpellData> read(PacketBuffer buf) {
 			try {
-				NBTTagCompound tag = buf.readNBTTagCompoundFromBuffer();
+				CompoundNBT tag = buf.readCompoundTag();
 				return Optional.fromNullable(tag != null ? readFromNBT(tag) : null);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -72,7 +71,7 @@ public class SpellData {
 	
 	private List<List<AbstractSpellPart>> stages;
 	private int exec;
-	private NBTTagCompound storedData;
+	private CompoundNBT storedData;
 	private UUID uuid;
 	private ItemStack source;
 	
@@ -88,7 +87,7 @@ public class SpellData {
 		this.storedData = storedData.copy();
 	}
 	
-	public double getModifiedValue(double defaultValue, SpellModifiers mod, BiFunction<Double, Double, Double> operation, World world, EntityLivingBase caster, Entity target) {
+	public double getModifiedValue(double defaultValue, SpellModifiers mod, BiFunction<Double, Double, Double> operation, World world, LivingEntity caster, Entity target) {
 		double outValue = defaultValue;
 		for (List<AbstractSpellPart> parts : stages) {
 			for (AbstractSpellPart part : parts) {
@@ -102,11 +101,11 @@ public class SpellData {
 		return outValue;
 	}
 	
-	public double getModifiedValue(SpellModifiers mod, BiFunction<Double, Double, Double> operation, World world, EntityLivingBase caster, Entity target) {
+	public double getModifiedValue(SpellModifiers mod, BiFunction<Double, Double, Double> operation, World world, LivingEntity caster, Entity target) {
 		return getModifiedValue(mod.defaultValue, mod, operation, world, caster, target);
 	}
 	
-	public int getColor(World world, EntityLivingBase caster, Entity target) {
+	public int getColor(World world, LivingEntity caster, Entity target) {
 		return (int)this.getModifiedValue(-1, SpellModifiers.COLOR, Operation.REPLACE, world, caster, target);
 	}
 	
@@ -135,7 +134,7 @@ public class SpellData {
 		return count;
 	}
 
-	public SpellCastResult execute(World world, EntityLivingBase caster, EntityLivingBase target, double x, double y, double z, @Nullable EnumFacing side) {
+	public SpellCastResult execute(World world, LivingEntity caster, LivingEntity target, double x, double y, double z, @Nullable Direction side) {
 		if (exec < 0 || exec >= stages.size())
 			return SpellCastResult.EFFECT_FAILED;
 		List<AbstractSpellPart> parts = this.stages.get(exec);
@@ -158,11 +157,11 @@ public class SpellData {
 		return result;
 	}
 	
-	public SpellCastResult execute(World world, EntityLivingBase caster) {
-		return execute(world, caster, null, caster.posX, caster.posY, caster.posZ, null);
+	public SpellCastResult execute(World world, LivingEntity caster) {
+		return execute(world, caster, null, caster.getPosX(), caster.getPosY(), caster.getPosZ(), null);
 	}
 	
-	public SpellCastResult applyComponentsToEntity(World world, EntityLivingBase caster, Entity target) {
+	public SpellCastResult applyComponentsToEntity(World world, LivingEntity caster, Entity target) {
 		if (exec < 0 || exec >= stages.size())
 			return SpellCastResult.EFFECT_FAILED;
 		List<AbstractSpellPart> parts = Lists.newArrayList(this.stages.get(exec));
@@ -190,7 +189,7 @@ public class SpellData {
 					}
 					success = true;
 					if (world.isRemote){
-						component.spawnParticles(world, target.posX, target.posY + target.getEyeHeight(), target.posZ, caster, target, world.rand, getColor(world, caster, target));
+						component.spawnParticles(world, target.getPosX(), target.getPosY() + target.getEyeHeight(), target.getPosZ(), caster, target, world.rand, getColor(world, caster, target));
 					}
 				}
 			}
@@ -198,12 +197,12 @@ public class SpellData {
 		return flag ? success ? SpellCastResult.SUCCESS : SpellCastResult.EFFECT_FAILED : SpellCastResult.SUCCESS;
 	}
 	
-	public SpellCastResult applyComponentsToGround(World world, EntityLivingBase caster, BlockPos pos, EnumFacing facing, double x, double y, double z) {
+	public SpellCastResult applyComponentsToGround(World world, LivingEntity caster, BlockPos pos, EnumFacing facing, double x, double y, double z) {
 		if (exec < 0 || exec >= stages.size())
 			return SpellCastResult.EFFECT_FAILED;
 		List<AbstractSpellPart> parts = Lists.newArrayList(this.stages.get(exec));
 		parts.sort(Comparator.naturalOrder());
-		boolean isPlayer = caster instanceof EntityPlayer;
+		boolean isPlayer = caster instanceof PlayerEntity;
 		boolean flag = false;
 		boolean success = false;
 		SpellShape shape = null;
@@ -234,7 +233,7 @@ public class SpellData {
 		return flag ? success ? SpellCastResult.SUCCESS : SpellCastResult.EFFECT_FAILED : SpellCastResult.SUCCESS;
 	}
 	
-	public RayTraceResult raytrace(EntityLivingBase caster, World world, double range, boolean includeEntities, boolean targetWater){
+	public RayTraceResult raytrace(LivingEntity caster, World world, double range, boolean includeEntities, boolean targetWater){
 		RayTraceResult entityPos = null;
 		if (includeEntities){
 			Entity pointedEntity = EntityUtils.getPointedEntity(world, caster, range, 1.0f, false, targetWater);
@@ -330,15 +329,15 @@ public class SpellData {
 		tag.setLong("UUIDMost", uuid.getMostSignificantBits());
 		tag.setLong("UUIDLeast", uuid.getLeastSignificantBits());
 		tag.setInteger("ExecutionStage", exec);
-		tag.setTag("Stack", source.writeToNBT(new NBTTagCompound()));
+		tag.setTag("Stack", source.writeToNBT(new CompoundNBT()));
 		return tag;
 	}
 	
-	public static SpellData readFromNBT(NBTTagCompound tag) {
+	public static SpellData readFromNBT(CompoundNBT tag) {
 		NBTTagList spellCommon = tag.getTagList("Stages", Constants.NBT.TAG_COMPOUND);
 		ArrayList<List<AbstractSpellPart>> stages = new ArrayList<>(spellCommon.tagCount());
 		for (int i = 0; i < spellCommon.tagCount(); i++) {
-			NBTTagCompound tmp = spellCommon.getCompoundTagAt(i);
+			CompoundNBT tmp = spellCommon.getCompoundTagAt(i);
 			int id = tmp.getInteger("ID");
 			NBTTagList parts = tmp.getTagList("Parts", Constants.NBT.TAG_STRING);
 			ArrayList<AbstractSpellPart> pts = new ArrayList<>();
@@ -351,7 +350,7 @@ public class SpellData {
 			NBTUtils.ensureSize(stages, id + 1);
 			stages.set(id, pts);
 		}
-		NBTTagCompound storedData = tag.getCompoundTag("StoredData");
+		CompoundNBT storedData = tag.getCompoundTag("StoredData");
 		SpellData data = new SpellData(ItemStack.loadItemStackFromNBT(tag.getCompoundTag("Stack")), stages, new UUID(tag.getLong("UUIDMost"), tag.getLong("UUIDLeast")), storedData);
 		data.exec = tag.getInteger("ExecutionStage");
 		return data;
@@ -370,11 +369,11 @@ public class SpellData {
 		return data;
 	}
 	
-	public NBTTagCompound getStoredData() {
+	public CompoundNBT getStoredData() {
 		return storedData;
 	}
 	
-	public void setStoredData(NBTTagCompound storedData) {
+	public void setStoredData(CompoundNBT storedData) {
 		this.storedData = storedData;
 	}
 	

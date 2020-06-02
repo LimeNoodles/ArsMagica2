@@ -10,21 +10,16 @@ import am2.api.recipes.RecipesEssenceRefiner;
 import am2.client.gui.AMGuiHelper;
 import am2.common.defs.ItemDefs;
 import am2.common.utils.RecipeUtils;
+
+import com.mojang.blaze3d.platform.GlStateManager;
+import com.sun.prism.TextureMap;
+
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.GlStateManager.DestFactor;
-import net.minecraft.client.renderer.GlStateManager.SourceFactor;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.ShapedRecipes;
-import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
-import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.oredict.ShapedOreRecipe;
-import net.minecraftforge.oredict.ShapelessOreRecipe;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
 public class PageItemStack extends CompendiumPage<ItemStack> {
 	
@@ -60,7 +55,7 @@ public class PageItemStack extends CompendiumPage<ItemStack> {
 		mc.renderEngine.bindTexture(new ResourceLocation("arsmagica2", "textures/gui/ArcaneCompendiumGuiExtras.png"));
 		zLevel++;
 		GlStateManager.enableBlend();
-		GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
+		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 		this.drawTexturedModalRect_Classic(posX + 125, posY + 15, 112, 145, 60, 40, 40, 40);
 		this.drawTexturedModalRect_Classic(posX , posY + 200, 112, 175, 60, 40, 40, 40);
 		drawExtra(cx, cy);
@@ -107,7 +102,7 @@ public class PageItemStack extends CompendiumPage<ItemStack> {
 				int widthSq = (int)Math.ceil(Math.sqrt(recipeWidth));
 		
 				String label = "\247nShapeless";
-				mc.fontRendererObj.drawString(label, cx - (int)(mc.fontRendererObj.getStringWidth(label) / 2.5), cy - step * 3, 0x6600FF);
+				mc.fontRenderer.drawString(label, cx - (int)(mc.fontRenderer.getStringWidth(label) / 2.5), cy - step * 3, 0x6600FF);
 		
 				for (int i = 0; i < recipeWidth; ++i){
 					sx = cx - step + (step * col);
@@ -232,8 +227,8 @@ public class PageItemStack extends CompendiumPage<ItemStack> {
 					recipeHeight = ((ShapedRecipes)recipe).recipeHeight;
 					craftingComponents = ((ShapedRecipes)recipe).recipeItems;
 				}else if (recipe instanceof ShapedOreRecipe){
-					recipeWidth = ReflectionHelper.getPrivateValue(ShapedOreRecipe.class, ((ShapedOreRecipe)recipe), "width");
-					recipeHeight = ReflectionHelper.getPrivateValue(ShapedOreRecipe.class, ((ShapedOreRecipe)recipe), "height");
+					recipeWidth = ObfuscationReflectionHelper.getPrivateValue(ShapedOreRecipe.class, ((ShapedOreRecipe)recipe), "width");
+					recipeHeight = ObfuscationReflectionHelper.getPrivateValue(ShapedOreRecipe.class, ((ShapedOreRecipe)recipe), "height");
 
 					craftingComponents = ((ShapedOreRecipe)recipe).getInput();
 				}else if (recipe instanceof ShapelessRecipes){

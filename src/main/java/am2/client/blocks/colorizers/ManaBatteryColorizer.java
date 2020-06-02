@@ -2,11 +2,9 @@ package am2.client.blocks.colorizers;
 
 import am2.common.blocks.tileentity.TileEntityManaBattery;
 import am2.common.power.PowerTypes;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
 
 public class ManaBatteryColorizer implements IBlockColor{
 	@Override

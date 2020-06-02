@@ -1,8 +1,8 @@
 package am2.common.buffs;
 
 import am2.common.defs.PotionEffectsDefs;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+
+import net.minecraft.entity.LivingEntity;
 
 public class BuffEffectSwiftSwim extends BuffEffect{
 
@@ -11,15 +11,15 @@ public class BuffEffectSwiftSwim extends BuffEffect{
 	}
 
 	@Override
-	public void applyEffect(EntityLivingBase entityliving){
+	public void applyEffect(LivingEntity entityliving){
 	}
 
 	@Override
-	public void stopEffect(EntityLivingBase entityliving){
+	public void stopEffect(LivingEntity entityliving){
 	}
 
 	@Override
-	public void performEffect(EntityLivingBase entityliving){
+	public void performEffect(LivingEntity entityliving){
 		if (entityliving.isInWater()){
 			if (!(entityliving instanceof EntityPlayer) || !((EntityPlayer)entityliving).capabilities.isFlying){
 				entityliving.motionX *= (1.133f + 0.03 * this.getAmplifier());

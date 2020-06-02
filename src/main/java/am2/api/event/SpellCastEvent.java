@@ -1,17 +1,17 @@
 package am2.api.event;
 
 import am2.api.spell.SpellData;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraftforge.fml.common.eventhandler.Event;
+import net.minecraft.entity.LivingEntity;
+import net.minecraftforge.eventbus.api.Event;
 
 public class SpellCastEvent extends Event {
 	
 	public SpellData spell;
 	public float manaCost;
-	public EntityLivingBase entityLiving;
+	public LivingEntity entityLiving;
 	public float burnout;
 	
-	public SpellCastEvent(EntityLivingBase caster, SpellData spell, float manaCost) {
+	public SpellCastEvent(LivingEntity caster, SpellData spell, float manaCost) {
 		this.spell = spell;
 		this.manaCost = manaCost;
 		this.entityLiving = caster;
@@ -20,7 +20,7 @@ public class SpellCastEvent extends Event {
 	public static class Pre extends SpellCastEvent {
 
 
-		public Pre(EntityLivingBase caster, SpellData spell, float manaCost) {
+		public Pre(LivingEntity caster, SpellData spell, float manaCost) {
 			super(caster, spell, manaCost);
 		}
 		
@@ -28,7 +28,7 @@ public class SpellCastEvent extends Event {
 	
 	public static class Post extends SpellCastEvent {
 
-		public Post(EntityLivingBase caster, SpellData spell, float manaCost) {
+		public Post(LivingEntity caster, SpellData spell, float manaCost) {
 			super(caster, spell, manaCost);
 		}
 		

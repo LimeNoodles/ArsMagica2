@@ -8,12 +8,13 @@ import am2.api.sources.DamageSourceLightning;
 import am2.api.sources.DamageSourceUnsummon;
 import am2.api.sources.DamageSourceWTFBoom;
 import am2.api.sources.DamageSourceWind;
+
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
 public class DamageSources{
 	public static DamageSourceUnsummon unsummon = new DamageSourceUnsummon();
@@ -32,37 +33,37 @@ public class DamageSources{
 		HOLY
 	}
 
-	public static DamageSourceFire causeFireDamage(EntityLivingBase source){
+	public static DamageSourceFire causeFireDamage(LivingEntity source){
 		DamageSourceFire fire = new DamageSourceFire(source);
 		fire.setDifficultyScaled();
 		return fire;
 	}
 
-	public static DamageSourceFrost causeFrostDamage(EntityLivingBase source){
+	public static DamageSourceFrost causeFrostDamage(LivingEntity source){
 		DamageSourceFrost frost = new DamageSourceFrost(source);
 		frost.setDifficultyScaled();
 		return frost;
 	}
 
-	public static DamageSourceLightning causeLightningDamage(EntityLivingBase source){
+	public static DamageSourceLightning causeLightningDamage(LivingEntity source){
 		DamageSourceLightning lightning = new DamageSourceLightning(source);
 		lightning.setDifficultyScaled();
 		return lightning;
 	}
 
-	public static DamageSourceWind causeWindDamage(EntityLivingBase source){
+	public static DamageSourceWind causeWindDamage(LivingEntity source){
 		DamageSourceWind wind = new DamageSourceWind(source);
 		wind.setDifficultyScaled();
 		return wind;
 	}
 
-	public static DamageSourceHoly causeHolyDamage(EntityLivingBase source){
+	public static DamageSourceHoly causeHolyDamage(LivingEntity source){
 		DamageSourceHoly holy = new DamageSourceHoly(source);
 		holy.setDifficultyScaled();
 		return holy;
 	}
 
-	public static DamageSource causeDamage(DamageSourceTypes type, EntityLivingBase source){
+	public static DamageSource causeDamage(DamageSourceTypes type, LivingEntity source){
 		switch (type){
 		case FIRE:
 			DamageSourceFire fire = new DamageSourceFire(source);
@@ -90,26 +91,26 @@ public class DamageSources{
 		}
 	}
 
-	public static DamageSource causeDamage(DamageSourceTypes type, EntityLivingBase source, boolean unblockable){
+	public static DamageSource causeDamage(DamageSourceTypes type, LivingEntity source, boolean unblockable){
 		DamageSource ds = causeDamage(type, source);
 		if (unblockable)
 			setDamageSourceUnblockable(ds);
 		return ds;
 	}
 
-	public static DamageSource causeWitherDamage(EntityLivingBase source){
+	public static DamageSource causeWitherDamage(LivingEntity source){
 		return (new EntityDamageSource("wither", source));
 	}
 
-	public static DamageSource causeThornsDamage(EntityLivingBase source){
+	public static DamageSource causeThornsDamage(LivingEntity source){
 		return (new EntityDamageSource("thorns", source));
 	}
 
-	public static DamageSource causeCactusDamage(EntityLivingBase source){
+	public static DamageSource causeCactusDamage(LivingEntity source){
 		return (new EntityDamageSource("cactus", source));
 	}
 
-	public static DamageSource causeMagicDamage(EntityLivingBase source){
+	public static DamageSource causeMagicDamage(LivingEntity source){
 		DamageSource ds = new EntityDamageSource("magic", source);
 		ds.setMagicDamage();
 		setDamageSourceUnblockable(ds);
@@ -117,26 +118,26 @@ public class DamageSources{
 	}
 
 	public static DamageSource causePhysicalDamage(Entity source){
-		if (source instanceof EntityPlayer)
+		if (source instanceof PlayerEntity)
 			return (new EntityDamageSource("player", source));
 		return (new EntityDamageSource("mob", source));
 	}
 
-	public static DamageSource causeWitherDamage(EntityLivingBase source, boolean unblockable){
+	public static DamageSource causeWitherDamage(LivingEntity source, boolean unblockable){
 		DamageSource ds = causeWitherDamage(source);
 		if (unblockable)
 			setDamageSourceUnblockable(ds);
 		return ds;
 	}
 
-	public static DamageSource causeThornsDamage(EntityLivingBase source, boolean unblockable){
+	public static DamageSource causeThornsDamage(LivingEntity source, boolean unblockable){
 		DamageSource ds = causeThornsDamage(source);
 		if (unblockable)
 			setDamageSourceUnblockable(ds);
 		return ds;
 	}
 
-	public static DamageSource causeCactusDamage(EntityLivingBase source, boolean unblockable){
+	public static DamageSource causeCactusDamage(LivingEntity source, boolean unblockable){
 		DamageSource ds = causeCactusDamage(source);
 		if (unblockable)
 			setDamageSourceUnblockable(ds);
@@ -144,11 +145,11 @@ public class DamageSources{
 	}
 
 	public static DamageSource setDamageSourceUnblockable(DamageSource original){
-		ReflectionHelper.setPrivateValue(DamageSource.class, original, true, "field_76374_o", "isUnblockable");
+		ObfuscationReflectionHelper.setPrivateValue(DamageSource.class, original, true, "field_76374_o", "isUnblockable");
 		return original;
 	}
 
-	public static DamageSource causeDrownDamage(EntityLivingBase source){
+	public static DamageSource causeDrownDamage(LivingEntity source){
 		return (new EntityDamageSource("drown", source));
 	}
 

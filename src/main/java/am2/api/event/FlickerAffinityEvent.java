@@ -4,8 +4,9 @@ import java.util.ArrayList;
 
 import am2.api.affinity.Affinity;
 import am2.common.entity.EntityFlicker;
+
 import net.minecraft.world.biome.Biome;
-import net.minecraftforge.fml.common.eventhandler.Event;
+import net.minecraftforge.eventbus.api.Event;
 
 public class FlickerAffinityEvent extends Event {
 	

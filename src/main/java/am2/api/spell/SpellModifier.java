@@ -3,8 +3,8 @@ package am2.api.spell;
 import java.util.EnumSet;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.world.World;
 
 public abstract class SpellModifier extends AbstractSpellPart{
@@ -30,7 +30,7 @@ public abstract class SpellModifier extends AbstractSpellPart{
 	 * @param metadata Any metadata written to the spell for this modifier (obtained from getModifierMetadata)
 	 * @return A factor to multiply the default value by (or add, depending on the component's programming)
 	 */
-	public abstract float getModifier(SpellModifiers type, EntityLivingBase caster, Entity target, World world, NBTTagCompound nbt);
+	public abstract float getModifier(SpellModifiers type, LivingEntity caster, Entity target, World world, CompoundNBT nbt);
 
 	/**
 	 * Gets the amount that adding this modifier to the spell alters the mana cost.

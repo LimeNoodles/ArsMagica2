@@ -2,8 +2,9 @@ package am2.common.affinity.abilities;
 
 import am2.api.affinity.AbstractAffinityAbility;
 import am2.api.affinity.Affinity;
-import net.minecraft.entity.monster.EntityEnderman;
-import net.minecraft.entity.player.EntityPlayer;
+
+import net.minecraft.entity.monster.EndermanEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -25,9 +26,9 @@ public class AbilityAntiEndermen extends AbstractAffinityAbility {
 	}
 	
 	@Override
-	public void applyHurt(EntityPlayer player, LivingHurtEvent event, boolean isAttacker) {
-		if (!isAttacker && event.getSource().getSourceOfDamage() instanceof EntityEnderman){
-			event.getSource().getSourceOfDamage().attackEntityFrom(DamageSource.drown, 2);
+	public void applyHurt(PlayerEntity player, LivingHurtEvent event, boolean isAttacker) {
+		if (!isAttacker && event.getSource()..getSourceOfDamage() instanceof EndermanEntity ){
+			event.getSource().getSourceOfDamage().attackEntityFrom(DamageSource.DROWN, 2);
 		}
 	}
 

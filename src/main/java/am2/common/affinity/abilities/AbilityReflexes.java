@@ -3,9 +3,10 @@ package am2.common.affinity.abilities;
 import am2.api.affinity.AbstractAffinityAbility;
 import am2.api.affinity.Affinity;
 import am2.common.affinity.AffinityAbilityModifiers;
+
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 
 public class AbilityReflexes extends AbstractAffinityAbility {
@@ -25,14 +26,15 @@ public class AbilityReflexes extends AbstractAffinityAbility {
 	}
 	
 	@Override
-	public void applyTick(EntityPlayer player) {
-		IAttributeInstance attribute = player.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
+	public void applyTick(PlayerEntity player) {
+		IAttributeInstance attribute = player.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
 		AffinityAbilityModifiers.instance.applyOrRemoveModifier(attribute, AffinityAbilityModifiers.lightningAffinitySpeed, true);
 	}
 	
 	@Override
-	public void removeEffects(EntityPlayer player) {
-		IAttributeInstance attribute = player.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
+	public void removeEffects(PlayerEntity player)
+	{
+		IAttributeInstance attribute = player.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
 		AffinityAbilityModifiers.instance.applyOrRemoveModifier(attribute, AffinityAbilityModifiers.lightningAffinitySpeed, false);
 	}
 

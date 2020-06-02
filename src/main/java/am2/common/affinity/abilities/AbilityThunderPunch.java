@@ -3,7 +3,9 @@ package am2.common.affinity.abilities;
 import am2.api.affinity.AbstractAffinityAbility;
 import am2.api.affinity.Affinity;
 import net.minecraft.entity.effect.EntityLightningBolt;
+import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
@@ -24,9 +26,9 @@ public class AbilityThunderPunch extends AbstractAffinityAbility {
 	}
 	
 	@Override
-	public void applyHurt(EntityPlayer player, LivingHurtEvent event, boolean isAttacker) {
-		if (isAttacker && !player.worldObj.isRemote && player.getHeldItemMainhand() == null) {
-			player.worldObj.addWeatherEffect(new EntityLightningBolt(player.worldObj, event.getEntityLiving().posX, event.getEntityLiving().posY, event.getEntityLiving().posZ, false));
+	public void applyHurt(PlayerEntity player, LivingHurtEvent event, boolean isAttacker) {
+		if (isAttacker && !player.world.isRemote && player.getHeldItemMainhand() == null) {
+			player.world.addWeatherEffect(new LightningBoltEntity(player.world, event.getEntityLiving().posX, event.getEntityLiving().posY, event.getEntityLiving().posZ, false));
 		} 
 	}
 }

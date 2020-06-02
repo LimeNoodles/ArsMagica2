@@ -4,8 +4,9 @@ import am2.api.affinity.AbstractToggledAffinityAbility;
 import am2.api.affinity.Affinity;
 import am2.common.extensions.AffinityData;
 import am2.common.utils.WorldUtils;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 
@@ -26,20 +27,20 @@ public class AbilityWaterFreeze extends AbstractToggledAffinityAbility {
 	}
 
 	@Override
-	public void applyTick(EntityPlayer player) {
-		if (player.worldObj.isRemote) return;
-		BlockPos startPos = new BlockPos(player.posX, Math.floor(player.posY), player.posZ);
+	public void applyTick(PlayerEntity player) {
+		if (player.world.isRemote) return;
+		BlockPos startPos = new BlockPos(player.getPosX(), Math.floor(player.getPosY()), player.getPosZ());
 		for (int x = -1; x <= 1; x++) {
 			for (int z = -1; z <= 1; z++) {
 				BlockPos newPos = startPos.add(x, -1, z);
-				if (player.worldObj.getBlockState(newPos).getBlock() == Blocks.WATER || player.worldObj.getBlockState(newPos).getBlock() == Blocks.FLOWING_WATER)
-					WorldUtils.freeze(newPos, player.worldObj);
+				if (player.world.getBlockState(newPos).getBlock() == Blocks.WATER || player.world.getBlockState(newPos).getBlock() == Blocks.WATER)
+					WorldUtils.freeze(newPos, player.world);
 			}
 		}
 	}
 
 	@Override
-	protected boolean isEnabled(EntityPlayer player) {
+	protected boolean isEnabled(PlayerEntity player) {
 		return AffinityData.For(player).getAbilityBoolean(AffinityData.ICE_BRIDGE_STATE);
 	}
 

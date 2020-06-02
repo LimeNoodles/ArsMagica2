@@ -3,24 +3,25 @@ package am2.api.blocks;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import net.minecraftforge.common.extensions.IForgeBlockState;
+
 public class TypedMultiblockGroup extends MultiblockGroup{
 	
-	protected ArrayList<HashMap<Integer, IBlockState>> states;
+	protected ArrayList<HashMap<Integer, IForgeBlockState >> states;
 	protected HashMap<BlockPos, Integer> groups = new HashMap<>();
 	
-	private static ArrayList<IBlockState> createStateList(ArrayList<HashMap<Integer, IBlockState>> arrayList) {
-		ArrayList<IBlockState> stateMap = new ArrayList<>();
-		for (HashMap<Integer, IBlockState> map : arrayList) {
+	private static ArrayList<IForgeBlockState> createStateList(ArrayList<HashMap<Integer, IForgeBlockState>> arrayList) {
+		ArrayList<IForgeBlockState> stateMap = new ArrayList<>();
+		for (HashMap<Integer, IForgeBlockState> map : arrayList) {
 			stateMap.addAll(map.values());
 		}
 		return stateMap;
 	}
 	
-	public TypedMultiblockGroup(String name, ArrayList<HashMap<Integer, IBlockState>> arrayList, boolean ignoreState) {
+	public TypedMultiblockGroup(String name, ArrayList<HashMap<Integer, IForgeBlockState>> arrayList, boolean ignoreState) {
 		super(name, createStateList(arrayList), ignoreState);
 		this.states = arrayList;
 	}
@@ -41,9 +42,9 @@ public class TypedMultiblockGroup extends MultiblockGroup{
 	}
 	
 	@Override
-	public ArrayList<IBlockState> getState(BlockPos pos) {
-		ArrayList<IBlockState> state = new ArrayList<>();
-		for (HashMap<Integer, IBlockState> map : states) {
+	public ArrayList<IForgeBlockState> getState(BlockPos pos) {
+		ArrayList<IForgeBlockState> state = new ArrayList<>();
+		for (HashMap<Integer, IForgeBlockState> map : states) {
 			state.add(map.get(getGroup(pos)));
 		}
 		return state;
@@ -51,16 +52,16 @@ public class TypedMultiblockGroup extends MultiblockGroup{
 	
 	@Override
 	public boolean matches(World world, BlockPos startCheckPos) {
-		for (HashMap<Integer, IBlockState> map : states) {
+		for (HashMap<Integer, IForgeBlockState> map : states) {
 			boolean subFlag = false;
 			for (BlockPos pos : positions) {
-				IBlockState checkState = world.getBlockState(startCheckPos.add(pos));
-				IBlockState state = map.get(getGroup(pos));
+				IForgeBlockState checkState = world.getBlockState(startCheckPos.add(pos));
+				IForgeBlockState state = map.get(getGroup(pos));
 				if (ignoreState) {
-					subFlag = checkState.getBlock().equals(state.getBlock());
+					subFlag = checkState.getBlockState().equals(state.getBlockState());
 				}
 				else {
-					subFlag = checkState.getBlock() == state.getBlock() && checkState.getBlock().getMetaFromState(checkState) == state.getBlock().getMetaFromState(state);
+					subFlag = checkState.getBlockState() == state.getBlockState() && checkState.getBlockState().getMetaFromState(checkState) == state.getBlockState().getMetaFromState(state);
 				}
 				if (!subFlag)
 					break;

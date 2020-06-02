@@ -9,20 +9,17 @@ import am2.common.blocks.tileentity.TileEntityObelisk;
 import am2.common.bosses.IArsMagicaBoss;
 import am2.common.entity.EntityHecate;
 import am2.common.power.PowerNodeRegistry;
+
 import io.netty.buffer.Unpooled;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.network.FMLEventChannel;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
-import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
-import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.network.NetworkRegistry;
 
 public class AMNetHandler{
 
@@ -51,7 +48,7 @@ public class AMNetHandler{
 		}
 	}
 
-	public void sendPacketToClientPlayer(EntityPlayerMP player, byte packetID, byte[] data){
+	public void sendPacketToClientPlayer(PlayerEntity player, byte packetID, byte[] data){
 
 		//first byte is ID, followed by data
 		byte[] pkt_data = new byte[data.length + 1];
@@ -97,7 +94,7 @@ public class AMNetHandler{
 		Channel.sendToAllAround(packet, new TargetPoint(dimension, ox, oy, oz, radius));
 	}
 
-	public void sendVelocityAddPacket(World world, EntityLivingBase target, double velX, double velY, double velZ){
+	public void sendVelocityAddPacket(World world, LivingEntity target, double velX, double velY, double velZ){
 		if (world.isRemote){
 			return;
 		}

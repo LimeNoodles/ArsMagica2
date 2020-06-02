@@ -4,19 +4,20 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
+import net.minecraftforge.common.extensions.IForgeBlockState;
+
 public class StackMapWrapper {
 	
-	private static Map<ItemStack, Integer> wrapBlockMap(Map<IBlockState, Integer> input) {
+	private static Map<ItemStack, Integer> wrapBlockMap(Map<IForgeBlockState, Integer> input) {
 		HashMap<ItemStack, Integer> wrappedMap = new HashMap<>();
-		for (Entry<IBlockState, Integer> entry : input.entrySet()) {
+		for (Entry<IForgeBlockState, Integer> entry : input.entrySet()) {
 			if (entry.getValue() == null) continue;
 			if (entry.getKey() == null) continue;
-			Item item = Item.getItemFromBlock(entry.getKey().getBlock());
+			Item item = Item.getItemFromBlock(entry.getKey().getBlockState().getBlock());
 			if (item == null) continue;
 			wrappedMap.put(new ItemStack(item, 1, entry.getKey().getBlock().getMetaFromState(entry.getKey())), entry.getValue());
 		}
@@ -62,7 +63,7 @@ public class StackMapWrapper {
 		this.name = name;
 	}
 	
-	public StackMapWrapper(Map<IBlockState, Integer> input, String name, boolean placeholder) {
+	public StackMapWrapper(Map<IForgeBlockState, Integer> input, String name, boolean placeholder) {
 		this(wrapBlockMap(input), name);
 	}
 	

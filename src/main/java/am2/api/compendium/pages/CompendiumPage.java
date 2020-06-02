@@ -17,23 +17,23 @@ import am2.api.skill.Skill;
 import am2.api.spell.AbstractSpellPart;
 import am2.common.defs.ItemDefs;
 import am2.common.power.PowerTypes;
+
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.renderer.vertex.VertexBuffer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
-import net.minecraft.item.ItemBlock;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SideOnly(Side.CLIENT)
+//todo @SideOnly(Side.CLIENT)
 public abstract class CompendiumPage<E> {
 	
 	private static final HashMap<Class<?>, Class<? extends CompendiumPage<?>>> HANDLERS = new HashMap<>();
@@ -81,7 +81,7 @@ public abstract class CompendiumPage<E> {
 	
 	public void switchButtonDisplay(boolean shouldShow) {}
 	
-	public void actionPerformed(GuiButton button) throws IOException {}
+	public void actionPerformed(Button button) throws IOException {}
 	
 	public void dragMouse(int mouseX, int mouseY, int clickedMouseButton, long timeSinceLastClick) {}
 	
@@ -120,7 +120,7 @@ public abstract class CompendiumPage<E> {
 //			}
 
 			this.zLevel = 300.0F;
-			Minecraft.getMinecraft().getRenderItem().zLevel = 300.0F;
+			Minecraft.getInstance().getItemRenderer().zLevel = 300.0F;
 			int l1 = -267386864;
 			this.drawGradientRect(i1 - 3, j1 - 4, i1 + k + 3, j1 - 3, l1, l1);
 			this.drawGradientRect(i1 - 3, j1 + k1 + 3, i1 + k + 3, j1 + k1 + 4, l1, l1);
@@ -146,9 +146,9 @@ public abstract class CompendiumPage<E> {
 			}
 
 			this.zLevel = 0.0F;
-			Minecraft.getMinecraft().getRenderItem().zLevel = 0.0F;
+			Minecraft.getInstance().getItemRenderer().zLevel = 0.0F;
 			GlStateManager.enableLighting();
-			GlStateManager.enableDepth();
+			GlStateManager.enableDepthTest();
 			RenderHelper.enableStandardItemLighting();
 			GlStateManager.enableRescaleNormal();
 		}
@@ -170,7 +170,7 @@ public abstract class CompendiumPage<E> {
         GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
         GlStateManager.shadeModel(7425);
         Tessellator tessellator = Tessellator.getInstance();
-        VertexBuffer vertexbuffer = tessellator.getBuffer();
+        BufferBuilder vertexbuffer = tessellator.getBuffer();
         vertexbuffer.begin(7, DefaultVertexFormats.POSITION_COLOR);
         vertexbuffer.pos((double)right, (double)top, (double)this.zLevel).color(f1, f2, f3, f).endVertex();
         vertexbuffer.pos((double)left, (double)top, (double)this.zLevel).color(f1, f2, f3, f).endVertex();
@@ -179,28 +179,28 @@ public abstract class CompendiumPage<E> {
         tessellator.draw();
         GlStateManager.shadeModel(7424);
         GlStateManager.disableBlend();
-        GlStateManager.enableAlpha();
-        GlStateManager.enableTexture2D();
+        GlStateManager.enableAlphaTest();
+        //todo GlStateManager.enableTexture2D();
     }
     
 	protected void renderItemToolTip(ItemStack stack, int x, int y){
 		try{
-			List<String> list = stack.getTooltip(this.mc.thePlayer, this.mc.gameSettings.advancedItemTooltips);
+			List<String> list = stack.getTooltip(this.mc.player, this.mc.gameSettings.advancedItemTooltips);
 
-			if (stack.getItem() instanceof ItemBlock){
+			if (stack.getItem() instanceof BlockItem){
 			}else{
 				if (stack.getItem() == ItemDefs.spell_component){
 					list.clear();
-					Skill skill = ArsMagicaAPI.getSkillRegistry().getObjectById(stack.getItemDamage());
+					Skill skill = ArsMagicaAPI.getSkillRegistry().getObjectById(stack.getDamage());
 					if (skill == null)
 						return;
 					list.add(skill.getName());
 				}else if (stack.getItem() == ItemDefs.etherium){
 					list.clear();
-					list.add(stack.stackSize + " " + I18n.format("item.arsmagica2:etherium.name"));
+					list.add(stack.getCount() + " " + I18n.format("item.arsmagica2:etherium.name"));
 					ArrayList<String> subList = new ArrayList<>();
 					for (PowerTypes type : PowerTypes.all()) {
-						if ((stack.getItemDamage() & type.ID()) == type.ID()) {
+						if ((stack.getDamage() & type.ID()) == type.ID()) {
 							subList.add(type.getChatColor() + I18n.format("etherium." + type.name() + ".name"));
 						}
 					}
@@ -215,7 +215,7 @@ public abstract class CompendiumPage<E> {
 
 			for (int k = 0; k < list.size(); ++k){
 				if (k == 0){
-					list.set(k, stack.getRarity().rarityColor.toString() + (String)list.get(k));
+					list.set(k, stack.getRarity().color.toString() + (String)list.get(k));
 				}else{
 					list.set(k, TextFormatting.GRAY.toString() + (String)list.get(k));
 				}
@@ -226,7 +226,7 @@ public abstract class CompendiumPage<E> {
 				String s = ((String)list.get(0));
 				String colorPrefix = "";
 				list.remove(0);
-				colorPrefix = stack.getRarity().rarityColor.toString();
+				colorPrefix = stack.getRarity().color.toString();
 				String[] split = s.split("\n");
 				for (int i = split.length - 1; i >= 0; --i){
 					list.add(0, colorPrefix + split[i]);
@@ -234,7 +234,7 @@ public abstract class CompendiumPage<E> {
 			}
 
 			FontRenderer font = stack.getItem().getFontRenderer(stack);
-			drawHoveringText(list, x, y, (font == null ? this.mc.fontRendererObj : font));
+			drawHoveringText(list, x, y, (font == null ? this.mc.fontRenderer : font));
 		}catch (Throwable t){
 		}
 	}

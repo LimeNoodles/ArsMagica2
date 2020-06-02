@@ -4,6 +4,7 @@ import am2.api.affinity.AbstractAffinityAbility;
 import am2.api.affinity.Affinity;
 import am2.common.extensions.AffinityData;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -25,7 +26,7 @@ public class AbilitySolidBones extends AbstractAffinityAbility {
 	}
 
 	@Override
-	public void applyTick(EntityPlayer player) {
+	public void applyTick(PlayerEntity player) {
 		if (player.isInWater()) {
 			double earthDepth = AffinityData.For(player).getAffinityDepth(Affinity.EARTH);
 			if (player.motionY > -0.3f) {

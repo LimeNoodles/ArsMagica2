@@ -1,9 +1,10 @@
 package am2.common.buffs;
 
 import am2.common.defs.PotionEffectsDefs;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.PlayerEntity;
 
 public class BuffEffectFlight extends BuffEffect{
 	
@@ -14,15 +15,15 @@ public class BuffEffectFlight extends BuffEffect{
 	}
 
 	@Override
-	public void applyEffect(EntityLivingBase entityliving){
+	public void applyEffect(LivingEntity entityliving){
 		enableFlight = true;
 	}
 
 	@Override
-	public void performEffect(EntityLivingBase entityliving){
+	public void performEffect(LivingEntity entityliving){
 		if ( enableFlight ){
 			if (entityliving instanceof EntityPlayerMP){
-				EntityPlayer player = (EntityPlayer)entityliving;
+				PlayerEntity player = (PlayerEntity)entityliving;
 				player.capabilities.allowFlying = true;
 				player.sendPlayerAbilities();		
 			} 
@@ -32,7 +33,7 @@ public class BuffEffectFlight extends BuffEffect{
 	}
 
 	@Override
-	public void stopEffect(EntityLivingBase entityliving){
+	public void stopEffect(LivingEntity entityliving){
 		enableFlight = false;
 		dispellFlight(entityliving);
 	}
@@ -42,11 +43,11 @@ public class BuffEffectFlight extends BuffEffect{
 		return "Flight";
 	}
 	
-	private void dispellFlight(EntityLivingBase entityliving) {
+	private void dispellFlight(LivingEntity entityliving) {
 		if (entityliving instanceof EntityPlayerMP){
-			EntityPlayer player = (EntityPlayer)entityliving;
-			if (!player.capabilities.isCreativeMode){
-				player.capabilities.allowFlying = false;
+			PlayerEntity player = (PlayerEntity) entityliving;
+			if (!player.isCreative()){
+				player.allowFlying = false;
 				player.capabilities.isFlying = false;
 				player.fallDistance = 0f;
 				player.sendPlayerAbilities();

@@ -1,20 +1,22 @@
 package am2.client.bosses.models;
 
+import net.minecraft.client.renderer.model.Model;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.Entity;
+import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.opengl.GL11;
 
 import am2.client.entity.render.AM2ModelRenderer;
 import am2.common.bosses.BossActions;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.ResourceLocation;
+
 import thehippomaster.AnimationAPI.IAnimatedEntity;
 import thehippomaster.AnimationAPI.client.Animator;
 
 //
 //import thehippomaster.AnimationAPI.client.Animator;
 
-public class ModelLightningGuardian extends ModelBase{
+public class ModelLightningGuardian extends Model {
 	//fields
 	AM2ModelRenderer ChestLower;
 	AM2ModelRenderer leftarmwristband3;

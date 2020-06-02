@@ -1,13 +1,12 @@
 package am2.client.entity.models;
 
-import net.minecraft.client.model.ModelBiped;
-import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.entity.Entity;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SideOnly(Side.CLIENT)
-public class ModelManaElemental extends ModelBiped{
+import net.minecraft.client.renderer.entity.model.BipedModel;
+import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.entity.Entity;
+
+public class ModelManaElemental extends BipedModel
+{
 	//fields
 	ModelRenderer Core;
 	ModelRenderer Pelvis;

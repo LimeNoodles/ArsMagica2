@@ -1,28 +1,29 @@
 package am2.api.event;
 
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.potion.Effect;
+import net.minecraft.potion.Effects;
 import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.eventhandler.Event;
+import net.minecraftforge.eventbus.api.Event;
 
-public class PotionEvent extends Event{
-	
+public class PotionEvent extends Event
+{
 	public Potion id;
 	public int duration, amplifier;
 	public boolean ambient, showParticules;
-	public PotionEffect effect;
-	
+	public Effect effect;
+
 	protected PotionEvent(Potion id, int duration, int amplifier, boolean ambient, boolean showParticules) {
 		this.id = id;
 		this.duration = duration;
 		this.amplifier = amplifier;
 		this.ambient = ambient;
 		this.showParticules = showParticules;
-		this.effect = new PotionEffect(id, duration, amplifier, ambient, showParticules);
+		this.effect = new Effect(id, duration, amplifier, ambient, showParticules);
 	}
 	
-	protected PotionEvent(PotionEffect effect) {
+	protected PotionEvent(Effect effect) {
 		this.effect = effect;
 		id = effect.getPotion();
 		duration = effect.getDuration();
@@ -31,7 +32,7 @@ public class PotionEvent extends Event{
 		ambient = effect.getIsAmbient();
 	}
 	
-	public PotionEffect getEffect() {
+	public Effect getEffect() {
 		return effect;
 	}
 	
@@ -41,7 +42,7 @@ public class PotionEvent extends Event{
 			super(id, duration, amplifier, ambient, showParticules);
 		}
 		
-		public EventPotionAdded(PotionEffect effect) {
+		public EventPotionAdded(Effect effect) {
 			super(effect);
 		}
 
@@ -49,18 +50,18 @@ public class PotionEvent extends Event{
 	
 	public static class EventPotionLoaded extends PotionEvent {
 		
-		private NBTTagCompound compound;
+		private CompoundNBT compound;
 		
-		public EventPotionLoaded(PotionEffect effect, NBTTagCompound compound) {
+		public EventPotionLoaded(Effects effect, CompoundNBT compound) {
 			super(effect);
 			this.compound = compound;
 		}
 		
-		public NBTTagCompound getCompound() {
+		public CompoundNBT getCompound() {
 			return compound;
 		}
 		
-		public static PotionEffect post(PotionEffect effect, NBTTagCompound compound) {
+		public static Effect post(Effect effect, CompoundNBT compound) {
 			EventPotionLoaded event = new EventPotionLoaded(effect, compound);
 			MinecraftForge.EVENT_BUS.post(event);
 			return event.getEffect();

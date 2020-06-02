@@ -6,12 +6,12 @@ import am2.api.spell.SpellData;
 import am2.common.extensions.EntityExtension;
 import am2.common.spell.ContingencyType;
 import am2.common.utils.NBTUtils;
+
+import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
 
@@ -95,9 +95,9 @@ public interface IEntityExtension {
 	
 	boolean isInverted();
 	
-	void addEntityReference(EntityLivingBase entity);
+	void addEntityReference(LivingEntity entity);
 	
-	void init(EntityLivingBase entity);
+	void init(LivingEntity entity);
 	
 	boolean canHeal();
 	
@@ -111,49 +111,49 @@ public interface IEntityExtension {
 	class Storage implements IStorage<IEntityExtension> {
 		
 		@Override
-		public NBTBase writeNBT(Capability<IEntityExtension> capability, IEntityExtension instance, EnumFacing side) {
-			NBTTagCompound compound = new NBTTagCompound();
-			NBTTagCompound am2tag = NBTUtils.getAM2Tag(compound);
-			am2tag.setFloat("CurrentMana", instance.getCurrentMana());
-			am2tag.setInteger("CurrentLevel", instance.getCurrentLevel());
-			am2tag.setFloat("CurrentXP", instance.getCurrentXP());
-			am2tag.setFloat("CurrentBurnout", instance.getCurrentBurnout());
-			am2tag.setInteger("CurrentSummons", instance.getCurrentSummons());
+		public CompoundNBT writeNBT(Capability<IEntityExtension> capability, IEntityExtension instance, EnumFacing side) {
+			CompoundNBT compound = new CompoundNBT();
+			CompoundNBT am2tag = NBTUtils.getAM2Tag(compound);
+			am2tag.putFloat("CurrentMana", instance.getCurrentMana());
+			am2tag.putInt("CurrentLevel", instance.getCurrentLevel());
+			am2tag.putFloat("CurrentXP", instance.getCurrentXP());
+			am2tag.putFloat("CurrentBurnout", instance.getCurrentBurnout());
+			am2tag.putInt("CurrentSummons", instance.getCurrentSummons());
 			
-			am2tag.setInteger("HealCooldown", instance.getHealCooldown());
-			am2tag.setInteger("AffinityHealCooldown", instance.getAffinityHealCooldown());
+			am2tag.putInt("HealCooldown", instance.getHealCooldown());
+			am2tag.putInt("AffinityHealCooldown", instance.getAffinityHealCooldown());
 			
-			am2tag.setBoolean("Shrunk", instance.isShrunk());
-			am2tag.setBoolean("Inverted", instance.isInverted());
-			am2tag.setFloat("FallProtection", instance.getFallProtection());
+			am2tag.putBoolean("Shrunk", instance.isShrunk());
+			am2tag.putBoolean("Inverted", instance.isInverted());
+			am2tag.putFloat("FallProtection", instance.getFallProtection());
 			
-			am2tag.setDouble("MarkX", instance.getMarkX());
-			am2tag.setDouble("MarkY", instance.getMarkY());
-			am2tag.setDouble("MarkZ", instance.getMarkZ());
-			am2tag.setInteger("MarkDimensionId", instance.getMarkDimensionID());
-			am2tag.setFloat("TK_Distance", instance.getTKDistance());
-			am2tag.setFloat("ManaShielding", instance.getManaShielding());
-			NBTTagCompound contingencyTag = NBTUtils.addTag(am2tag, "Contingency");
+			am2tag.putDouble("MarkX", instance.getMarkX());
+			am2tag.putDouble("MarkY", instance.getMarkY());
+			am2tag.putDouble("MarkZ", instance.getMarkZ());
+			am2tag.putInt("MarkDimensionId", instance.getMarkDimensionID());
+			am2tag.putFloat("TK_Distance", instance.getTKDistance());
+			am2tag.putFloat("ManaShielding", instance.getManaShielding());
+			CompoundNBT contingencyTag = NBTUtils.addTag(am2tag, "Contingency");
 			if (instance.getContingencyType() != ContingencyType.NULL) {
-				contingencyTag.setString("Type", instance.getContingencyType().name().toLowerCase());
-				contingencyTag.setTag("Spell", instance.getContingencyStack().writeToNBT(new NBTTagCompound()));
+				contingencyTag.putString("Type", instance.getContingencyType().name().toLowerCase());
+				contingencyTag.put("Spell", instance.getContingencyStack().writeToNBT(new CompoundNBT()));
 			} else {
-				contingencyTag.setString("Type", "null");			
+				contingencyTag.putString("Type", "null");
 			}
 			return compound;
 		}
 	
 		@Override
-		public void readNBT(Capability<IEntityExtension> capability, IEntityExtension instance, EnumFacing side, NBTBase nbt) {
-			NBTTagCompound am2tag = NBTUtils.getAM2Tag((NBTTagCompound)nbt);
+		public void readNBT(Capability<IEntityExtension> capability, IEntityExtension instance, Direction side, CompoundNBT nbt) {
+			CompoundNBT am2tag = NBTUtils.getAM2Tag((CompoundNBT)nbt);
 			instance.setCurrentMana(am2tag.getFloat("CurrentMana"));
-			instance.setCurrentLevel(am2tag.getInteger("CurrentLevel"));
+			instance.setCurrentLevel(am2tag.getInt("CurrentLevel"));
 			instance.setCurrentXP(am2tag.getFloat("CurrentXP"));
 			instance.setCurrentBurnout(am2tag.getFloat("CurrentBurnout"));
-			instance.setCurrentSummons(am2tag.getInteger("CurrentSummons"));
+			instance.setCurrentSummons(am2tag.getInt("CurrentSummons"));
 			
-			instance.setHealCooldown(am2tag.getInteger("HealCooldown"));
-			instance.setAffinityHealCooldown(am2tag.getInteger("AffinityHealCooldown"));
+			instance.setHealCooldown(am2tag.getInt("HealCooldown"));
+			instance.setAffinityHealCooldown(am2tag.getInt("AffinityHealCooldown"));
 			
 			instance.setShrunk(am2tag.getBoolean("Shrunk"));
 			instance.setInverted(am2tag.getBoolean("Inverted"));
@@ -167,9 +167,9 @@ public interface IEntityExtension {
 			instance.setTKDistance(am2tag.getFloat("TK_Distance"));
 			instance.setManaShielding(am2tag.getFloat("ManaShielding"));
 			
-			NBTTagCompound contingencyTag = NBTUtils.addTag(am2tag, "Contingency");
+			CompoundNBT contingencyTag = NBTUtils.addTag(am2tag, "Contingency");
 			if (!contingencyTag.hasKey("Type") || !contingencyTag.getString("Type").equals("null")) {
-				instance.setContingency(ContingencyType.fromName(contingencyTag.getString("Type")), SpellData.readFromNBT(contingencyTag.getCompoundTag("Spell")));
+				instance.setContingency(ContingencyType.fromName(contingencyTag.getString("Type")), SpellData.readFromNBT(contingencyTag.getCompound("Spell")));
 			} else {
 				instance.setContingency(ContingencyType.NULL, null);
 			}
@@ -185,11 +185,11 @@ public interface IEntityExtension {
 		
 	}
 
-	boolean addSummon(EntityCreature entityliving);
+	boolean addSummon(CreatureEntity entityliving);
 
 	boolean getCanHaveMoreSummons();
 
-	void updateManaLink(EntityLivingBase caster);
+	void updateManaLink(LivingEntity caster);
 
 	void deductMana(float amt);
 

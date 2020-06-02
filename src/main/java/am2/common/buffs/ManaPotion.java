@@ -1,10 +1,11 @@
 package am2.common.buffs;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import am2.api.extensions.IEntityExtension;
 import am2.common.defs.AMPotion;
 import am2.common.extensions.EntityExtension;
+
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 
 public class ManaPotion extends AMPotion{
 	
@@ -36,14 +37,14 @@ public class ManaPotion extends AMPotion{
 	
 	
 	@Override
-	public void affectEntity(Entity par1EntityLiving, Entity ent, EntityLivingBase par2EntityLiving, int amplifier, double distanceToImpact){
+	public void affectEntity(Entity par1EntityLiving, Entity ent, LivingEntity par2EntityLiving, int amplifier, double distanceToImpact){
 		int manaRestored = getManaRestored(amplifier);
 		IEntityExtension ext = par1EntityLiving.getCapability(EntityExtension.INSTANCE, null);
 		ext.setCurrentMana(ext.getCurrentMana() + manaRestored * (int)(1/distanceToImpact));
 	}
 
 	@Override
-	public void performEffect(EntityLivingBase par1EntityLiving, int amplifier){
+	public void performEffect(LivingEntity par1EntityLiving, int amplifier){
 		int manaRestored = getManaRestored(amplifier);
 		IEntityExtension ext = par1EntityLiving.getCapability(EntityExtension.INSTANCE, null);
 		ext.setCurrentMana(ext.getCurrentMana() + manaRestored);

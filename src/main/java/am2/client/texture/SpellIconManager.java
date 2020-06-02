@@ -5,11 +5,13 @@ import java.util.HashMap;
 import am2.api.ArsMagicaAPI;
 import am2.api.skill.Skill;
 import am2.client.gui.AMGuiIcons;
+
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.ResourceLocation;
+
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class SpellIconManager {
 	

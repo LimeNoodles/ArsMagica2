@@ -2,10 +2,12 @@ package am2.api.event;
 
 import am2.api.affinity.Affinity;
 import am2.common.LogHelper;
+
 import com.google.common.collect.ImmutableMap;
+
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
-import net.minecraftforge.fml.common.eventhandler.Event;
+import net.minecraftforge.eventbus.api.Event;
 
 import java.util.Map;
 

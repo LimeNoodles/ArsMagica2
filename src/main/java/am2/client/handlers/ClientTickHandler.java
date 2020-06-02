@@ -31,27 +31,20 @@ import am2.common.spell.component.Telekinesis;
 import am2.common.trackers.EntityItemWatcher;
 import am2.common.utils.DimensionUtilities;
 import am2.common.world.MeteorSpawnHelper;
+
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraftforge.client.event.DrawBlockHighlightEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 @SideOnly(Side.CLIENT)
 public class ClientTickHandler{
-	public static HashMap<EntityLiving, EntityLivingBase> targetsToSet = new HashMap<EntityLiving, EntityLivingBase>();
+	public static HashMap<LivingEntity, EntityLivingBase> targetsToSet = new HashMap<LivingEntity, EntityLivingBase>();
 	private int mouseWheelValue = 0;
 	private int currentSlot = -1;
 	private boolean usingItem;
@@ -73,9 +66,9 @@ public class ClientTickHandler{
 
 	private void gameTick_Start(){
 
-		if (Minecraft.getMinecraft().isIntegratedServerRunning()){
-			if (worldName == null || !worldName.equals(Minecraft.getMinecraft().getIntegratedServer().getWorldName())){
-				worldName = Minecraft.getMinecraft().getIntegratedServer().getWorldName();
+		if (Minecraft.getInstance().isIntegratedServerRunning()){
+			if (worldName == null || !worldName.equals(Minecraft.getInstance().getIntegratedServer().getWorldName())){
+				worldName = Minecraft.getInstance().getIntegratedServer().getWorldName();
 				firstTick = true;
 			}
 		}else{
@@ -223,15 +216,15 @@ public class ClientTickHandler{
 				LogHelper.debug("TK Distance: %.2f", props.getTKDistance());
 				props.syncTKDistance();
 			}
-				else if (stack.getItem() instanceof ItemSpellBook && Minecraft.getMinecraft().thePlayer.isSneaking()){
+				else if (stack.getItem() instanceof ItemSpellBook && Minecraft.getInstance().player.isSneaking()){
 				ItemSpellBook isb = (ItemSpellBook)stack.getItem();
 				if (this.mouseWheelValue != 0){
 					byte subID = 0;
 					if (this.mouseWheelValue < 0){
-						isb.SetNextSlot(Minecraft.getMinecraft().thePlayer.getHeldItem(EnumHand.MAIN_HAND));
+						isb.SetNextSlot(Minecraft.getInstance().player.getHeldItemMainhand());
 						subID = ItemSpellBook.ID_NEXT_SPELL;
 					}else{
-						isb.SetPrevSlot(Minecraft.getMinecraft().thePlayer.getHeldItem(EnumHand.MAIN_HAND));
+						isb.SetPrevSlot(Minecraft.getInstance().player.getHeldItemMainhand());
 						subID = ItemSpellBook.ID_PREV_SPELL;
 					}
 					//send packet to server
@@ -239,8 +232,8 @@ public class ClientTickHandler{
 							AMPacketIDs.SPELLBOOK_CHANGE_ACTIVE_SLOT,
 							new AMDataWriter()
 									.add(subID)
-									.add(Minecraft.getMinecraft().thePlayer.getEntityId())
-									.add(Minecraft.getMinecraft().thePlayer.inventory.currentItem)
+									.add(Minecraft.getInstance().player.getEntityId())
+									.add(Minecraft.getInstance().player.inventory.currentItem)
 									.generate()
 					);
 				}
@@ -270,7 +263,7 @@ public class ClientTickHandler{
 	}
 
 	private void renderTick_Start(){
-		if (!Minecraft.getMinecraft().inGameHasFocus)
+		if (!Minecraft.getInstance().isGameFocused())
 			AMGuiHelper.instance.guiTick();
 	}
 
@@ -284,19 +277,19 @@ public class ClientTickHandler{
 	@SubscribeEvent
 	public void onClientTick(TickEvent.ClientTickEvent event){
 		if (event.phase == TickEvent.Phase.START){
-			GuiScreen guiscreen = Minecraft.getMinecraft().currentScreen;
+			Screen guiscreen = Minecraft.getInstance().currentScreen;
 			if (guiscreen != null){
 			}else{
 				gameTick_Start();
 			}
 		}else if (event.phase == TickEvent.Phase.END){
-			GuiScreen guiscreen = Minecraft.getMinecraft().currentScreen;
+			Screen guiscreen = Minecraft.getInstance().currentScreen;
 			if (guiscreen != null){
 			}else{
 				gameTick_End();
 			}
 
-			if (Minecraft.getMinecraft().theWorld != null)
+			if (Minecraft.getInstance().world != null)
 				spawnPowerPathVisuals();
 		}
 	}
@@ -370,7 +363,7 @@ public class ClientTickHandler{
 		return this.hasSynced;
 	}
 
-	public void addDeferredTarget(EntityLiving ent, EntityLivingBase target){
+	public void addDeferredTarget(LivingEntity ent, EntityLivingBase target){
 		targetsToSet.put(ent, target);
 	}
 }

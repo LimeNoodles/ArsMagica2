@@ -3,18 +3,19 @@ package am2.api.items.armor;
 import java.util.EnumSet;
 
 import am2.common.extensions.AffinityData;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.EntityEquipmentSlot;
+
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed;
-import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
+import net.minecraftforge.registries.IForgeRegistryEntry;;
 
-public abstract class ArmorImbuement extends IForgeRegistryEntry.Impl<ArmorImbuement>{
-	
+public abstract class ArmorImbuement implements IForgeRegistryEntry<ArmorImbuement>
+{
 	public abstract String getID();
 	
 	/**
@@ -41,9 +42,9 @@ public abstract class ArmorImbuement extends IForgeRegistryEntry.Impl<ArmorImbue
 	 *                    In the case of ON_HIT, it will be a 1-length array with the first element being the {@link LivingHurtEvent} event<br/>
 	 *                    In the case of ON_MINING_SPEED, it will be a 1-length array with the first element being the {@link BreakSpeed} event <br/>
 	 */
-	public abstract boolean applyEffect(EntityPlayer player, World world, ItemStack stack, ImbuementApplicationTypes matchedType, Object... params);
+	public abstract boolean applyEffect(PlayerEntity player, World world, ItemStack stack, ImbuementApplicationTypes matchedType, Object... params);
 	
-	public boolean canApply(EntityPlayer player) {
+	public boolean canApply(PlayerEntity player) {
 		if (canApplyOnCooldown())
 			return true;
 		if (AffinityData.For(player).getCooldown(this.getRegistryName().toString()) == 0) return true;
@@ -53,7 +54,7 @@ public abstract class ArmorImbuement extends IForgeRegistryEntry.Impl<ArmorImbue
 	/**
 	 * Gets all armor slots that this effect can be applied to
 	 */
-	public abstract EntityEquipmentSlot[] getValidSlots();
+	public abstract EquipmentSlotType[] getValidSlots();
 
 	/**
 	 * If the slot is on cooldown, can the effect still apply?
@@ -73,7 +74,7 @@ public abstract class ArmorImbuement extends IForgeRegistryEntry.Impl<ArmorImbue
 	/**
 	 * Can the player apply the imbuement on current armor?
 	 */
-	public boolean canApplyToArmor(ItemStack stack, EntityPlayer player) {
+	public boolean canApplyToArmor(ItemStack stack, PlayerEntity player) {
 		return true;
 	}
 }

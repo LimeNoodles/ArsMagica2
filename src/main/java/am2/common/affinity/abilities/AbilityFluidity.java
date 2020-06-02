@@ -6,6 +6,7 @@ import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -29,28 +30,28 @@ public class AbilityFluidity extends AbstractAffinityAbility {
 	}
 
 	@Override
-	public void applyTick(EntityPlayer player) {
+	public void applyTick(PlayerEntity player) {
 		if (player.isInWater()) {
 			applyReverseWaterMovement(player);
 		}
 	}
 	
-	private void applyReverseWaterMovement(EntityPlayer entity){
-		AxisAlignedBB par1AxisAlignedBB = entity.getEntityBoundingBox().expand(0.0D, -0.4000000059604645D, 0.0D).contract(0.001D);
+	private void applyReverseWaterMovement(PlayerEntity entity){
+		AxisAlignedBB par1AxisAlignedBB = entity.getBoundingBox().expand(0.0D, -0.4000000059604645D, 0.0D).contract(0.001D);
 
-		int i = MathHelper.floor_double(par1AxisAlignedBB.minX);
-		int j = MathHelper.floor_double(par1AxisAlignedBB.maxX + 1.0D);
-		int k = MathHelper.floor_double(par1AxisAlignedBB.minY);
-		int l = MathHelper.floor_double(par1AxisAlignedBB.maxY + 1.0D);
-		int i1 = MathHelper.floor_double(par1AxisAlignedBB.minZ);
-		int j1 = MathHelper.floor_double(par1AxisAlignedBB.maxZ + 1.0D);
+		int i = MathHelper.floor(par1AxisAlignedBB.minX);
+		int j = MathHelper.floor(par1AxisAlignedBB.maxX + 1.0D);
+		int k = MathHelper.floor(par1AxisAlignedBB.minY);
+		int l = MathHelper.floor(par1AxisAlignedBB.maxY + 1.0D);
+		int i1 = MathHelper.floor(par1AxisAlignedBB.minZ);
+		int j1 = MathHelper.floor(par1AxisAlignedBB.maxZ + 1.0D);
 		
 		Vec3d vec3 = new Vec3d(0.0D, 0.0D, 0.0D);
 
 		for (int k1 = i; k1 < j; ++k1) {
 			for (int l1 = k; l1 < l; ++l1) {
 				for (int i2 = i1; i2 < j1; ++i2) {
-					IBlockState blockState = entity.worldObj.getBlockState(new BlockPos (k1, l1, i2));
+					IBlockState blockState = entity.world.getBlockState(new BlockPos (k1, l1, i2));
 
 					if (blockState != null && blockState.getMaterial() == Material.WATER) {
 						double d0 = l1 + 1 - BlockLiquid.getLiquidHeightPercent(blockState.getBlock().getMetaFromState(blockState));
@@ -63,7 +64,7 @@ public class AbilityFluidity extends AbstractAffinityAbility {
 			}
 		}
 
-		if (vec3.lengthVector() > 0.0D && entity.isInWater()) {
+		if (vec3.length() > 0.0D && entity.isInWater()) {
 			vec3 = vec3.normalize();
 			double d1 = -0.014D;
 			entity.motionX += vec3.xCoord * d1;

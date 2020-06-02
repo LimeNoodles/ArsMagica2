@@ -1,12 +1,12 @@
 package am2.client.bosses.models;
 
-import org.lwjgl.opengl.GL11;
-
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.model.Model;
+import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
-public class ModelLifeGuardian extends ModelBase{
+import org.lwjgl.opengl.GL11;
+
+public class ModelLifeGuardian extends Model {
 	//fields
 	ModelRenderer Shape1;
 	ModelRenderer Shape2;

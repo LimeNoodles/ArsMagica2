@@ -3,10 +3,12 @@ package am2.common.affinity.abilities;
 import am2.api.affinity.AbstractAffinityAbility;
 import am2.api.affinity.Affinity;
 import am2.common.extensions.AffinityData;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
+
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
 public class AbilityThorns extends AbstractAffinityAbility {
@@ -26,15 +28,15 @@ public class AbilityThorns extends AbstractAffinityAbility {
 	}
 	
 	@Override
-	public void applyHurt(EntityPlayer player, LivingHurtEvent event, boolean isAttacker) {
-		if (!isAttacker && event.getSource().getSourceOfDamage() instanceof EntityLivingBase){
+	public void applyHurt(PlayerEntity player, LivingHurtEvent event, boolean isAttacker) {
+		if (!isAttacker && event.getSource().getTrueSource() instanceof LivingEntity){
 			double natureDepth = AffinityData.For(player).getAffinityDepth(Affinity.NATURE);
 			if (natureDepth == 1.0f){
-				((EntityLivingBase)event.getSource().getSourceOfDamage()).attackEntityFrom(DamageSource.cactus, 3);
+				((LivingEntity)event.getSource().getTrueSource()).attackEntityFrom(DamageSource.CACTUS, 3);
 			}else if (natureDepth >= 0.75f){
-				((EntityLivingBase)event.getSource().getSourceOfDamage()).attackEntityFrom(DamageSource.cactus, 2);
+				((LivingEntity)event.getSource().getTrueSource()).attackEntityFrom(DamageSource.CACTUS, 2);
 			}else if (natureDepth >= 0.5f){
-				((EntityLivingBase)event.getSource().getSourceOfDamage()).attackEntityFrom(DamageSource.cactus, 1);
+				((LivingEntity)event.getSource().getTrueSource()).attackEntityFrom(DamageSource.CACTUS, 1);
 			}
 		}
 	}

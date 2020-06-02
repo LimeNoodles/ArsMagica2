@@ -1,8 +1,8 @@
 package am2.client.entity.models;
 
 import am2.common.entity.EntityBroom;
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelRenderer;
+
+import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
 public class ModelBroom extends ModelBase{

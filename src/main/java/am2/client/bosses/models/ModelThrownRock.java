@@ -1,12 +1,12 @@
 package am2.client.bosses.models;
 
+import net.minecraft.client.renderer.model.Model;
+import net.minecraft.client.renderer.model.ModelRenderer;
 import org.lwjgl.opengl.GL11;
 
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
-public class ModelThrownRock extends ModelBase{
+public class ModelThrownRock extends Model {
 	//fields
 	ModelRenderer Rock3;
 	ModelRenderer Rock1;

@@ -1,7 +1,7 @@
 package am2.api.event;
 
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.eventhandler.Event;
+import net.minecraftforge.eventbus.api.Event;
 
 public class OBJQuadEvent extends Event{
 	

@@ -1,23 +1,23 @@
 package am2.client.entity.render;
 
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.model.Model;
+import net.minecraft.client.renderer.model.ModelRenderer;
 
-public class AM2ModelRenderer extends ModelRenderer{
+public class AM2ModelRenderer extends ModelRenderer {
 
 	private float restRotationX;
 	private float restRotationY;
 	private float restRotationZ;
 
-	public AM2ModelRenderer(ModelBase par1ModelBase){
+	public AM2ModelRenderer(Model par1ModelBase){
 		super(par1ModelBase);
 	}
 
-	public AM2ModelRenderer(ModelBase par1ModelBase, int par2, int par3){
+	public AM2ModelRenderer(Model par1ModelBase, int par2, int par3){
 		super(par1ModelBase, par2, par3);
 	}
 
-	public AM2ModelRenderer(ModelBase par1ModelBase, String par2){
+	public AM2ModelRenderer(Model par1ModelBase, String par2){
 		super(par1ModelBase, par2);
 	}
 

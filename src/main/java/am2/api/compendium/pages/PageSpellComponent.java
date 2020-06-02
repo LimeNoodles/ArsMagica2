@@ -17,6 +17,7 @@ import am2.client.gui.AMGuiHelper;
 import am2.client.texture.SpellIconManager;
 import am2.common.defs.ItemDefs;
 import am2.common.utils.RecipeUtils;
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.GlStateManager.DestFactor;
@@ -69,7 +70,7 @@ public class PageSpellComponent extends CompendiumPage<AbstractSpellPart> {
 			mc.renderEngine.bindTexture(new ResourceLocation("arsmagica2", "textures/gui/ArcaneCompendiumGuiExtras.png"));
 			zLevel++;
 			GlStateManager.enableBlend();
-			GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
+			GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
 			this.drawTexturedModalRect_Classic(posX + 125, posY + 15, 112, 145, 60, 40, 40, 40);
 			this.drawTexturedModalRect_Classic(posX + 0, posY + 200, 112, 175, 60, 40, 40, 40);
 			GlStateManager.disableBlend();
@@ -102,10 +103,10 @@ public class PageSpellComponent extends CompendiumPage<AbstractSpellPart> {
 		int yOffset = 10;
 		if (!modifiers.isEmpty()) {
 			String shapeName = I18n.format(element instanceof SpellModifier ? "am2.gui.modifies" :  "am2.gui.modifiedBy");
-			mc.fontRendererObj.drawString(shapeName, posX + 72 - (mc.fontRendererObj.getStringWidth(shapeName) / 2), posY, 0);
+			mc.fontRenderer.drawString(shapeName, posX + 72 - (mc.fontRenderer.getStringWidth(shapeName) / 2), posY, 0);
 			GlStateManager.color(1.0f, 1.0f, 1.0f);
 		}
-		RenderHelper.enableGUIStandardItemLighting();
+		RenderHelper.enableStandardItemLighting();
 		for (SpellModifier mod : modifiers) {
 			TextureAtlasSprite modIcon = SpellIconManager.INSTANCE.getSprite(mod.getRegistryName().toString());
 			if (modIcon != null)
@@ -160,7 +161,7 @@ public class PageSpellComponent extends CompendiumPage<AbstractSpellPart> {
 		List<ItemStack> alternates = new ArrayList<ItemStack>();
 		
 		if (stack.getItemDamage() == OreDictionary.WILDCARD_VALUE) {
-			stack.getItem().getSubItems(stack.getItem(), stack.getItem().getCreativeTab(), alternates);
+			stack.getItem().getSubItems(stack.getItem(), stack.getItem().getCreativeTabs(), alternates);
 		} else {
 			alternates.add(stack);
 		}
@@ -169,7 +170,7 @@ public class PageSpellComponent extends CompendiumPage<AbstractSpellPart> {
 			stack = alternates.get(new Random(new Random(AMGuiHelper.instance.getSlowTicker()).nextLong()).nextInt(alternates.size()));
 		}
 		if (forcedMetas.containsKey(stack.getItem()))
-			stack = new ItemStack(stack.getItem(), stack.stackSize, forcedMetas.get(stack.getItem()));
+			stack = new ItemStack(stack.getItem(), stack.getCount(), forcedMetas.get(stack.getItem()));
 	
 		try{
 			AMGuiHelper.DrawItemAtXY(stack, sx, sy, this.zLevel);
