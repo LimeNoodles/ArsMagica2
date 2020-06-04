@@ -17,7 +17,7 @@ public class ItemInscriptionTableUpgrade extends ItemArsMagica{
 		setMaxStackSize(1);
 		this.setHasSubtypes(true);
 	}
-	@Override
+	//todo @Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List){
 		for (int i = 0; i < 3; ++i){

@@ -36,7 +36,7 @@ public class ItemCrystalPhylactery extends ItemArsMagica{
 		this.setMaxStackSize(1);
 	}
 
-	@Override
+	//todo @Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List<String> par3List, boolean par4){
 		if (par1ItemStack.hasTagCompound()){
@@ -96,9 +96,9 @@ public class ItemCrystalPhylactery extends ItemArsMagica{
 		if (!stack.hasTagCompound())
 			stack.setTagCompound(new NBTTagCompound());
 
-		String s = EntityList.CLASS_TO_NAME.get(clazz);
-		if (s != null)
-			stack.getTagCompound().setString("SpawnClassName", s);
+		//todo String s = EntityList.CLASS_TO_NAME.get(clazz);
+		//if (s != null)
+		//	stack.getTagCompound().setString("SpawnClassName", s);
 	}
 
 	public boolean canStore(ItemStack stack, EntityLiving entity){
@@ -109,9 +109,10 @@ public class ItemCrystalPhylactery extends ItemArsMagica{
 			return true;
 
 		String e = stack.getTagCompound().getString("SpawnClassName");
-		String s = EntityList.CLASS_TO_NAME.get(entity.getClass());
+		//todo String s = EntityList.CLASS_TO_NAME.get(entity.getClass());
 
-		return (e != null && s != null) && e.equals(s);
+		//todo return (e != null && s != null) && e.equals(s);
+		return false;
 	}
 
 	public boolean isFull(ItemStack stack){
@@ -125,8 +126,8 @@ public class ItemCrystalPhylactery extends ItemArsMagica{
 	}
 	
 	public void getSpawnableEntities(World world){
-		for (Class<? extends Entity> clazz : EntityList.CLASS_TO_NAME.keySet()){
-			if (EntityCreature.class.isAssignableFrom(clazz)){
+		//todo for (Class<? extends Entity> clazz : EntityList.CLASS_TO_NAME.keySet()){
+			/*if (EntityCreature.class.isAssignableFrom(clazz)){
 				try{
 					EntityCreature temp = (EntityCreature)clazz.getConstructor(World.class).newInstance(world);
 					if (EntityUtils.isAIEnabled(temp) && temp.isNonBoss()){
@@ -152,10 +153,10 @@ public class ItemCrystalPhylactery extends ItemArsMagica{
 					//e.printStackTrace();
 				}
 			}
-		}
+		}*/
 	}
 
-	@Override
+	//todo @Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List){
 		par3List.add(new ItemStack(this));

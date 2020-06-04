@@ -46,13 +46,13 @@ public class SpellData {
 	{
 		@Override
 		public void write(PacketBuffer buf, Optional<SpellData> value) {
-			buf.writeNBTTagCompoundToBuffer(value.isPresent() ? value.orNull().writeToNBT(new NBTTagCompound()) : null);
+			buf.writeCompoundTag(value.isPresent() ? value.orNull().writeToNBT(new NBTTagCompound()) : null);
 		}
 
 		@Override
 		public Optional<SpellData> read(PacketBuffer buf) {
 			try {
-				NBTTagCompound tag = buf.readNBTTagCompoundFromBuffer();
+				NBTTagCompound tag = buf.readCompoundTag();
 				return Optional.fromNullable(tag != null ? readFromNBT(tag) : null);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -63,6 +63,11 @@ public class SpellData {
 		@Override
 		public DataParameter<Optional<SpellData>> createKey(int id) {
 			return new DataParameter<>(id, this);
+		}
+
+		@Override
+		public Optional<SpellData> copyValue(Optional<SpellData> value) {
+			return null;
 		}
 	};
     
@@ -343,18 +348,19 @@ public class SpellData {
 			NBTTagList parts = tmp.getTagList("Parts", Constants.NBT.TAG_STRING);
 			ArrayList<AbstractSpellPart> pts = new ArrayList<>();
 			for (int j = 0; j < parts.tagCount(); j++) {
-				AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation(parts.getStringTagAt(j)));
-				if (part != null) {
-					pts.add(part);
-				}
+				//todo AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation(parts.getStringTagAt(j)));
+				//if (part != null) {
+				//	pts.add(part);
+				//}
 			}
 			NBTUtils.ensureSize(stages, id + 1);
 			stages.set(id, pts);
 		}
 		NBTTagCompound storedData = tag.getCompoundTag("StoredData");
-		SpellData data = new SpellData(ItemStack.loadItemStackFromNBT(tag.getCompoundTag("Stack")), stages, new UUID(tag.getLong("UUIDMost"), tag.getLong("UUIDLeast")), storedData);
-		data.exec = tag.getInteger("ExecutionStage");
-		return data;
+		//todo SpellData data = new SpellData(ItemStack.loadItemStackFromNBT(tag.getCompoundTag("Stack")), stages, new UUID(tag.getLong("UUIDMost"), tag.getLong("UUIDLeast")), storedData);
+		//todo data.exec = tag.getInteger("ExecutionStage");
+		//return data;
+		return null;
 	}
 	
 	public SpellData pop() {

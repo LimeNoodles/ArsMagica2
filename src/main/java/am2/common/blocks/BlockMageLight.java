@@ -85,7 +85,7 @@ public class BlockMageLight extends BlockAMSpecialRender {
 	}
 	
 	
-	@Override
+	//todo @Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player,
 			EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ){
 
@@ -103,7 +103,8 @@ public class BlockMageLight extends BlockAMSpecialRender {
 			}
 		}
 
-		return super.onBlockActivated(world, pos, state, player, hand, heldItem, side, hitX, hitY, hitZ);
+		//todo return super.onBlockActivated(world, pos, state, player, hand, heldItem, side, hitX, hitY, hitZ);
+		return false;
 	}
 	
 	@Override
@@ -127,7 +128,7 @@ public class BlockMageLight extends BlockAMSpecialRender {
 		return new AxisAlignedBB(0.35f, 0.35f, 0.35f, 0.65f, 0.65f, 0.65f);
 	}
 	
-	@Override
+	//todo @Override
 	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, Entity entityIn) {
 	}
 	
@@ -139,7 +140,7 @@ public class BlockMageLight extends BlockAMSpecialRender {
 	@Override
 	public BlockAM registerAndName(ResourceLocation rl) {
 		this.setUnlocalizedName(rl.toString());
-		GameRegistry.register(this, rl);
+		//todo GameRegistry.register(this, rl);
 		return this;
 	}
 	

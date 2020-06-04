@@ -8,10 +8,10 @@ import java.util.Random;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
@@ -237,7 +237,7 @@ public class AMParticle extends Particle {
 		if (isAffectedByGravity)
 			this.motionY -= 0.04D * this.particleGravity;
 		if (doVelocityUpdates)
-			this.moveEntity(this.motionX, this.motionY, this.motionZ);
+			this.move(this.motionX, this.motionY, this.motionZ);
 
 		List<ParticleController> remove = new ArrayList<ParticleController>();
 
@@ -246,7 +246,7 @@ public class AMParticle extends Particle {
 				remove.add(pmc);
 				continue;
 			}
-			pmc.onUpdate(this.worldObj);
+			pmc.onUpdate(this.world);
 			if (pmc.getExclusive()){
 				break;
 			}
@@ -274,8 +274,8 @@ public class AMParticle extends Particle {
 	}
 	
 	@Override
-	public void renderParticle(VertexBuffer tessellator, Entity ent, float partialframe, float cosyaw, float cospitch, float sinyaw, float sinsinpitch, float cossinpitch){
-		if (!this.worldObj.isRemote){
+	public void renderParticle(BufferBuilder tessellator, Entity ent, float partialframe, float cosyaw, float cospitch, float sinyaw, float sinsinpitch, float cossinpitch){
+		if (!this.world.isRemote){
 			return;
 		}
 		float f11 = (float)(this.prevPosX + (this.posX - this.prevPosX) * partialframe - interpPosX);
@@ -384,7 +384,7 @@ public class AMParticle extends Particle {
 	}
 	
 	public World getWorldObj() {
-		return worldObj;
+		return world;
 	}
 
 	public void SetParticleTextureByName(String name) {
@@ -399,7 +399,7 @@ public class AMParticle extends Particle {
 	}
 
 	public boolean isCollided() {
-		return isCollided;
+		return isCollided();
 	}
 
 	public void addVelocity(double d, double e, double f) {

@@ -114,8 +114,8 @@ public abstract class BlockGroundRune extends BlockAMContainer{
 	
 	@Override
 	public void breakBlock(World worldIn, BlockPos pos, IBlockState state){
-		worldIn.notifyBlockOfStateChange(pos, state.getBlock());
-		worldIn.notifyBlockOfStateChange(pos, worldIn.getBlockState(pos.down()).getBlock());
+		//todo worldIn.notifyBlockOfStateChange(pos, state.getBlock());
+		//todo worldIn.notifyBlockOfStateChange(pos, worldIn.getBlockState(pos.down()).getBlock());
 		super.breakBlock(worldIn, pos, state);
 	}
 	
@@ -148,7 +148,7 @@ public abstract class BlockGroundRune extends BlockAMContainer{
 	@Override
 	public BlockAMContainer registerAndName(ResourceLocation rl) {
 		this.setUnlocalizedName(rl.toString());
-		GameRegistry.register(this, rl);
+		//todo GameRegistry.register(this, rl);
 		return this;
 	}
 }

@@ -50,8 +50,8 @@ public class AstralDistortion extends SpellComponent implements IRitualInteracti
 					RitualShapeHelper.instance.consumeShape(this, world, pos);
 					EntityItem item = new EntityItem(world);
 					item.setPosition(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
-					item.setEntityItemStack(new ItemStack(BlockDefs.inertSpawner));
-					world.spawnEntityInWorld(item);
+					item.setItem(new ItemStack(BlockDefs.inertSpawner));
+					world.spawnEntity(item);
 				}else{
 
 				}
@@ -134,13 +134,13 @@ public class AstralDistortion extends SpellComponent implements IRitualInteracti
 	@Override
 	public ItemStack[] getRitualReagents(){
 		int enderMeta = 0;
-		for (Affinity aff : ArsMagicaAPI.getAffinityRegistry().getValues()) {
-			if (aff.equals(Affinity.NONE))
-				continue;				
-			if (aff.equals(Affinity.ENDER))
-				break;
-			enderMeta++;
-		}
+		//todo for (Affinity aff : ArsMagicaAPI.getAffinityRegistry().getValues()) {
+			//if (aff.equals(Affinity.NONE))
+			//	continue;
+			//if (aff.equals(Affinity.ENDER))
+			//	break;
+			//enderMeta++;
+		//}
 		return new ItemStack[]{
 				new ItemStack(ItemDefs.mobFocus),
 				new ItemStack(ItemDefs.essence, 1, enderMeta)

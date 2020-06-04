@@ -24,11 +24,11 @@ public class MeteorSpawnHelper{
 
 	public void tick(){
 		if (ticksSinceLastMeteor == 0){
-			if ( FMLCommonHandler.instance().getMinecraftServerInstance().worldServers.length < 1) return;
-			WorldServer ws = FMLCommonHandler.instance().getMinecraftServerInstance().worldServers[0];
-			if (rand.nextInt(2500 + (1000 * ws.provider.getMoonPhase(ws.provider.getWorldTime()))) == 0){
-				spawnMeteor();
-			}
+			//todo if ( FMLCommonHandler.instance().getMinecraftServerInstance().worldServers.length < 1) return;
+			//todo WorldServer ws = FMLCommonHandler.instance().getMinecraftServerInstance().worldServers[0];
+			//todo if (rand.nextInt(2500 + (1000 * ws.provider.getMoonPhase(ws.provider.getWorldTime()))) == 0){
+				//spawnMeteor();
+			//}
 		}else{
 			ticksSinceLastMeteor--;
 		}
@@ -36,15 +36,16 @@ public class MeteorSpawnHelper{
 
 	public void spawnMeteor(){
 		ticksSinceLastMeteor = FMLCommonHandler.instance().getMinecraftServerInstance().getEntityWorld().rand.nextInt(36000) + 12000;
-		if ( FMLCommonHandler.instance().getMinecraftServerInstance().worldServers.length < 1) return;
+		//if ( FMLCommonHandler.instance().getMinecraftServerInstance().worldServers.length < 1) return;
 
 		WorldServer ws = null;
-		for (WorldServer world : FMLCommonHandler.instance().getMinecraftServerInstance().worldServers){
-			if (world.provider.getDimension() == 0){
-				ws = world;
-				break;
-			}
-		}
+		//for (WorldServer world : FMLCommonHandler.instance().getMinecraftServerInstance().worldServers)
+		//{
+			//if (world.provider.getDimension() == 0){
+				//ws = world;
+				//break;
+			//}
+		//}
 		if (ws == null) return;
 
 		long time = ws.getWorldTime() % 24000;
@@ -84,7 +85,7 @@ public class MeteorSpawnHelper{
 			meteor.setPosition(spawnCoord.x + rand.nextInt(meteorOffsetRadius) - (meteorOffsetRadius / 2), ws.getActualHeight(), spawnCoord.z + rand.nextInt(meteorOffsetRadius) - (meteorOffsetRadius / 2));
 			meteor.setMoonstoneMeteor();
 			meteor.setMoonstoneMeteorTarget(spawnCoord.toVec3D());
-			ws.spawnEntityInWorld(meteor);
+			ws.spawnEntity(meteor);
 		}
 
 	}

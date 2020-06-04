@@ -16,14 +16,15 @@ import net.minecraft.util.ResourceLocation;
 public class EntityAIChaosWaterBolt extends EntityAIBase{
 	private final EntityWaterGuardian host;
 	private static final ItemStack castStack = createDummyStack();
-	private static AbstractSpellPart WateryGrave() {return ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "watery_grave"));}
-	private static AbstractSpellPart Projectile() {return ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "projectile"));}
-	private static AbstractSpellPart MagicDamage() {return ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "magic_damage"));}
-	private static AbstractSpellPart Knockback() {return ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "knockback"));}
+	//todo private static AbstractSpellPart WateryGrave() {return ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "watery_grave"));}
+	//private static AbstractSpellPart Projectile() {return ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "projectile"));}
+	//private static AbstractSpellPart MagicDamage() {return ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "magic_damage"));}
+	//private static AbstractSpellPart Knockback() {return ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "knockback"));}
 
 	private static ItemStack createDummyStack(){
-		ItemStack stack = NPCSpells.instance.createSpell(Lists.newArrayList(Projectile(), WateryGrave(), MagicDamage(), Knockback()));
-		return stack;
+		//todo ItemStack stack = NPCSpells.instance.createSpell(Lists.newArrayList(Projectile(), WateryGrave(), MagicDamage(), Knockback()));
+		//return stack;
+		return null;
 	}
 
 	public EntityAIChaosWaterBolt(EntityWaterGuardian host){
@@ -37,7 +38,7 @@ public class EntityAIChaosWaterBolt extends EntityAIBase{
 		return false;
 	}
 
-	@Override
+	//todo @Override
 	public boolean continueExecuting(){
 		if (host.getCurrentAction() == BossActions.CASTING && host.getTicksInCurrentAction() > 100){
 			host.setCurrentAction(BossActions.IDLE);
@@ -51,13 +52,13 @@ public class EntityAIChaosWaterBolt extends EntityAIBase{
 		if (host.getCurrentAction() != BossActions.CASTING)
 			host.setCurrentAction(BossActions.CASTING);
 
-		if (!host.worldObj.isRemote && host.getCurrentAction() == BossActions.CASTING){
-			float yaw = host.worldObj.rand.nextFloat() * 360;
+		if (!host.world.isRemote && host.getCurrentAction() == BossActions.CASTING){
+			float yaw = host.world.rand.nextFloat() * 360;
 			host.rotationYaw = yaw;
 			host.prevRotationYaw = yaw;
 			ISpellCaster spell = castStack.getCapability(SpellCaster.INSTANCE, null);
 			if (spell != null) {
-				spell.cast(castStack, host.worldObj, host);
+				spell.cast(castStack, host.world, host);
 			}
 		}
 	}

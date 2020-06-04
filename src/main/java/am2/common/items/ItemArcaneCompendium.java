@@ -14,7 +14,7 @@ public class ItemArcaneCompendium extends ItemArsMagica{
 		super();
 	}
 	
-	@Override
+	//todo @Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
 		if (worldIn.isRemote){
 			AMGuiHelper.OpenCompendiumGui(itemStackIn);

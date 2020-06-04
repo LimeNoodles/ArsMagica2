@@ -22,7 +22,7 @@ public class TileCalefactorRenderer extends TileEntitySpecialRenderer<TileEntity
 		rLoc = new ResourceLocation("arsmagica2", "textures/blocks/custom/blockCalefactor.png");
 	}
 
-	@Override
+	//todo @Override
 	public void renderTileEntityAt(TileEntityCalefactor tile, double x, double y, double z, float partialTicks, int destroyStage) {
 		if (renderItem == null)
 			renderItem = new RenderEntityItem(Minecraft.getMinecraft().getRenderManager(), Minecraft.getMinecraft().getRenderItem());
@@ -110,7 +110,7 @@ public class TileCalefactorRenderer extends TileEntitySpecialRenderer<TileEntity
 	}
 
 	private void RenderItemAtCoords(ItemStack item, double x, double y, double z, float partialTicks){
-		AMGuiHelper.instance.dummyItem.setEntityItemStack(item);
+		AMGuiHelper.instance.dummyItem.setItem(item);
 		renderItem.doRender(AMGuiHelper.instance.dummyItem, x, y, z, AMGuiHelper.instance.dummyItem.rotationYaw, partialTicks);
 	}
 

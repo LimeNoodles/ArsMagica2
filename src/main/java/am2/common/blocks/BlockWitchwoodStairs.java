@@ -19,8 +19,8 @@ public class BlockWitchwoodStairs extends BlockStairs{
 
 	public BlockStairs registerAndName(ResourceLocation rl) {
 		this.setUnlocalizedName(rl.toString());
-		GameRegistry.register(this, rl);
-		GameRegistry.register(new ItemBlockSubtypes(this), rl);
+//todo 		GameRegistry.register(this, rl);
+		//todo GameRegistry.register(new ItemBlockSubtypes(this), rl);
 		return this;
 	}
 }

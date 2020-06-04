@@ -33,7 +33,7 @@ public class ItemJournal extends ItemArsMagica{
 		return true;
 	}
 
-	@Override
+	//todo @Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack journal, EntityPlayer player, List<String> list, boolean par4){
 		String owner = getOwner(journal);
@@ -43,25 +43,25 @@ public class ItemJournal extends ItemArsMagica{
 			return;
 		}else{
 			list.add(String.format(I18n.format("am2.tooltip.journalOwner")));
-			list.add(String.format(I18n.format("am2.tooltip.journalOwner2"), owner));
+			//todo list.add(String.format(I18n.format("am2.tooltip.journalOwner2"), owner));
 		}
 
 		if (owner.equals(player.getName()))
-			list.add(String.format(I18n.format("am2.tooltip.containedXP"), getXPInJournal(journal)));
+			//todo list.add(String.format(I18n.format("am2.tooltip.containedXP"), getXPInJournal(journal)));
 
 		if (owner == null || owner.equals(player.getName()))
 			list.add(I18n.format("am2.tooltip.journalUse"));
 	}
 
-	@Override
+	//todo @Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack journal, World world, EntityPlayer player, EnumHand hand){
 
-		if (!player.worldObj.isRemote){
+		if (!player.world.isRemote){
 			if (getOwner(journal) == null){
 				setOwner(journal, player);
 			}else if (!getOwner(journal).equals(player.getName())){
-			  player.addChatMessage(new TextComponentString(I18n.format("am2.tooltip.notYourJournal")));
-				return super.onItemRightClick(journal, world, player, hand);
+			  player.sendMessage(new TextComponentString(I18n.format("am2.tooltip.notYourJournal")));
+				//todo return super.onItemRightClick(journal, world, player, hand);
 			}
 
 			if (player.isSneaking()){
@@ -76,7 +76,8 @@ public class ItemJournal extends ItemArsMagica{
 			}
 		}
 
-		return super.onItemRightClick(journal, world, player, hand);
+		//todo return super.onItemRightClick(journal, world, player, hand);
+		return null;
 	}
 
 	private void addXPToJournal(ItemStack journal, int amount){

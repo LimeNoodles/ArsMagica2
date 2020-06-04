@@ -71,7 +71,7 @@ public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabi
 	
 	@Override
 	public void setAffinityDepth (Affinity name, double value) {
-		value = MathHelper.clamp_double(value, 0, MAX_DEPTH);
+		value = MathHelper.clamp(value, 0, MAX_DEPTH);
 		if (value != this.getAffinityDepth(name)) {
 			this.syncCode |= SYNC_DEPTHS;
 			this.depths.put(name, value);
@@ -86,8 +86,8 @@ public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabi
 	@Override
 	public void init(EntityPlayer entity) {
 		HashMap<Affinity, Double> map = new HashMap<>();
-		for (Affinity aff : ArsMagicaAPI.getAffinityRegistry().getValues())
-			map.put(aff, 0D);
+		//todo for (Affinity aff : ArsMagicaAPI.getAffinityRegistry().getValues())
+			//map.put(aff, 0D);
 	}
 	
 	@Override
@@ -256,10 +256,10 @@ public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabi
 			this.depths.clear();
 			int size = reader.getInt();
 			for (int i = 0; i < size; i++) {
-				Affinity key = ArsMagicaAPI.getAffinityRegistry().getObject(new ResourceLocation(reader.getString()));
+				//todo Affinity key = ArsMagicaAPI.getAffinityRegistry().getObject(new ResourceLocation(reader.getString()));
 				double value = reader.getDouble();
-				if (key != null)
-					this.depths.put(key, value);
+				//if (key != null)
+				//	this.depths.put(key, value);
 			}
 		}
 		if ((syncCode & SYNC_ABILITY_BOOLEANS) == SYNC_ABILITY_BOOLEANS) {

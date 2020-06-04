@@ -26,6 +26,8 @@ public class RecipesEssenceRefiner extends RecipesArsMagica{
 
 	private void InitRecipes(){
 		//arcane essence
+		//todo below
+		/*
 		AddRecipe(new ItemStack[]{
 						new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_ARCANEASH),
 						new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_ARCANEASH),
@@ -243,6 +245,6 @@ public class RecipesEssenceRefiner extends RecipesArsMagica{
 				new ItemStack(Items.EMERALD),
 				new ItemStack(Items.MAGMA_CREAM),
 				new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.ENDER)),
-		}, new ItemStack(ItemDefs.deficitCrystal));
+		}, new ItemStack(ItemDefs.deficitCrystal)); */
 	}
 }

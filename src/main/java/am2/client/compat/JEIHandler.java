@@ -3,6 +3,7 @@ package am2.client.compat;
 import am2.api.recipes.RecipesEssenceRefiner;
 import am2.client.compat.jei.EssenceRefinerRecipeCategory;
 import am2.client.compat.jei.EssenceRefinerRecipeHandler;
+
 import mezz.jei.api.IJeiRuntime;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.IModRegistry;

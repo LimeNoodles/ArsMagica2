@@ -8,6 +8,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.items.ItemStackHandler;
 
 public class EntityBroomInventory implements IInventory{
 
@@ -23,6 +24,11 @@ public class EntityBroomInventory implements IInventory{
 	}
 
 	@Override
+	public boolean isEmpty() {
+		return false;
+	}
+
+	@Override
 	public ItemStack getStackInSlot(int i){
 		if (i >= inventory.length)
 			return null;
@@ -32,13 +38,13 @@ public class EntityBroomInventory implements IInventory{
 	@Override
 	public ItemStack decrStackSize(int i, int j){
 		if (inventory[i] != null){
-			if (inventory[i].stackSize <= j){
+			if (inventory[i].getCount() <= j){
 				ItemStack itemstack = inventory[i];
 				inventory[i] = null;
 				return itemstack;
 			}
 			ItemStack itemstack1 = inventory[i].splitStack(j);
-			if (inventory[i].stackSize == 0){
+			if (inventory[i].getCount() == 0){
 				inventory[i] = null;
 			}
 			return itemstack1;
@@ -61,8 +67,8 @@ public class EntityBroomInventory implements IInventory{
 	@Override
 	public void setInventorySlotContents(int i, ItemStack itemstack){
 		inventory[i] = itemstack;
-		if (itemstack != null && itemstack.stackSize > getInventoryStackLimit()){
-			itemstack.stackSize = getInventoryStackLimit();
+		if (itemstack != null && itemstack.getCount() > getInventoryStackLimit()){
+			itemstack.setCount(getInventoryStackLimit());
 		}
 	}
 
@@ -82,7 +88,7 @@ public class EntityBroomInventory implements IInventory{
 	}
 
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer entityplayer){
+	public boolean isUsableByPlayer(EntityPlayer entityplayer){
 		return false;
 	}
 
@@ -118,14 +124,16 @@ public class EntityBroomInventory implements IInventory{
 	}
 
 	public void loadBroomInventory(NBTTagCompound compound){
+		ItemStackHandler handler = new ItemStackHandler();
 		NBTTagList nbttaglist = compound.getTagList("DaBroomInventory", Constants.NBT.TAG_COMPOUND);
 		inventory = new ItemStack[getSizeInventory()];
 		for (int i = 0; i < nbttaglist.tagCount(); i++){
 			String tag = String.format("ArrayIndex", i);
 			NBTTagCompound nbttagcompound1 = (NBTTagCompound)nbttaglist.getCompoundTagAt(i);
 			byte byte0 = nbttagcompound1.getByte(tag);
-			if (byte0 >= 0 && byte0 < inventory.length){
-				inventory[byte0] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
+			if (byte0 >= 0 && byte0 < inventory.length)
+			{
+				handler.deserializeNBT(nbttagcompound1);
 			}
 		}
 	}

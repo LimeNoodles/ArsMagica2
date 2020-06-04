@@ -154,8 +154,9 @@ public class AMDataReader{
 	public ItemStack getItemStack(){
 		NBTTagCompound compound = getNBTTagCompound();
 		if (compound == null) return null;
-		ItemStack stack = ItemStack.loadItemStackFromNBT(compound);
-		return stack;
+		//todo ItemStack stack = ItemStack.loadItemStackFromNBT(compound);
+		//return stack;
+		return null;
 	}
 
 	public int[] getIntArray(){

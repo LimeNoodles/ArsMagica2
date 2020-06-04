@@ -41,7 +41,7 @@ public class BlockOtherworldAura extends BlockAMPowered{
 		return 15;
 	}
 	
-	@Override
+	//todo @Override
 	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, Entity entityIn) {}
 	
 	@Override

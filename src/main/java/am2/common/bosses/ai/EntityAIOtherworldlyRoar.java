@@ -42,7 +42,7 @@ public class EntityAIOtherworldlyRoar extends AIAnimation {
 		if (living.getAttackTarget() == null)
 			return false;
 
-		if (living.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, living.getEntityBoundingBox().expand(9, 3, 9))
+		if (living.world.getEntitiesWithinAABB(EntityLivingBase.class, living.getEntityBoundingBox().expand(9, 3, 9))
 				.size() < 2) {
 			return false;
 		}
@@ -62,10 +62,10 @@ public class EntityAIOtherworldlyRoar extends AIAnimation {
 		if (guardian.getAttackTarget() != null) {
 			if (guardian.getTicksInCurrentAction() == 33) {
 				guardian.faceEntity(guardian.getAttackTarget(), 180, 180);
-				ISpellCaster spell = NPCSpells.instance.enderGuardian_otherworldlyRoar.getCapability(SpellCaster.INSTANCE, null);
-				if (spell != null) {
-					spell.cast(NPCSpells.instance.enderGuardian_otherworldlyRoar, guardian.worldObj, guardian);
-				}
+	//todo			ISpellCaster spell = NPCSpells.instance.enderGuardian_otherworldlyRoar.getCapability(SpellCaster.INSTANCE, null);
+		//		if (spell != null) {
+//todo					spell.cast(NPCSpells.instance.enderGuardian_otherworldlyRoar, guardian.world, guardian);
+		//		}
 			} else {
 				guardian.faceEntity(guardian.getAttackTarget(), 180, 180);
 			}

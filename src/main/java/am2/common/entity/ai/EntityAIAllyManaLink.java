@@ -16,7 +16,7 @@ import net.minecraft.item.ItemStack;
 public class EntityAIAllyManaLink extends EntityAIBase {
 
 	private EntityCreature host;
-	private static final ItemStack spellStack = NPCSpells.instance.manaLink.copy();
+	//todo private static final ItemStack spellStack = NPCSpells.instance.manaLink.copy();
 	
 	public EntityAIAllyManaLink(EntityCreature host){
 		this.host = host;
@@ -28,14 +28,14 @@ public class EntityAIAllyManaLink extends EntityAIBase {
 		if (!isSummon)
 			return false;
 		EntityPlayer owner = getHostOwner();
-		if (owner == null || !SkillData.For(owner).hasSkill(SkillDefs.MAGE_POSSE_2.getID()) || host.getDistanceSqToEntity(host) > 64D || EntityExtension.For(owner).isManaLinkedTo(host))
+		if (owner == null || !SkillData.For(owner).hasSkill(SkillDefs.MAGE_POSSE_2.getID()) || host.getDistanceSq(host) > 64D || EntityExtension.For(owner).isManaLinkedTo(host))
 			return false;
 		return true;
 	}
 
 	private EntityPlayer getHostOwner(){
 		int ownerID = EntityUtils.getOwner(host);
-		Entity owner = host.worldObj.getEntityByID(ownerID);
+		Entity owner = host.world.getEntityByID(ownerID);
 		if (owner == null || !(owner instanceof EntityPlayer))
 			return null;
 		return (EntityPlayer)owner;
@@ -46,13 +46,13 @@ public class EntityAIAllyManaLink extends EntityAIBase {
 		EntityPlayer owner = getHostOwner();
 		if (owner == null)
 			return;
-		if (host.getDistanceToEntity(owner) < 1)
+		if (host.getDistanceSq(owner) < 1)
 			host.getNavigator().tryMoveToXYZ(host.posX, host.posY, host.posZ, 0.5f);
 		else {
-			ISpellCaster caster = spellStack.getCapability(SpellCaster.INSTANCE, null);
-			if (caster != null) {
-				caster.cast(spellStack, host.worldObj, host);
-			}
+		//todo 	ISpellCaster caster = spellStack.getCapability(SpellCaster.INSTANCE, null);
+		//todo	if (caster != null) {
+			//todo 	caster.cast(spellStack, host.world, host);
+			//}
 		}
 	}
 

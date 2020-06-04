@@ -24,25 +24,26 @@ public class ItemFlickerJar extends ItemArsMagica{
 	@SideOnly(Side.CLIENT)
 	public String getItemStackDisplayName(ItemStack stack){
 		int meta = stack.getItemDamage();
-		String baseName = I18n.format("am2.item.flickerJar");
-		if (meta == ArsMagicaAPI.getAffinityRegistry().getId(Affinity.NONE))
-			return I18n.format("item.arsmagica2:flickerJar.name", I18n.format("am2.tooltip.empty"));
+		//todo String baseName = I18n.format("am2.item.flickerJar");
+		//if (meta == ArsMagicaAPI.getAffinityRegistry().getId(Affinity.NONE))
+			//return I18n.format("item.arsmagica2:flickerJar.name", I18n.format("am2.tooltip.empty"));
 
-		Affinity aff = ArsMagicaAPI.getAffinityRegistry().getObjectById(meta);
-		baseName = I18n.format("item.arsmagica2:flickerJar.name", aff.getLocalizedName());
+		//Affinity aff = ArsMagicaAPI.getAffinityRegistry().getObjectById(meta);
+		//baseName = I18n.format("item.arsmagica2:flickerJar.name", aff.getLocalizedName());
 
-		return baseName;
+		//return baseName;
+		return null;
 	}
 
 	public void setFlickerJarTypeFromFlicker(ItemStack stack, EntityFlicker flick){
-		stack.setItemDamage(ArsMagicaAPI.getAffinityRegistry().getId(flick.getFlickerAffinity()));
+		//todo stack.setItemDamage(ArsMagicaAPI.getAffinityRegistry().getId(flick.getFlickerAffinity()));
 	}
 
-	@Override
+	//todo @Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List){
-		for (Affinity aff : ArsMagicaAPI.getAffinityRegistry()){
-			par3List.add(new ItemStack(this, 1, ArsMagicaAPI.getAffinityRegistry().getId(aff)));
-		}
+		//for (Affinity aff : ArsMagicaAPI.getAffinityRegistry()){
+			//par3List.add(new ItemStack(this, 1, ArsMagicaAPI.getAffinityRegistry().getId(aff)));
+		//}
 	}
 }

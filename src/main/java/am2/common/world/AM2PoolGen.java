@@ -75,13 +75,13 @@ public class AM2PoolGen{
 
 	private boolean biomeIsValid(World world, BlockPos pos){
 		Biome biome = world.getBiome(pos);
-		Type[] types = BiomeDictionary.getTypesForBiome(biome);
+		//todo Type[] types = BiomeDictionary.getTypesForBiome(biome);
 
-		for (Type type : types){
-			if (type == Type.END || type == Type.MUSHROOM || type == Type.NETHER || type == Type.WATER || type == Type.WASTELAND){
-				return false;
-			}
-		}
+		//for (Type type : types){
+			//if (type == Type.END || type == Type.MUSHROOM || type == Type.NETHER || type == Type.WATER || type == Type.WASTELAND){
+				//return false;
+			//}
+		//}
 
 		return true;
 	}

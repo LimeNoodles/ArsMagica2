@@ -31,7 +31,7 @@ public class BlockArsMagicaBlock extends BlockAM {
 		return new BlockStateContainer(this, BlockArsMagicaBlock.BLOCK_TYPE);
 	}
 	
-	@Override
+	//todo @Override
 	public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
 		for (int i = 0; i < EnumBlockType.values().length; i++) {
 			list.add(new ItemStack(this, 1, i));
@@ -50,14 +50,14 @@ public class BlockArsMagicaBlock extends BlockAM {
 	
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
-		return getDefaultState().withProperty(BLOCK_TYPE, EnumBlockType.values()[MathHelper.clamp_int(meta, 0, EnumBlockType.values().length - 1)]);
+		return getDefaultState().withProperty(BLOCK_TYPE, EnumBlockType.values()[MathHelper.clamp(meta, 0, EnumBlockType.values().length - 1)]);
 	}
 	
 	@Override
 	public BlockAM registerAndName(ResourceLocation rl) {
 		this.setUnlocalizedName(rl.getResourcePath());
-		GameRegistry.register(this, rl);
-		GameRegistry.register(new ItemBlockOreBlock(this), rl);
+	//todo	GameRegistry.register(this, rl);
+//todo		GameRegistry.register(new ItemBlockOreBlock(this), rl);
 		return this;
 	}
 	

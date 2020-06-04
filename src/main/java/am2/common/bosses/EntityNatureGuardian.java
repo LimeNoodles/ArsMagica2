@@ -19,6 +19,7 @@ import am2.common.defs.AMSounds;
 import am2.common.defs.ItemDefs;
 import am2.common.packet.AMNetHandler;
 import am2.common.utils.NPCSpells;
+import net.minecraft.entity.MultiPartEntityPart;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
@@ -58,12 +59,12 @@ public class EntityNatureGuardian extends AM2Boss{
 
 	@Override
 	protected void initSpecificAI(){
-		this.tasks.addTask(1, new EntityAICastSpell<EntityNatureGuardian>(this, NPCSpells.instance.dispel, 16, 23, 50, BossActions.CASTING, new ISpellCastCallback<EntityNatureGuardian>(){
-			@Override
-			public boolean shouldCast(EntityNatureGuardian host, ItemStack spell){
-				return host.getActivePotionEffects().size() > 0;
-			}
-		}));
+		//todo this.tasks.addTask(1, new EntityAICastSpell<EntityNatureGuardian>(this, NPCSpells.instance.dispel, 16, 23, 50, BossActions.CASTING, new ISpellCastCallback<EntityNatureGuardian>(){
+			//@Override
+		//	public boolean shouldCast(EntityNatureGuardian host, ItemStack spell){
+		//		return host.getActivePotionEffects().size() > 0;
+		//	}
+		//}));
 		this.tasks.addTask(3, new EntityAIPlantGuardianThrowSickle(this, 0.75f));
 		this.tasks.addTask(3, new EntityAISpinAttack(this, 0.5f, 8));
 		this.tasks.addTask(4, new EntityAIStrikeAttack(this, 0.75f, 12.0f, DamageSources.DamageSourceTypes.CACTUS));
@@ -72,7 +73,7 @@ public class EntityNatureGuardian extends AM2Boss{
 
 	@Override
 	public void onUpdate(){
-		if (worldObj.isRemote){
+		if (world.isRemote){
 			updateMovementAngles();
 			spawnParticles();
 		}
@@ -85,7 +86,7 @@ public class EntityNatureGuardian extends AM2Boss{
 	}
 
 	private void spawnParticles(){
-		AMParticle leaf = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, "leaf", posX + (rand.nextDouble() * 3) - 1.5f, posY + (rand.nextDouble() * 5f), posZ + (rand.nextDouble() * 3) - 1.5f);
+		AMParticle leaf = (AMParticle)ArsMagica2.proxy.particleManager.spawn(world, "leaf", posX + (rand.nextDouble() * 3) - 1.5f, posY + (rand.nextDouble() * 5f), posZ + (rand.nextDouble() * 3) - 1.5f);
 		if (leaf != null){
 			leaf.setMaxAge(20);
 			leaf.setIgnoreMaxAge(false);
@@ -101,7 +102,7 @@ public class EntityNatureGuardian extends AM2Boss{
 		super.setCurrentAction(action);
 		this.spinRotation = 0;
 
-		if (!worldObj.isRemote){
+		if (!world.isRemote){
 			AMNetHandler.INSTANCE.sendActionUpdateToAllAround(this);
 		}
 	}
@@ -149,7 +150,7 @@ public class EntityNatureGuardian extends AM2Boss{
 		int i = rand.nextInt(4);
 
 		for (int j = 0; j < i; j++){
-			this.entityDropItem(new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.NATURE)), 0.0f);
+			//todo this.entityDropItem(new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.NATURE)), 0.0f);
 		}
 		i = rand.nextInt(10);
 
@@ -169,7 +170,7 @@ public class EntityNatureGuardian extends AM2Boss{
 	}
 
 	@Override
-	protected SoundEvent getHurtSound(){
+	protected SoundEvent getHurtSound(DamageSource source){
 		return AMSounds.NATURE_GUARDIAN_HIT;
 	}
 
@@ -191,5 +192,11 @@ public class EntityNatureGuardian extends AM2Boss{
 	@Override
 	protected Color getBarColor() {
 		return Color.RED;
+	}
+
+	@Override
+	public boolean attackEntityFromPart(MultiPartEntityPart dragonPart, DamageSource source, float damage) {
+		return false;
+		//todo
 	}
 }

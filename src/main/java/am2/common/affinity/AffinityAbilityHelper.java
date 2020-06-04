@@ -58,7 +58,7 @@ public class AffinityAbilityHelper {
 	
 	static {
 		//AIR
-		GameRegistry.register(new AbilityLightAsAFeather());
+		/*GameRegistry.register(new AbilityLightAsAFeather());
 		GameRegistry.register(new AbilityAgile());
 		
 		//ARCANE
@@ -109,7 +109,7 @@ public class AffinityAbilityHelper {
 		GameRegistry.register(new AbilityFulmination());
 		GameRegistry.register(new AbilityShortCircuit());
 		GameRegistry.register(new AbilityThunderPunch());
-		GameRegistry.register(new AbilityWaterWeakness(Affinity.LIGHTNING));
+		GameRegistry.register(new AbilityWaterWeakness(Affinity.LIGHTNING));*/ //todo this
 	}
 	
 	
@@ -133,7 +133,7 @@ public class AffinityAbilityHelper {
 	@SubscribeEvent
 	public void onPlayerTick(LivingUpdateEvent event) {
 		if (event.getEntityLiving() instanceof EntityPlayer) {
-			if (!event.getEntityLiving().worldObj.isRemote) {
+			if (!event.getEntityLiving().world.isRemote) {
 				for (Entry<String, Integer> entry : AffinityData.For(event.getEntityLiving()).getCooldowns().entrySet()) {
 					if (entry.getValue() > 0)
 						AffinityData.For(event.getEntityLiving()).addCooldown(entry.getKey(), entry.getValue() - 1);
@@ -156,10 +156,10 @@ public class AffinityAbilityHelper {
 					ability.applyHurt((EntityPlayer) event.getEntityLiving(), event, false);
 			}
 		}
-		if (event.getSource().getEntity() != null && event.getSource().getEntity() instanceof EntityPlayer) {
+		if (event.getSource().getTrueSource() != null && event.getSource().getTrueSource() instanceof EntityPlayer) {
 			for (AbstractAffinityAbility ability : GameRegistry.findRegistry(AbstractAffinityAbility.class).getValues()) {
-				if (ability.canApply((EntityPlayer) event.getSource().getEntity()))
-					ability.applyHurt((EntityPlayer) event.getSource().getEntity(), event, true);
+				if (ability.canApply((EntityPlayer) event.getSource().getTrueSource()))
+					ability.applyHurt((EntityPlayer) event.getSource().getTrueSource(), event, true);
 			}
 		}
 	}
@@ -182,10 +182,10 @@ public class AffinityAbilityHelper {
 					ability.applyDeath((EntityPlayer) event.getEntityLiving(), event);
 			}
 		}
-		if (event.getSource().getEntity() != null && event.getSource().getEntity() instanceof EntityPlayer) {
+		if (event.getSource().getTrueSource() != null && event.getSource().getTrueSource() instanceof EntityPlayer) {
 			for (AbstractAffinityAbility ability : GameRegistry.findRegistry(AbstractAffinityAbility.class).getValues()) {
-				if (ability.canApply((EntityPlayer) event.getSource().getEntity()))
-					ability.applyKill((EntityPlayer) event.getSource().getEntity(), event);
+				if (ability.canApply((EntityPlayer) event.getSource().getTrueSource()))
+					ability.applyKill((EntityPlayer) event.getSource().getTrueSource(), event);
 			}
 		}
 	}

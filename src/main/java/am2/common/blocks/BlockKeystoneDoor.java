@@ -36,7 +36,7 @@ public class BlockKeystoneDoor extends BlockDoor implements ITileEntityProvider{
 		this.setResistance(2.0f);
 	}
 	
-	@Override
+	//todo @Override
 	public boolean onBlockActivated(World worldIn, BlockPos oldPos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
 		BlockPos pos = oldPos;
 		if (worldIn.getBlockState(pos.down()).getBlock() == BlockDefs.keystoneDoor)
@@ -55,24 +55,24 @@ public class BlockKeystoneDoor extends BlockDoor implements ITileEntityProvider{
 			}else{
 				activateNeighbors(worldIn, pos, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
 				//CompendiumUnlockHandler.unlockEntry(this.getUnlocalizedName().replace("arsmagica2:", "").replace("tile.", ""));
-				return super.onBlockActivated(worldIn, oldPos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
+				//todo return super.onBlockActivated(worldIn, oldPos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
 			}
 		}
 		return false;
 	}
 
 	private void activateNeighbors(World world, BlockPos pos, EntityPlayer player, EnumHand hand, ItemStack held, EnumFacing direction, float xOffset, float yOffset, float zOffset){
-		if (world.getBlockState(pos.east()).getBlock() == BlockDefs.keystoneDoor)
-			super.onBlockActivated(world, pos.east(), world.getBlockState(pos.east()), player, hand, held, direction, xOffset, yOffset, zOffset);
+		//if (world.getBlockState(pos.east()).getBlock() == BlockDefs.keystoneDoor)
+			//todo super.onBlockActivated(world, pos.east(), world.getBlockState(pos.east()), player, hand, held, direction, xOffset, yOffset, zOffset);
 
-		if (world.getBlockState(pos.west()).getBlock() == BlockDefs.keystoneDoor)
-			super.onBlockActivated(world, pos.west(), world.getBlockState(pos.west()), player, hand, held, direction, xOffset, yOffset, zOffset);
+		//if (world.getBlockState(pos.west()).getBlock() == BlockDefs.keystoneDoor)
+			//todo super.onBlockActivated(world, pos.west(), world.getBlockState(pos.west()), player, hand, held, direction, xOffset, yOffset, zOffset);
 
-		if (world.getBlockState(pos.north()).getBlock() == BlockDefs.keystoneDoor)
-			super.onBlockActivated(world, pos.north(), world.getBlockState(pos.north()), player, hand, held, direction, xOffset, yOffset, zOffset);
+		//if (world.getBlockState(pos.north()).getBlock() == BlockDefs.keystoneDoor)
+			//todo super.onBlockActivated(world, pos.north(), world.getBlockState(pos.north()), player, hand, held, direction, xOffset, yOffset, zOffset);
 
-		if (world.getBlockState(pos.south()).getBlock() == BlockDefs.keystoneDoor)
-			super.onBlockActivated(world, pos.south(), world.getBlockState(pos.south()), player, hand, held, direction, xOffset, yOffset, zOffset);
+		//if (world.getBlockState(pos.south()).getBlock() == BlockDefs.keystoneDoor)
+			//todo super.onBlockActivated(world, pos.south(), world.getBlockState(pos.south()), player, hand, held, direction, xOffset, yOffset, zOffset);
 	}
 
 	@Override
@@ -124,7 +124,7 @@ public class BlockKeystoneDoor extends BlockDoor implements ITileEntityProvider{
 	
 	public Block registerAndName(ResourceLocation rl) {
 		this.setUnlocalizedName(rl.getResourcePath());
-		GameRegistry.register(this, rl);
+		//todo GameRegistry.register(this, rl);
 		return this;
 	}
 	

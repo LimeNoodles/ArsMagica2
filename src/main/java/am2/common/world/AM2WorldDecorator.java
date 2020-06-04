@@ -17,8 +17,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.chunk.IChunkGenerator;
 import net.minecraft.world.chunk.IChunkProvider;
+import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.common.BiomeDictionary;
@@ -111,7 +111,7 @@ public class AM2WorldDecorator implements IWorldGenerator{
 		generateFlowers(tarmaRoot, world, random, chunkX, chunkZ);
 
 		Biome biome = world.getBiome(new BlockPos (chunkX << 4, 0, chunkZ << 4));
-		Type[] biomeTypes = BiomeDictionary.getTypesForBiome(biome);
+		/*Type[] biomeTypes = BiomeDictionary.getTypesForBiome(biome);
 		boolean typeValid = false;
 		for (Type type : biomeTypes){
 			if (type == Type.BEACH || type == Type.SWAMP || type == Type.JUNGLE || type == Type.PLAINS || type == Type.WATER){
@@ -120,9 +120,10 @@ public class AM2WorldDecorator implements IWorldGenerator{
 				typeValid = false;
 				break;
 			}
-		}
+		}*/ //todo this
 
-		if (biome != Biome.REGISTRY.getObject(new ResourceLocation("minecraft:ocean")) && typeValid && random.nextInt(10) < 7){
+		if (biome != Biome.REGISTRY.getObject(new ResourceLocation("minecraft:ocean")) //todo && typeValid
+		 && random.nextInt(10) < 7){
 			generateFlowers(wakebloom, world, random, chunkX, chunkZ);
 		}
 
@@ -134,12 +135,12 @@ public class AM2WorldDecorator implements IWorldGenerator{
 			generatePools(world, random, chunkX, chunkZ);
 		}
 
-		if ((BiomeDictionary.isBiomeOfType(biome, Type.MAGICAL) || BiomeDictionary.isBiomeOfType(biome, Type.FOREST)) && random.nextInt(4) == 0 && TerrainGen.populate(chunkGenerator, world, random, chunkX, chunkZ, true, LAKE)){
+		/*if ((BiomeDictionary.isBiomeOfType(biome, Type.MAGICAL) || BiomeDictionary.isBiomeOfType(biome, Type.FOREST)) && random.nextInt(4) == 0 && TerrainGen.populate(chunkGenerator, world, random, chunkX, chunkZ, true, LAKE)){
 			int lakeGenX = (chunkX * 16) + random.nextInt(16) + 8;
 			int lakeGenY = random.nextInt(128);
 			int lakeGenZ = (chunkZ * 16) + random.nextInt(16) + 8;
 			(new WorldGenEssenceLakes(BlockDefs.liquid_essence.getBlock())).generate(world, random, new BlockPos (lakeGenX, lakeGenY, lakeGenZ));
-		}
+		}*/ //TODO this
 	}
 
 	private void generateFlowers(AM2FlowerGen flowers, World world, Random random, int chunkX, int chunkZ) {

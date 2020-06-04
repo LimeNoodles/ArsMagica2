@@ -47,21 +47,21 @@ public class BlockOcculus extends BlockContainer {
 		return new BlockStateContainer(this, new IProperty[] {FACING});
 	}
 	
-	@Override
+	//todo @Override
 	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
 		
 		return getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite());
 	}
-	@Override
+	//todo @Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos,
 			IBlockState state, EntityPlayer playerIn, EnumHand hand,
 			ItemStack heldItem, EnumFacing side, float hitX, float hitY,
 			float hitZ) {
 		if (playerIn.isSneaking())
 			return false;
-		if (EntityExtension.For(playerIn).getCurrentLevel() == 0 && !Minecraft.getMinecraft().thePlayer.isCreative()) {
+		if (EntityExtension.For(playerIn).getCurrentLevel() == 0 && !Minecraft.getMinecraft().player.isCreative()) {
 			if (worldIn.isRemote)
-				Minecraft.getMinecraft().thePlayer.addChatMessage(new TextComponentString("Mythical forces prevent you from using this device!"));
+				Minecraft.getMinecraft().player.sendMessage(new TextComponentString("Mythical forces prevent you from using this device!"));
 			return true;
 		}
 		playerIn.openGui(ArsMagica2.instance, IDDefs.GUI_OCCULUS, worldIn, pos.getX(), pos.getY(), pos.getZ());
@@ -70,8 +70,8 @@ public class BlockOcculus extends BlockContainer {
 
 	public BlockOcculus registerAndName(ResourceLocation rl) {
 		this.setUnlocalizedName(rl.toString());
-		GameRegistry.register(this, rl);
-		GameRegistry.register(new ItemBlock(this), rl);
+		//todo GameRegistry.register(this, rl);
+		//todo GameRegistry.register(new ItemBlock(this), rl);
 		return this;
 	}
 	
@@ -116,7 +116,7 @@ public class BlockOcculus extends BlockContainer {
         return false;
     }
 	
-	@Override
+	//todo @Override
 	public boolean isBlockSolid(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
 		return true;
 	}

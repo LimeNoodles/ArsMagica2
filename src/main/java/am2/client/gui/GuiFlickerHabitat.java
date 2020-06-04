@@ -53,46 +53,46 @@ public class GuiFlickerHabitat extends GuiContainer{
 
 		if (stack == null) return;
 
-		AbstractFlickerFunctionality func = ArsMagicaAPI.getFlickerFocusRegistry().getObjectById(stack.getItemDamage());
+		//todo AbstractFlickerFunctionality func = ArsMagicaAPI.getFlickerFocusRegistry().getObjectById(stack.getItemDamage());
 
-		if (func == null)
-			return;
+		//todo if (func == null)
+			//return;
 
-		String colorCode = Minecraft.getMinecraft().theWorld.isBlockIndirectlyGettingPowered(flickerHabitat.getPos()) > 0 ? "\2474" : "\2472";
+		String colorCode = Minecraft.getMinecraft().world.isBlockIndirectlyGettingPowered(flickerHabitat.getPos()) > 0 ? "\2474" : "\2472";
 
 		int yPos = 5;
 		String curLine;
 
-		if (func.RequiresPower()){
-			curLine = I18n.format("am2.gui.flicker_needspower");
-		}else{
-			curLine = I18n.format("am2.gui.flicker_doesntneedpower");
-		}
+		//if (func.RequiresPower()){
+		//	curLine = I18n.format("am2.gui.flicker_needspower");
+		//}else{
+		//	curLine = I18n.format("am2.gui.flicker_doesntneedpower");
+		//}
 
-		drawCenteredString(curLine, yPos);
-		yPos += 12 * (int)Math.ceil(this.fontRendererObj.getStringWidth(curLine) / 170.0f);
+		//todo drawCenteredString(curLine, yPos);
+		//todo yPos += 12 * (int)Math.ceil(this.fontRenderer.getStringWidth(curLine) / 170.0f);
 
-		drawCenteredString(I18n.format("am2.gui.flicker_powerperop", String.format("%s%d\2470", colorCode, func.PowerPerOperation())), yPos);
+		//todo drawCenteredString(I18n.format("am2.gui.flicker_powerperop", String.format("%s%d\2470", colorCode, func.PowerPerOperation())), yPos);
 
 		yPos += 12;
 
-		boolean powered = PowerNodeRegistry.For(flickerHabitat.getWorld()).checkPower(flickerHabitat, func.PowerPerOperation());
+		//todo boolean powered = PowerNodeRegistry.For(flickerHabitat.getWorld()).checkPower(flickerHabitat, func.PowerPerOperation());
 
 		if (yPos > 40)
 			yPos += 27;
 
-		drawCenteredString(I18n.format("am2.gui.flicker_optime", String.format("%s%.2f\2470", colorCode, func.TimeBetweenOperation(powered, flickerHabitat.getNearbyUpgrades()) / 20.0f)), yPos);
+		//todo drawCenteredString(I18n.format("am2.gui.flicker_optime", String.format("%s%.2f\2470", colorCode, func.TimeBetweenOperation(powered, flickerHabitat.getNearbyUpgrades()) / 20.0f)), yPos);
 		GlStateManager.color(1, 1, 1, 1);
 		GlStateManager.disableBlend();
 	}
 
 	private void drawCenteredString(String s, int yCoord){
-		int w = this.fontRendererObj.getStringWidth(s);
+		int w = this.fontRenderer.getStringWidth(s);
 		int xPos = this.xSize / 2 - w / 2;
 		if (w > 170){
 			xPos = 3;
 		}
-		this.fontRendererObj.drawSplitString(s, xPos, yCoord, 170, 0);
+		this.fontRenderer.drawSplitString(s, xPos, yCoord, 170, 0);
 	}
 
 }

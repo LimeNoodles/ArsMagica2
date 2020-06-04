@@ -89,11 +89,11 @@ public class BlockEssenceGenerator extends BlockAMPowered{
 	}
 	
 	@SuppressWarnings("deprecation")
-	@Override
+	//todo @Override
 	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, Entity entityIn) {
 		if (this == BlockDefs.blackAurem)
 			return;
-		super.addCollisionBoxToList(state, worldIn, pos, entityBox, collidingBoxes, entityIn);
+		//todo super.addCollisionBoxToList(state, worldIn, pos, entityBox, collidingBoxes, entityIn);
 	}
 	
 	@Override
@@ -155,14 +155,14 @@ public class BlockEssenceGenerator extends BlockAMPowered{
 			float f1 = worldIn.rand.nextFloat() * 0.8F + 0.1F;
 			float f2 = worldIn.rand.nextFloat() * 0.8F + 0.1F;
 			do{
-				if (itemstack.stackSize <= 0){
+				if (itemstack.getCount() <= 0){
 					break;
 				}
 				int i1 = worldIn.rand.nextInt(21) + 10;
-				if (i1 > itemstack.stackSize){
-					i1 = itemstack.stackSize;
+				if (i1 > itemstack.getCount()){
+					i1 = itemstack.getCount();
 				}
-				itemstack.stackSize -= i1;
+				//todo itemstack.stackSize -= i1;
 				ItemStack newItem = new ItemStack(itemstack.getItem(), i1, itemstack.getItemDamage());
 				newItem.setTagCompound(itemstack.getTagCompound());
 				EntityItem entityitem = new EntityItem(worldIn, pos.getX() + f, pos.getY() + f1, pos.getZ() + f2, newItem);
@@ -170,13 +170,13 @@ public class BlockEssenceGenerator extends BlockAMPowered{
 				entityitem.motionX = (float)worldIn.rand.nextGaussian() * f3;
 				entityitem.motionY = (float)worldIn.rand.nextGaussian() * f3 + 0.2F;
 				entityitem.motionZ = (float)worldIn.rand.nextGaussian() * f3;
-				worldIn.spawnEntityInWorld(entityitem);
+				worldIn.spawnEntity(entityitem);
 			}while (true);
 		}
 		super.breakBlock(worldIn, pos, state);
 	}
 	
-	@Override
+	//todo @Override
 	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
 		return getStateFromMeta(meta).withProperty(FACING, placer.getHorizontalFacing());
 	}

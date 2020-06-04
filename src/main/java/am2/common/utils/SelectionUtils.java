@@ -78,24 +78,25 @@ public class SelectionUtils {
 	
 	public static EntityPlayer getPlayersForRuneSet (int[] runes) {
 		MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
-		GameProfile[] profiles = server.getPlayerList().getAllProfiles();
+		//todo GameProfile[] profiles = server.getPlayerList().getAllProfiles();
 		if (runes.length != 4)
 			return null;
-		for (GameProfile profile : profiles) {
-			EntityPlayer player = server.getEntityWorld().getPlayerEntityByUUID(profile.getId());
-			boolean match = true;
-			for (int i = 0; i < 4; i++) {
-				if (getRuneSet(player)[i] != runes[i])
-					match = false;
-			}
-			if (match)
-				return player;
-			if (player == null) {
-				LogHelper.error("Missing player " + profile.getName());
-				continue;
-			}
+		//todo below
+		//for (GameProfile profile : profiles) {
+		///	EntityPlayer player = server.getEntityWorld().getPlayerEntityByUUID(profile.getId());
+		//	boolean match = true;
+		//	for (int i = 0; i < 4; i++) {
+		//		if (getRuneSet(player)[i] != runes[i])
+		//			match = false;
+		//	}
+		//	if (match)
+		//		return player;
+		//	if (player == null) {
+		//		LogHelper.error("Missing player " + profile.getName());
+		//		continue;
+		//	}
 			
-		}
+		//}
 		return null;
 	}
 }

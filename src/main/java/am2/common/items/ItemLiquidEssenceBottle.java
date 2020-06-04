@@ -18,12 +18,13 @@ public class ItemLiquidEssenceBottle extends ItemArsMagica{
 		this.setMaxStackSize(1);
 	}
 	
-	@Override
+	//todo @Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn,
 			EnumHand hand) {
 		if (!playerIn.isPotionActive(PotionEffectsDefs.MANA_BOOST))
 			playerIn.setActiveHand(hand);
-		return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);
+		//toso return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);
+		return null;
 	}
 
 	@Override

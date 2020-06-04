@@ -31,57 +31,58 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ICustomModelLoader;
 import net.minecraftforge.client.model.IModel;
-import net.minecraftforge.client.model.IPerspectiveAwareModel;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.model.IModelState;
 import net.minecraftforge.common.model.TRSRTransformation;
 
 public class SpecialRenderModelLoader implements ICustomModelLoader{
 	
-	public class Baked implements IPerspectiveAwareModel {
+	public class Baked //todo IPerspectiveAwareModel
+	{
 		
 		private ItemStack stack = null;
 		private EntityLivingBase entity = null;
 		
-		@Override
+		//@Override
 		public List<BakedQuad> getQuads(IBlockState state, EnumFacing side, long rand) {
 			return new ArrayList<>();
 		}
 
-		@Override
+		//@Override
 		public boolean isAmbientOcclusion() {
 			return false;
 		}
 
-		@Override
+		//todo @Override
 		public boolean isGui3d() {
 			return false;
 		}
 
-		@Override
+		//@Override
 		public boolean isBuiltInRenderer() {
 			return true;
 		}
 
-		@Override
+		//@Override
 		public TextureAtlasSprite getParticleTexture() {
 			return Minecraft.getMinecraft().getTextureMapBlocks().getMissingSprite();
 		}
 
-		@Override
+		//@Override
 		public ItemCameraTransforms getItemCameraTransforms() {
 			return ItemCameraTransforms.DEFAULT;
 		}
 
-		@Override
+		//@Override
 		public ItemOverrideList getOverrides() {
 			return new Overrides(this);
 		}
 
-		@Override
+		//todo @Override
 		public Pair<? extends IBakedModel, Matrix4f> handlePerspective(TransformType cameraTransformType) {
 			MinecraftForge.EVENT_BUS.post(new RenderingItemEvent(this.stack, cameraTransformType, this.entity));
-			return IPerspectiveAwareModel.MapWrapper.handlePerspective(this, transforms, cameraTransformType);
+			//todo return IPerspectiveAwareModel.MapWrapper.handlePerspective(this, transforms, cameraTransformType);
+			return null;
 		}
 
 	}
@@ -104,8 +105,8 @@ public class SpecialRenderModelLoader implements ICustomModelLoader{
 		
 	}
 
-	class Model implements IModel {
-		@Override
+	//todo class Model implements IModel {
+		/*@Override
 		public Collection<ResourceLocation> getDependencies() {
 			return Lists.newArrayList();
 		}
@@ -117,16 +118,17 @@ public class SpecialRenderModelLoader implements ICustomModelLoader{
 
 		@Override
 		public IBakedModel bake(IModelState state, VertexFormat format, Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter) {
-			return new SpecialRenderModelLoader.Baked();
+			//todo return new SpecialRenderModelLoader.Baked();
+			return null;
 		}
 
 		@Override
 		public IModelState getDefaultState() {
 			return ModelUtils.DEFAULT_ITEM_STATE;
 		}
-	}
+	}*/
 
-	static ImmutableMap<TransformType, TRSRTransformation> transforms = IPerspectiveAwareModel.MapWrapper.getTransforms(ModelUtils.DEFAULT_ITEM_STATE);
+	//todo static ImmutableMap<TransformType, TRSRTransformation> transforms = IPerspectiveAwareModel.MapWrapper.getTransforms(ModelUtils.DEFAULT_ITEM_STATE);
 
 	@Override
 	public void onResourceManagerReload(IResourceManager resourceManager) {
@@ -160,7 +162,8 @@ public class SpecialRenderModelLoader implements ICustomModelLoader{
 
 	@Override
 	public IModel loadModel(ResourceLocation modelLocation) {
-		return new SpecialRenderModelLoader.Model();
+		//todo return new SpecialRenderModelLoader.Model();
+		return null;
 	}
 
 }

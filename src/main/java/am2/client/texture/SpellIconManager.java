@@ -25,14 +25,14 @@ public class SpellIconManager {
 	@SubscribeEvent
 	public void init (TextureStitchEvent.Pre e) {
 		sprites.clear();
-		AMGuiIcons.instance.init(e.getMap());
-		for (Skill skill : ArsMagicaAPI.getSkillRegistry().getValues()) {
+		AMGuiIcons.instance.init(e.getMap());//todo below
+		/*for (Skill skill : ArsMagicaAPI.getSkillRegistry().getValues()) {
 			if (skill.getIcon() != null)
 				sprites.put(skill.getID(), e.getMap().registerSprite(skill.getIcon()));
 		}
 		sprites.put("CasterRuneSide", e.getMap().registerSprite(new ResourceLocation("arsmagica2:blocks/CasterRuneSide")));
 		sprites.put("RuneStone", e.getMap().registerSprite(new ResourceLocation("arsmagica2:blocks/RuneStone")));
-	}
+*/	}
 	
 	public TextureAtlasSprite getSprite(String name) {
 		return sprites.get(name);

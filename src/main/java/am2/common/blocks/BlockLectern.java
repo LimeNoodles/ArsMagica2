@@ -40,7 +40,7 @@ public class BlockLectern extends BlockAMSpecialRenderContainer{
 		return new TileEntityLectern();
 	}
 	
-	@Override
+	//todo @Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
 		TileEntityLectern te = getTileEntity(world, pos);
 		if (te == null){
@@ -58,21 +58,21 @@ public class BlockLectern extends BlockAMSpecialRenderContainer{
 					entityitem.motionX = (float)world.rand.nextGaussian() * f3;
 					entityitem.motionY = (float)world.rand.nextGaussian() * f3 + 0.2F;
 					entityitem.motionZ = (float)world.rand.nextGaussian() * f3;
-					world.spawnEntityInWorld(entityitem);
+					world.spawnEntity(entityitem);
 					te.setStack(null);
 				}
 			}else{
 				if (te.getStack().getItem() == Items.WRITTEN_BOOK && world.isRemote && player == ArsMagica2.proxy.getLocalPlayer())
 					openBook(player, te);
 				else
-					te.getStack().getItem().onItemRightClick(te.getStack(), world, player, hand);
+					//todo te.getStack().getItem().onItemRightClick(te.getStack(), world, player, hand);
 				return true;
 			}
 		}else{
 			if (player.getHeldItem(hand) != null){
 				if (te.setStack(player.getHeldItem(hand).copy())){
-					player.getHeldItem(hand).stackSize--;
-					if (player.getHeldItem(hand).stackSize <= 0){
+					//todo player.getHeldItem(hand).stackSize--;
+					if (player.getHeldItem(hand).getCount() <= 0){
 						player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
 					}
 				}
@@ -106,7 +106,7 @@ public class BlockLectern extends BlockAMSpecialRenderContainer{
 				entityitem.motionX = (float)world.rand.nextGaussian() * f3;
 				entityitem.motionY = (float)world.rand.nextGaussian() * f3 + 0.2F;
 				entityitem.motionZ = (float)world.rand.nextGaussian() * f3;
-				world.spawnEntityInWorld(entityitem);
+				world.spawnEntity(entityitem);
 			}
 		}		
 		super.breakBlock(world, pos, state);
@@ -134,7 +134,7 @@ public class BlockLectern extends BlockAMSpecialRenderContainer{
 		return getDefaultState().withProperty(FACING, EnumFacing.values()[meta + 2]);
 	}
 	
-	@Override
+	//todo @Override
 	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
 		return getStateFromMeta(meta).withProperty(FACING, placer.getHorizontalFacing().getOpposite());
 	}

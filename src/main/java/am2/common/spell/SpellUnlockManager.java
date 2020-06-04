@@ -32,7 +32,7 @@ public class SpellUnlockManager{
 				return;
 			for (UnlockEntry entry : entries){
 				//check unlocks
-				if (!event.entityLiving.worldObj.isRemote){
+				if (!event.entityLiving.world.isRemote){
 					if (entry.willSpellUnlock(event.spell)){
 						entry.unlockFor((EntityPlayer)event.entityLiving);
 					}
@@ -42,7 +42,7 @@ public class SpellUnlockManager{
 	}
 
 	public void init(){
-		entries = new ArrayList<UnlockEntry>();
+		/*entries = new ArrayList<UnlockEntry>();
 		entries.add(new UnlockEntry(ArsMagicaAPI.getSkillRegistry().getObject(new ResourceLocation("arsmagica2:falling_star")),
 				SpellRegistry.getComponentFromName("arsmagica2:magic_damage"),
 				SpellRegistry.getModifierFromName("arsmagica2:gravity"),
@@ -60,40 +60,40 @@ public class SpellUnlockManager{
 		entries.add(new UnlockEntry(ArsMagicaAPI.getSkillRegistry().getObject(new ResourceLocation("arsmagica2:mana_blast")),
 				SpellRegistry.getComponentFromName("arsmagica2:magic_damage"),
 				SpellRegistry.getModifierFromName("arsmagica2:damage")));
-		entries.add(new UnlockEntry(ArsMagicaAPI.getSkillRegistry().getObject(new ResourceLocation("arsmagica2:dismembering")),
+		//todo entries.add(new UnlockEntry(ArsMagicaAPI.getSkillRegistry().getObject(new ResourceLocation("arsmagica2:dismembering")),
 				SpellRegistry.getModifierFromName("arsmagica2:piercing"),
 				SpellRegistry.getModifierFromName("arsmagica2:damage")));
 
-		entries.add(new UnlockEntry(ArsMagicaAPI.getSkillRegistry().getObject(new ResourceLocation("arsmagica2:mana_link")),
+		//todo entries.add(new UnlockEntry(ArsMagicaAPI.getSkillRegistry().getObject(new ResourceLocation("arsmagica2:mana_link")),
 				SpellRegistry.getComponentFromName("arsmagica2:mana_drain"),
 				SpellRegistry.getComponentFromName("arsmagica2:entangle")));
-		entries.add(new UnlockEntry(ArsMagicaAPI.getSkillRegistry().getObject(new ResourceLocation("arsmagica2:mana_shield")),
+		//todo entries.add(new UnlockEntry(ArsMagicaAPI.getSkillRegistry().getObject(new ResourceLocation("arsmagica2:mana_shield")),
 				SpellRegistry.getComponentFromName("arsmagica2:shield"),
 				SpellRegistry.getComponentFromName("arsmagica2:reflect"),
 				SpellRegistry.getComponentFromName("arsmagica2:life_tap")));
-		entries.add(new UnlockEntry(ArsMagicaAPI.getSkillRegistry().getObject(new ResourceLocation("arsmagica2:buff_power")),
+		//todo entries.add(new UnlockEntry(ArsMagicaAPI.getSkillRegistry().getObject(new ResourceLocation("arsmagica2:buff_power")),
 				SpellRegistry.getComponentFromName("arsmagica2:haste"),
 				SpellRegistry.getComponentFromName("arsmagica2:slowfall"),
 				SpellRegistry.getComponentFromName("arsmagica2:swift_swim"),
 				SpellRegistry.getComponentFromName("arsmagica2:gravity_well"),
 				SpellRegistry.getComponentFromName("arsmagica2:leap")));
 
-		entries.add(new UnlockEntry(ArsMagicaAPI.getSkillRegistry().getObject(new ResourceLocation("arsmagica2:daylight")),
+		//todo entries.add(new UnlockEntry(ArsMagicaAPI.getSkillRegistry().getObject(new ResourceLocation("arsmagica2:daylight")),
 				SpellRegistry.getComponentFromName("arsmagica2:true_sight"),
 				SpellRegistry.getComponentFromName("arsmagica2:divine_intervention"),
 				SpellRegistry.getComponentFromName("arsmagica2:light")));
-		entries.add(new UnlockEntry(ArsMagicaAPI.getSkillRegistry().getObject(new ResourceLocation("arsmagica2:moonrise")),
+		//todo entries.add(new UnlockEntry(ArsMagicaAPI.getSkillRegistry().getObject(new ResourceLocation("arsmagica2:moonrise")),
 				SpellRegistry.getComponentFromName("arsmagica2:night_vision"),
 				SpellRegistry.getComponentFromName("arsmagica2:ender_intervention"),
 				SpellRegistry.getModifierFromName("arsmagica2:lunar")));
-		entries.add(new UnlockEntry(ArsMagicaAPI.getSkillRegistry().getObject(new ResourceLocation("arsmagica2:prosperity")),
+	//todo 	entries.add(new UnlockEntry(ArsMagicaAPI.getSkillRegistry().getObject(new ResourceLocation("arsmagica2:prosperity")),
 				SpellRegistry.getComponentFromName("arsmagica2:dig"),
 				SpellRegistry.getModifierFromName("arsmagica2:feather_touch"),
 				SpellRegistry.getModifierFromName("arsmagica2:mining_power")));
 
 		entries.add(new UnlockEntry(SkillDefs.SHIELD_OVERLOAD,
 				SpellRegistry.getComponentFromName("arsmagica2:mana_shield"),
-				SpellRegistry.getComponentFromName("arsmagica2:mana_drain")));
+				SpellRegistry.getComponentFromName("arsmagica2:mana_drain")));*/
 		
 	}
 
@@ -131,7 +131,7 @@ public class SpellUnlockManager{
 		}
 
 		public void unlockFor(EntityPlayer player){
-			if (!player.worldObj.isRemote){
+			if (!player.world.isRemote){
 				SkillData.For(player).unlockSkill(unlock.getID());
 			}
 		}

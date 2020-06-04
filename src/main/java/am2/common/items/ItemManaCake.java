@@ -16,7 +16,7 @@ public class ItemManaCake extends ItemFood{
 
 	public ItemManaCake registerAndName(String name) {
 		this.setUnlocalizedName(new ResourceLocation("arsmagica2", name).toString());
-		GameRegistry.register(this, new ResourceLocation("arsmagica2", name));
+		//todo GameRegistry.register(this, new ResourceLocation("arsmagica2", name));
 		return this;
 	}
 	

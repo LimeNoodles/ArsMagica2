@@ -8,12 +8,13 @@ import net.minecraft.item.ItemStack;
 public class FlickerJarColorizer implements IItemColor{
 
 	@Override
-	public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+	public int colorMultiplier(ItemStack stack, int tintIndex) {
 		if (tintIndex == 0)
 			return 0xffffff;
 		int meta = stack.getItemDamage();
-		Affinity aff = ArsMagicaAPI.getAffinityRegistry().getObjectById(meta);
-		return aff.getColor();
+		//todo Affinity aff = ArsMagicaAPI.getAffinityRegistry().getObjectById(meta);
+		//todo return aff.getColor();
+		return 0;
 	}
 
 }

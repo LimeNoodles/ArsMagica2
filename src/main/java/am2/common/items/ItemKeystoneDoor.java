@@ -43,7 +43,8 @@ public class ItemKeystoneDoor extends Item{
 		case SPELL_SEALED_DOOR:
 			return I18n.format("item.arsmagica2:spell_sealed_door.name");
 		default:
-			return I18n.format("item.arsmagica2:unknown.name");
+			//todo return I18n.format("item.arsmagica2:unknown.name");
+			return null;
 		}
 	}
 
@@ -51,7 +52,7 @@ public class ItemKeystoneDoor extends Item{
 	 * Callback for item usage. If the item does something special on right clicking, he will have one of those. Return
 	 * True if something happen and false if it don't. This is for ITEMS, not BLOCKS
 	 */
-	@Override
+	//todo @Override
 	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos,
 			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ){
 		if (facing != EnumFacing.UP){
@@ -73,7 +74,7 @@ public class ItemKeystoneDoor extends Item{
 	                int j = enumfacing.getFrontOffsetZ();
 					boolean flag = i < 0 && hitZ < 0.5F || i > 0 && hitZ > 0.5F || j < 0 && hitX > 0.5F || j > 0 && hitX < 0.5F;
 					ItemDoor.placeDoor(worldIn, pos, enumfacing, block, flag);
-					--stack.stackSize;
+					//todo --stack.stackSize;
 					return EnumActionResult.SUCCESS;
 				}
 			}else{
@@ -82,7 +83,7 @@ public class ItemKeystoneDoor extends Item{
 		}
 	}
 
-	@Override
+	//todo @Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item item, CreativeTabs tab, List<ItemStack> list){
 		list.add(new ItemStack(this, 1, KEYSTONE_DOOR));
@@ -91,7 +92,7 @@ public class ItemKeystoneDoor extends Item{
 	
 	public Item registerAndName(String name) {
 		this.setUnlocalizedName(name);
-		GameRegistry.register(this, new ResourceLocation("arsmagica2", name));
+		//todo GameRegistry.register(this, new ResourceLocation("arsmagica2", name));
 		return this;
 	}
 }

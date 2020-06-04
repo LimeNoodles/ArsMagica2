@@ -24,7 +24,7 @@ public class ItemManaMartini extends ItemFood{
 
 	public Item registerAndName(String name) {
 		this.setUnlocalizedName(new ResourceLocation("arsmagica2", name).toString());
-		GameRegistry.register(this, new ResourceLocation("arsmagica2", name));
+		//todo GameRegistry.register(this, new ResourceLocation("arsmagica2", name));
 		return this;
 	}
 
@@ -33,10 +33,10 @@ public class ItemManaMartini extends ItemFood{
 		return EnumAction.DRINK;
 	}
 
-	@Override
+	//todo @Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List<String> lines, boolean iHaveNoIdea){
-		super.addInformation(stack, player, lines, iHaveNoIdea);
+		//todo super.addInformation(stack, player, lines, iHaveNoIdea);
 		lines.add(I18n.format("am2.tooltip.shaken"));
 	}
 }

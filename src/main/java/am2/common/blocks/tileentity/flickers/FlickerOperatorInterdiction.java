@@ -91,9 +91,9 @@ public class FlickerOperatorInterdiction extends FlickerOperatorContainment{
 				"IWI",
 				Character.valueOf('F'), "fenceWood",
 				Character.valueOf('W'), Blocks.COBBLESTONE_WALL,
-				Character.valueOf('A'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.ARCANE)),
+				//todo Character.valueOf('A'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.ARCANE)),
 				Character.valueOf('R'), new ItemStack(ItemDefs.rune, 1, EnumDyeColor.PURPLE.getDyeDamage()),
-				Character.valueOf('N'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.AIR)),
+				//todo Character.valueOf('N'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.AIR)),
 				Character.valueOf('I'), Blocks.IRON_BARS
 
 		};

@@ -76,20 +76,20 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 		Skill skill = SkillRegistry.getSkillFromName(name);
 		
 		for (CompendiumEntry entry : CompendiumCategory.getAllEntries()) {
-			if (ArsMagicaAPI.getSpellRegistry().getObject(skill.getRegistryName()) != null) {
-				AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getObject(skill.getRegistryName());
-				for (Object obj : entry.getObjects()) {
-					if (obj == part) {
-						ArcaneCompendium.For(this.player).unlockEntry(entry.getID());
-					}
-				}
-			} else {
-				for (Object obj : entry.getObjects()) {
-					if (obj == skill) {
-						ArcaneCompendium.For(this.player).unlockEntry(entry.getID());
-					}
-				}
-			}
+			//todo if (ArsMagicaAPI.getSpellRegistry().getObject(skill.getRegistryName()) != null) {
+				//todo AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getObject(skill.getRegistryName());
+				//for (Object obj : entry.getObjects()) {
+					//todo if (obj == part) {
+						//todo ArcaneCompendium.For(this.player).unlockEntry(entry.getID());
+					//}
+				//}
+			//} else {
+				//for (Object obj : entry.getObjects()) {
+				//	if (obj == skill) {
+				//		ArcaneCompendium.For(this.player).unlockEntry(entry.getID());
+				//	}
+				//}
+			//}
 		}
 
 		this.setSkillPoint(skill.getPoint(), this.getSkillPoint(skill.getPoint()) - 1);
@@ -120,9 +120,9 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 
 	public void init(EntityPlayer entity) {
 		this.player = entity;
-		for (Skill aff : ArsMagicaAPI.getSkillRegistry().getValues()) {
-			this.skills.put(aff, false);
-		}
+		//todo for (Skill aff : ArsMagicaAPI.getSkillRegistry().getValues()) {
+			//todo this.skills.put(aff, false);
+		//}
 		for (SkillPoint aff : SkillPointRegistry.getSkillPointMap().values()) {
 			this.skillPoints.put(aff, 0);
 		}
@@ -168,11 +168,11 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 	@Override
 	public ArrayList<String> getKnownShapes() {
 		ArrayList<String> out = new ArrayList<>();
-		for (Skill skill : ArsMagicaAPI.getSkillRegistry()) {
-			AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getValue(skill.getRegistryName());
-			if ((this.hasSkill(skill.getRegistryName().toString()) || this.player.capabilities.isCreativeMode) && part != null && part instanceof SpellShape && !ArsMagica2.disabledSkills.isSkillDisabled(part.getRegistryName().toString()))
-				out.add(skill.getID());
-		}
+		//for (Skill skill : ArsMagicaAPI.getSkillRegistry()) {
+			//AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getValue(skill.getRegistryName());
+			//if ((this.hasSkill(skill.getRegistryName().toString()) || this.player.capabilities.isCreativeMode) && part != null && part instanceof SpellShape && !ArsMagica2.disabledSkills.isSkillDisabled(part.getRegistryName().toString()))
+				//out.add(skill.getID());
+		//}
 		out.sort(Comparator.naturalOrder());
 		return out;
 	}
@@ -180,11 +180,11 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 	@Override
 	public ArrayList<String> getKnownComponents() {
 		ArrayList<String> out = new ArrayList<>();
-		for (Skill skill : ArsMagicaAPI.getSkillRegistry()) {
-			AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getValue(skill.getRegistryName());
-			if ((this.hasSkill(skill.getRegistryName().toString()) || this.player.capabilities.isCreativeMode) && part != null && part instanceof SpellComponent && !ArsMagica2.disabledSkills.isSkillDisabled(part.getRegistryName().toString()))
-				out.add(skill.getID());
-		}
+		//todo for (Skill skill : ArsMagicaAPI.getSkillRegistry()) {
+			//AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getValue(skill.getRegistryName());
+			//if ((this.hasSkill(skill.getRegistryName().toString()) || this.player.capabilities.isCreativeMode) && part != null && part instanceof SpellComponent && !ArsMagica2.disabledSkills.isSkillDisabled(part.getRegistryName().toString()))
+			//	out.add(skill.getID());
+		//}
 		out.sort(Comparator.naturalOrder());
 		return out;
 	}
@@ -192,11 +192,11 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 	@Override
 	public ArrayList<String> getKnownModifiers() {
 		ArrayList<String> out = new ArrayList<>();
-		for (Skill skill : ArsMagicaAPI.getSkillRegistry()) {
-			AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getValue(skill.getRegistryName());
-			if ((this.hasSkill(skill.getRegistryName().toString()) || this.player.capabilities.isCreativeMode) && part != null && part instanceof SpellModifier && !ArsMagica2.disabledSkills.isSkillDisabled(part.getRegistryName().toString()))
-				out.add(skill.getID());
-		}
+		//for (Skill skill : ArsMagicaAPI.getSkillRegistry()) {
+		//	AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getValue(skill.getRegistryName());
+		//	if ((this.hasSkill(skill.getRegistryName().toString()) || this.player.capabilities.isCreativeMode) && part != null && part instanceof SpellModifier && !ArsMagica2.disabledSkills.isSkillDisabled(part.getRegistryName().toString()))
+		//		out.add(skill.getID());
+		//todo }
 		out.sort(Comparator.naturalOrder());
 		return out;
 	}
@@ -236,10 +236,10 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 			this.skills.clear();
 			int size = reader.getInt();
 			for (int i = 0; i < size; i++) {
-				Skill key = ArsMagicaAPI.getSkillRegistry().getObject(new ResourceLocation(reader.getString()));
+				//Skill key = ArsMagicaAPI.getSkillRegistry().getObject(new ResourceLocation(reader.getString()));
 				boolean value = reader.getBoolean();
-				if (key != null)
-					this.skills.put(key, value);
+				//if (key != null)
+					//todo this.skills.put(key, value);
 			}
 		}
 		if ((syncCode & SYNC_SKILL_POINTS) == SYNC_SKILL_POINTS) {

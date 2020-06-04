@@ -32,7 +32,7 @@ public class ItemManaPotion extends ItemArsMagica{
 		return true;
 	}
 
-	@Override
+	//todo @Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer, EnumHand hand){
 		EntityExtension props = EntityExtension.For(par3EntityPlayer);
 		if (props.getCurrentMana() < props.getMaxMana()){
@@ -117,10 +117,10 @@ public class ItemManaPotion extends ItemArsMagica{
 		return false;
 	}
 
-	@Override
+	//todo @Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List){
-		super.getSubItems(par1, par2CreativeTabs, par3List);
+		//todo super.getSubItems(par1, par2CreativeTabs, par3List);
 	}
 
 }

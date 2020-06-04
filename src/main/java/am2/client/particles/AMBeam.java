@@ -1,16 +1,17 @@
 package am2.client.particles;
 
+import net.minecraft.client.renderer.BufferBuilder;
 import org.lwjgl.opengl.GL11;
 
 import am2.ArsMagica2;
 import am2.api.particles.IBeamParticle;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.GlStateManager.DestFactor;
 import net.minecraft.client.renderer.GlStateManager.SourceFactor;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -90,8 +91,8 @@ public class AMBeam extends Particle implements IBeamParticle{
 		float deltaY = (float)(this.posY - this.dY);
 		float deltaZ = (float)(this.posZ - this.dZ);
 
-		this.length = MathHelper.sqrt_float(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
-		double hDist = MathHelper.sqrt_double(deltaX * deltaX + deltaZ * deltaZ);
+		this.length = MathHelper.sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
+		double hDist = MathHelper.sqrt(deltaX * deltaX + deltaZ * deltaZ);
 		this.yaw = ((float)(Math.atan2(deltaX, deltaZ) * 180.0D / 3.141592653589793D));
 		this.pitch = ((float)(Math.atan2(deltaY, hDist) * 180.0D / 3.141592653589793D));
 
@@ -122,7 +123,7 @@ public class AMBeam extends Particle implements IBeamParticle{
 			this.posY = this.updateY;
 			this.posZ = this.updateZ;
 			if (this.fppc){
-				EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+				EntityPlayer player = Minecraft.getMinecraft().player;
 				if (player != null){
 					float yaw = player.rotationYaw;
 					float rotationYaw = (float)(yaw * Math.PI / 180);
@@ -173,7 +174,7 @@ public class AMBeam extends Particle implements IBeamParticle{
 	}
 
 	@Override
-	public void renderParticle(VertexBuffer tessellator, Entity ent, float par2, float par3, float par4, float par5, float par6, float par7){
+	public void renderParticle(BufferBuilder tessellator, Entity ent, float par2, float par3, float par4, float par5, float par6, float par7){
 		GL11.glPushMatrix();
 		//GlStateManager.disableBlend();
 		//GlStateManager.disableAlpha();
@@ -182,7 +183,7 @@ public class AMBeam extends Particle implements IBeamParticle{
 		GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
 		float scaleFactor = 1.0F;
 //		float slide = this.worldObj.getTotalWorldTime();
-		float rot = this.worldObj.provider.getWorldTime() % (360 / this.rotateSpeed) * this.rotateSpeed + this.rotateSpeed * par2;
+		float rot = this.world.provider.getWorldTime() % (360 / this.rotateSpeed) * this.rotateSpeed + this.rotateSpeed * par2;
 
 		float size = (float)this.particleAge / (float)this.maxLengthAge;
 		if (size > 1) size = 1;

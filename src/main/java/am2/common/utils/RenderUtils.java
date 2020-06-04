@@ -1,14 +1,15 @@
 package am2.common.utils;
 
+import net.minecraft.client.renderer.BufferBuilder;
 import org.lwjgl.opengl.GL11;
 
 import am2.api.math.AMVector3;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.tileentity.TileEntity;
@@ -22,7 +23,7 @@ public class RenderUtils {
 	
 	public static void drawBox (float minX, float minZ, float maxX, float maxZ, float zLevel, float minU, float minV, float maxU, float maxV) {
 		Tessellator t = Tessellator.getInstance();
-		VertexBuffer wr = t.getBuffer();
+		BufferBuilder wr = t.getBuffer();
 		wr.begin(7, DefaultVertexFormats.POSITION_TEX);
 		wr.pos(minX, minZ + maxZ, zLevel).tex(minU, maxV).endVertex();;
 		wr.pos(minX + maxX, minZ + maxZ, zLevel).tex(maxU, maxV).endVertex();
@@ -102,7 +103,7 @@ public class RenderUtils {
 	}
 	
 	public static void drawTextInWorldAtOffset(String text, double x, double y, double z, int color){
-		FontRenderer fontrenderer = Minecraft.getMinecraft().fontRendererObj;
+		FontRenderer fontrenderer = Minecraft.getMinecraft().fontRenderer;
 		float f = 1.6F;
 		float f1 = 0.016666668F * f;
 		GL11.glPushMatrix();
@@ -154,11 +155,11 @@ public class RenderUtils {
 			GlStateManager.pushMatrix();
 			GlStateManager.translate(-te.getPos().getX(), -te.getPos().getY(), -te.getPos().getZ());
 			Tessellator t = Tessellator.getInstance();
-			VertexBuffer wr = t.getBuffer();
+			BufferBuilder wr = t.getBuffer();
 			wr.begin(7, DefaultVertexFormats.BLOCK);
 			World world = te.getWorld();
 			if (world == null)
-				world = Minecraft.getMinecraft().theWorld;
+				world = Minecraft.getMinecraft().world;
 			IBlockState state = world.getBlockState(te.getPos());
 			if (state.getBlock() != defaultState.getBlock())
 				state = defaultState;

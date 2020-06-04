@@ -44,15 +44,7 @@ public class AMChunkLoader implements LoadingCallback{
 		return tickets.get(identifier);
 	}
 
-	/**
-	 * Requests a static chunk load.  This is a non-moving chunk load, and will be assumed that the specified class will exist as a tile entity
-	 *
-	 * @param clazz the class to look for
-	 * @param x     the x coordinate of the tile entity
-	 * @param y     the y coordinate of the tile entity
-	 * @param z     the z coordinate of the tile entity
-	 * @param world The world object of the tile entity
-	 */
+
 	public void requestStaticChunkLoad(Class<?> clazz, BlockPos pos, World world){
 		Ticket ticket = requestTicket(pos, world);
 		if (ticket == null){

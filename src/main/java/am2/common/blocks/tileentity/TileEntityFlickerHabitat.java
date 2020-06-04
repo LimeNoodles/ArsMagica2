@@ -71,9 +71,9 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 	public TileEntityFlickerHabitat(){
 		this.initLocationLists();
 
-		if (this.worldObj != null && this.worldObj.isRemote){
-			this.rotateOffset = this.worldObj.rand.nextFloat() * FULL_CIRCLE - 1;
-			this.floatOffset = MAX_FLOAT_DOWN + (this.worldObj.rand.nextFloat() * (MAX_FLOAT_UP - MAX_FLOAT_DOWN) + 1);
+		if (this.world != null && this.world.isRemote){
+			this.rotateOffset = this.world.rand.nextFloat() * FULL_CIRCLE - 1;
+			this.floatOffset = MAX_FLOAT_DOWN + (this.world.rand.nextFloat() * (MAX_FLOAT_UP - MAX_FLOAT_DOWN) + 1);
 		}
 	}
 
@@ -87,10 +87,12 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 
 	public Affinity getSelectedAffinity(){
 		if (this.flickerJar != null){
-			return ArsMagicaAPI.getAffinityRegistry().getObjectById(this.flickerJar.getItemDamage());
+			//return ArsMagicaAPI.getAffinityRegistry().getObjectById(this.flickerJar.getItemDamage());
 		}else{
 			return null;
 		}
+
+		return null;
 	}
 
 	public boolean hasFlicker(){
@@ -144,9 +146,6 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 		return this.inList.get(index);
 	}
 
-	/**
-	 * @param inList the inList to set
-	 */
 	public void setInListAt(int index, AMVector3 value){
 		this.inList.set(index, value);
 	}
@@ -213,11 +212,11 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 
 	public void AddMarkerLocationOut(AMVector3 markerLocation){
 
-		Block out = this.worldObj.getBlockState(markerLocation.toBlockPos()).getBlock();
+		Block out = this.world.getBlockState(markerLocation.toBlockPos()).getBlock();
 		if (out != BlockDefs.crystalMarker)
 			return;
 
-		TileEntity te = this.worldObj.getTileEntity(markerLocation.toBlockPos());
+		TileEntity te = this.world.getTileEntity(markerLocation.toBlockPos());
 		if (te == null || te instanceof TileEntityCrystalMarker == false)
 			return;
 
@@ -402,7 +401,7 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 
 		if (nbttagcompound.hasKey("flickerJar")){
 			NBTTagCompound jar = nbttagcompound.getCompoundTag("flickerJar");
-			this.flickerJar = ItemStack.loadItemStackFromNBT(jar);
+			//todo this.flickerJar = ItemStack.loadItemStackFromNBT(jar);
 
 			if (!this.isUpgrade){
 				this.setOperatorBasedOnFlicker();
@@ -427,11 +426,12 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 			return 0;
 
 		if (this.flickerJar.getItem() == ItemDefs.flickerJar)
-			return ArsMagicaAPI.getAffinityRegistry().getObjectById(this.flickerJar.getItemDamage()).getColor();
+				return 0;
+			//todo return ArsMagicaAPI.getAffinityRegistry().getObjectById(this.flickerJar.getItemDamage()).getColor();
 		else if (this.flickerJar.getItem() == ItemDefs.flickerFocus){
-			ArrayList<Affinity> affinities = Lists.newArrayList(ArsMagicaAPI.getFlickerFocusRegistry().getObjectById(MathHelper.clamp_int(this.flickerJar.getItemDamage(), 0, ArsMagicaAPI.getFlickerFocusRegistry().getKeys().size())).getMask());
+			//todo ArrayList<Affinity> affinities = Lists.newArrayList(ArsMagicaAPI.getFlickerFocusRegistry().getObjectById(MathHelper.clamp_int(this.flickerJar.getItemDamage(), 0, ArsMagicaAPI.getFlickerFocusRegistry().getKeys().size())).getMask());
 
-			if (affinities.size() > 0){
+			/*if (affinities.size() > 0){
 				int firstColor = affinities.get(this.colorCounter % affinities.size()).getColor();
 				int secondColor = affinities.get((this.colorCounter + 1) % affinities.size()).getColor();
 				if (firstColor == secondColor)
@@ -439,7 +439,7 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 				if (this.fadeCounter > TileEntityFlickerHabitat.MAX_SHIFT_TICKS)
 					return secondColor;
 				return this.colorShift(firstColor, secondColor);
-			}
+			}*/
 		}
 
 		return 0;
@@ -469,6 +469,12 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 	@Override
 	public int getSizeInventory(){
 		return 1;
+	}
+
+	@Override
+	public boolean isEmpty() {
+		return false;
+		//todo this
 	}
 
 	@Override
@@ -503,8 +509,8 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 	@Override
 	public void setInventorySlotContents(int i, ItemStack itemstack){
 		this.flickerJar = itemstack;
-		if (itemstack != null && itemstack.stackSize > this.getInventoryStackLimit()){
-			itemstack.stackSize = this.getInventoryStackLimit();
+		if (itemstack != null && itemstack.getCount() > this.getInventoryStackLimit()){
+			itemstack.setCount(this.getInventoryStackLimit());
 		}
 
 	}
@@ -520,8 +526,8 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 	}
 
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer entityplayer){
-		if (this.worldObj.getTileEntity(this.pos) != this){
+	public boolean isUsableByPlayer(EntityPlayer entityplayer){
+		if (this.world.getTileEntity(this.pos) != this){
 			return false;
 		}
 
@@ -544,7 +550,7 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 
 	private void setUpgradeOfMainHabitat(){
 		if (this.mainHabitatDirection != null){
-			TileEntity te = this.worldObj.getTileEntity(this.pos.offset(this.mainHabitatDirection));
+			TileEntity te = this.world.getTileEntity(this.pos.offset(this.mainHabitatDirection));
 			if (te != null && te instanceof TileEntityFlickerHabitat){
 				((TileEntityFlickerHabitat)te).notifyOfNearbyUpgradeChange(this);
 			}
@@ -553,7 +559,7 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 
 	private void setOperatorBasedOnFlicker(){
 		if (this.flickerJar != null && this.flickerJar.getItem() == ItemDefs.flickerFocus){
-			this.setOperator(ArsMagicaAPI.getFlickerFocusRegistry().getObjectById(this.flickerJar.getItemDamage()));
+			//todo this.setOperator(ArsMagicaAPI.getFlickerFocusRegistry().getObjectById(this.flickerJar.getItemDamage()));
 		}else{
 			this.setOperator(null);
 		}
@@ -573,7 +579,7 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 	@Override
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt){
 		this.readFromNBT(pkt.getNbtCompound());
-		this.worldObj.markAndNotifyBlock(this.pos, this.worldObj.getChunkFromBlockCoords(this.pos), this.worldObj.getBlockState(this.pos), this.worldObj.getBlockState(this.pos), 0);
+		this.world.markAndNotifyBlock(this.pos, this.world.getChunkFromBlockCoords(this.pos), this.world.getBlockState(this.pos), this.world.getBlockState(this.pos), 0);
 	}
 
 	@Override
@@ -585,7 +591,7 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 			this.fadeCounter = 0;
 		}
 
-		if (this.worldObj.isRemote && this.hasFlicker()){
+		if (this.world.isRemote && this.hasFlicker()){
 			this.rotateOffset += ROATATION_RATE;
 
 			if (this.rotateOffset >= FULL_CIRCLE){

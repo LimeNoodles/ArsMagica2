@@ -145,7 +145,7 @@ public class ItemSpellStaff extends ItemArsMagica{
 		return true;
 	}
 	
-	@Override
+	//todo @Override
 	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos,
 			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ){
 		if (isMagiTechStaff()){
@@ -155,7 +155,7 @@ public class ItemSpellStaff extends ItemArsMagica{
 		return EnumActionResult.PASS;
 	}
 	
-	@Override
+	//todo @Override
 	public EnumActionResult onItemUseFirst(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
 			EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand){
 		if (isMagiTechStaff()){
@@ -168,10 +168,11 @@ public class ItemSpellStaff extends ItemArsMagica{
 						List<PowerTypes> types = ((IPowerNode<?>)te).getValidPowerTypes();
 						for (PowerTypes type : types){
 							float power = PowerNodeRegistry.For(world).getPower((IPowerNode<?>)te, type);
-							player.addChatMessage(
-									new TextComponentString(String.format(I18n.format("am2.tooltip.det_eth"),
-											type.getChatColor(), type.name(), String.format("%.2f", power))));
-						}
+							//player.sendMessage(
+									//todo new TextComponentString(String.format(I18n.format("am2.tooltip.det_eth"),
+											//type.getChatColor(), type.name(), String.format("%.2f", power))));
+							//)
+							}
 					}
 					return EnumActionResult.SUCCESS;
 				}

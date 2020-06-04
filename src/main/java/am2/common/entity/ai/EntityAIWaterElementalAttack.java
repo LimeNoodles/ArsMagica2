@@ -32,7 +32,7 @@ public class EntityAIWaterElementalAttack extends EntityAIBase{
 	public EntityAIWaterElementalAttack(EntityCreature par1EntityLiving, float par2, boolean par3){
 		this.attackTick = 0;
 		this.attacker = par1EntityLiving;
-		this.worldObj = par1EntityLiving.worldObj;
+		this.worldObj = par1EntityLiving.world;
 		this.field_75440_e = par2;
 		this.field_75437_f = par3;
 	}
@@ -78,7 +78,7 @@ public class EntityAIWaterElementalAttack extends EntityAIBase{
 	 */
 	public void resetTask(){
 		this.entityTarget = null;
-		this.attacker.getNavigator().clearPathEntity();
+		this.attacker.getNavigator().clearPath();
 	}
 
 	/**
@@ -110,7 +110,7 @@ public class EntityAIWaterElementalAttack extends EntityAIBase{
 				double mZ = entityTarget.motionZ;
 
 				entityTarget.isAirBorne = true;
-				float var10 = MathHelper.sqrt_double(var9 * var9 + var7 * var7);
+				float var10 = MathHelper.sqrt(var9 * var9 + var7 * var7);
 				float var8 = 0.4F;
 				mX /= 2.0D;
 				mY /= 2.0D;

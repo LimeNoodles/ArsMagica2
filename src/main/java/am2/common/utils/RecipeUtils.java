@@ -13,10 +13,8 @@ import am2.common.power.PowerTypes;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.CraftingManager;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.ShapedRecipes;
-import net.minecraft.item.crafting.ShapelessRecipes;
+import net.minecraft.item.crafting.*;
+import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.oredict.OreDictionary;
@@ -64,15 +62,15 @@ public class RecipeUtils {
 		if (item == null || item.getItem() == null) return null;
 
 		try{
-			List<IRecipe> list = CraftingManager.getInstance().getRecipeList();
+			//todo List<IRecipe> list = CraftingManager.getInstance().getRecipeList();
 			ArrayList<IRecipe> possibleRecipes = new ArrayList<>();
-			for (IRecipe recipe : list){
-				ItemStack output = ((IRecipe)recipe).getRecipeOutput();
-				if (output == null) continue;
-				if (output.getItem() == item.getItem() && (output.getItemDamage() == Short.MAX_VALUE || output.getItemDamage() == item.getItemDamage())){
-					possibleRecipes.add(recipe);
-				}
-			}
+			//for (IRecipe recipe : list){
+			//	ItemStack output = ((IRecipe)recipe).getRecipeOutput();
+			//	if (output == null) continue;
+			//	if (output.getItem() == item.getItem() && (output.getItemDamage() == Short.MAX_VALUE || output.getItemDamage() == item.getItemDamage())){
+			//		possibleRecipes.add(recipe);
+			//	}
+			//}
 
 			if (possibleRecipes.size() > 0){
 				for (Object recipe : possibleRecipes){
@@ -179,7 +177,7 @@ public class RecipeUtils {
 		return list;
 	}
 
-	public static Object[] getRecipeItems(Object recipe){
+	public static Object getRecipeItems(Object recipe){
 		if (recipe instanceof ShapedRecipes){
 			return getShapedRecipeItems((ShapedRecipes)recipe);
 		}else if (recipe instanceof ShapelessRecipes){
@@ -192,7 +190,7 @@ public class RecipeUtils {
 		return new Object[0];
 	}
 	
-	private static Object[] getShapedRecipeItems(ShapedRecipes recipe){
+	private static NonNullList<Ingredient> getShapedRecipeItems(ShapedRecipes recipe){
 		return recipe.recipeItems;
 	}
 
@@ -263,8 +261,8 @@ public class RecipeUtils {
 			}
 		}
 
-		ShapedRecipes var17 = new ShapedRecipes(var5, var6, var15, itemstack);
-		recipeList.add(0, var17);
+		//todo ShapedRecipes var17 = new ShapedRecipes(var5, var6, var15, itemstack);
+		//todo recipeList.add(0, var17);
 	}
 
 

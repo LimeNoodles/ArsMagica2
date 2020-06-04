@@ -72,7 +72,7 @@ public class ItemSpellBook extends ItemArsMagica{
 		return 0;
 	}
 	
-	@Override
+	//todo @Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
 		if (playerIn.isSneaking()){
 			FMLNetworkHandler.openGui(playerIn, ArsMagica2.instance, IDDefs.GUI_SPELL_BOOK, worldIn, (int)playerIn.posX, (int)playerIn.posY, (int)playerIn.posZ);
@@ -214,9 +214,9 @@ public class ItemSpellBook extends ItemArsMagica{
 		for (int i = 0; i < list.tagCount(); ++i){
 			NBTTagCompound spell = list.getCompoundTagAt(i);
 			short slot = spell.getShort("Slot");
-			ItemStack is = ItemStack.loadItemStackFromNBT(spell);
-			if (is != null)
-				items[slot] = is;
+			//todo ItemStack is = ItemStack.loadItemStackFromNBT(spell);
+			//if (is != null)
+				//items[slot] = is;
 		}
 		return items;
 	}
@@ -240,18 +240,18 @@ public class ItemSpellBook extends ItemArsMagica{
 		return stack.getDisplayName();
 	}
 
-	@Override
+	//todo @Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List<String> par3List, boolean par4){
 		ItemSpellBase activeScroll = GetActiveScroll(par1ItemStack);
 		ItemStack stack = GetActiveItemStack(par1ItemStack);
 
 		String s = I18n.format("am2.tooltip.open");
-		String s2 = I18n.format("am2.tooltip.scroll");
+		//todo String s2 = I18n.format("am2.tooltip.scroll");
 		par3List.add((new StringBuilder()).append("\2477").append(s).toString());
-		par3List.add((new StringBuilder()).append("\2477").append(s2).toString());
+		//todo par3List.add((new StringBuilder()).append("\2477").append(s2).toString());
 		if (activeScroll != null){
-			activeScroll.addInformation(stack, par2EntityPlayer, par3List, par4);
+			//todo activeScroll.addInformation(stack, par2EntityPlayer, par3List, par4);
 		}
 
 		par3List.add("\247c" + I18n.format("am2.tooltip.spellbookWarning1") + "\247f");
@@ -282,7 +282,7 @@ public class ItemSpellBook extends ItemArsMagica{
 		return 1;
 	}
 
-	@Override
+	//todo @Override
 	public boolean isItemTool(ItemStack par1ItemStack){
 		return true;
 	}

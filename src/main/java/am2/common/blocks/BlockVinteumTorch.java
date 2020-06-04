@@ -64,8 +64,8 @@ public class BlockVinteumTorch extends BlockTorch{
 	
 	public BlockVinteumTorch registerAndName(ResourceLocation rl) {
 		this.setUnlocalizedName(rl.toString());
-		GameRegistry.register(this, rl);
-		GameRegistry.register(new ItemBlockSubtypes(this), rl);
+		//todo GameRegistry.register(this, rl);
+		//todo GameRegistry.register(new ItemBlockSubtypes(this), rl);
 		return this;
 	}
 }

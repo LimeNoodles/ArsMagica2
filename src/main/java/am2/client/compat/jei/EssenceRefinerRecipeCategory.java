@@ -4,6 +4,7 @@ import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IDrawableStatic;
 import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeCategory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
@@ -24,6 +25,12 @@ public class EssenceRefinerRecipeCategory implements IRecipeCategory<EssenceRefi
 	}
 
 	@Override
+	public String getModName() {
+		//todo return null;
+		return null;
+	}
+
+	@Override
 	public String getUid() {
 		return "am2.essence_refiner";
 	}
@@ -39,11 +46,16 @@ public class EssenceRefinerRecipeCategory implements IRecipeCategory<EssenceRefi
 	}
 
 	@Override
+	public void setRecipe(IRecipeLayout recipeLayout, EssenceRefinerRecipeWrapper recipeWrapper, IIngredients ingredients) {
+
+	}
+
+	//todo @Override
 	public void drawAnimations(Minecraft minecraft) {
 		
 	}
 
-	@Override
+	//todo move this above @Override
 	public void setRecipe(IRecipeLayout recipeLayout, EssenceRefinerRecipeWrapper recipeWrapper) {
 		recipeLayout.getItemStacks().init(0, true, 76, 16);
 		recipeLayout.getItemStacks().init(1, true, 44, 48);

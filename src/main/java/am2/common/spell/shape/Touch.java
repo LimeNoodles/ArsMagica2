@@ -10,7 +10,6 @@ import am2.common.items.ItemOre;
 import am2.common.spell.SpellCastResult;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.boss.EntityDragonPart;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -27,8 +26,8 @@ public class Touch extends SpellShape {
 	public SpellCastResult beginStackStage(SpellData spell, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount) {
 		if (target != null) {
 			Entity e = target;
-			if (e instanceof EntityDragonPart && ((EntityDragonPart) e).entityDragonObj instanceof EntityLivingBase)
-				e = (EntityLivingBase) ((EntityDragonPart) e).entityDragonObj;
+			//todo if (e instanceof EntityDragonPart && ((EntityDragonPart) e).entityDragonObj instanceof EntityLivingBase)
+				//todo e = (EntityLivingBase) ((EntityDragonPart) e).entityDragonObj;
 
 			SpellCastResult result = spell.applyComponentsToEntity(world, caster, e);
 			return result;
@@ -41,15 +40,15 @@ public class Touch extends SpellShape {
 		} else {
 			if (mop.typeOfHit == RayTraceResult.Type.ENTITY) {
 				Entity e = mop.entityHit;
-				if (e instanceof EntityDragonPart && ((EntityDragonPart) e).entityDragonObj instanceof EntityLivingBase)
-					e = (EntityLivingBase) ((EntityDragonPart) e).entityDragonObj;
+				//todo if (e instanceof EntityDragonPart && ((EntityDragonPart) e).entityDragonObj instanceof EntityLivingBase)
+					//todo e = (EntityLivingBase) ((EntityDragonPart) e).entityDragonObj;
 				SpellCastResult result = spell.applyComponentsToEntity(world, caster, e);
 				if (result != SpellCastResult.SUCCESS) {
 					return result;
 				}
-				return spell.execute(world, caster, target, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, null);
+				return spell.execute(world, caster, target, mop.hitVec.x, mop.hitVec.y, mop.hitVec.z, null);
 			} else {
-				SpellCastResult result = spell.applyComponentsToGround(world, caster, mop.getBlockPos(), mop.sideHit, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
+				SpellCastResult result = spell.applyComponentsToGround(world, caster, mop.getBlockPos(), mop.sideHit, mop.hitVec.x, mop.hitVec.y, mop.hitVec.z);
 				if (result != SpellCastResult.SUCCESS) {
 					return result;
 				}

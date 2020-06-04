@@ -16,9 +16,11 @@ import am2.common.entity.EntityDarkling;
 import am2.common.entity.EntityEarthElemental;
 import am2.common.entity.EntityFireElemental;
 import am2.common.entity.EntityManaElemental;
+import am2.common.spell.modifier.Damage;
 import am2.common.utils.NPCSpells;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.MultiPartEntityPart;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.datasync.DataParameter;
@@ -52,26 +54,26 @@ public class EntityLifeGuardian extends AM2Boss{
 	@Override
 	protected void initSpecificAI(){
 		this.tasks.addTask(1, new EntityAIDispel(this));
-		this.tasks.addTask(1, new EntityAICastSpell<EntityLifeGuardian>(this, NPCSpells.instance.healSelf, 16, 23, 100, BossActions.CASTING, new ISpellCastCallback<EntityLifeGuardian>(){
-			@Override
-			public boolean shouldCast(EntityLifeGuardian host, ItemStack spell){
-				return host.getHealth() < host.getMaxHealth();
-			}
-		}));
-		this.tasks.addTask(2, new EntityAICastSpell<EntityLifeGuardian>(this, NPCSpells.instance.nauseate, 16, 23, 20, BossActions.CASTING, new ISpellCastCallback<EntityLifeGuardian>(){
-			@Override
-			public boolean shouldCast(EntityLifeGuardian host, ItemStack spell){
-				return minions.size() == 0;
-			}
-		}));
+		//todo this.tasks.addTask(1, new EntityAICastSpell<EntityLifeGuardian>(this, NPCSpells.instance.healSelf, 16, 23, 100, BossActions.CASTING, new ISpellCastCallback<EntityLifeGuardian>(){
+			//@Override
+		//		public boolean shouldCast(EntityLifeGuardian host, ItemStack spell){
+		//		return host.getHealth() < host.getMaxHealth();
+		//	}
+		//}));
+		//todo this.tasks.addTask(2, new EntityAICastSpell<EntityLifeGuardian>(this, NPCSpells.instance.nauseate, 16, 23, 20, BossActions.CASTING, new ISpellCastCallback<EntityLifeGuardian>(){
+		//	@Override
+		//	public boolean shouldCast(EntityLifeGuardian host, ItemStack spell){
+		//		return minions.size() == 0;
+		//	}
+		//}));
 		this.tasks.addTask(3, new EntityAISummonAllies(this, EntityEarthElemental.class, EntityFireElemental.class, EntityManaElemental.class, EntityDarkling.class));
 	}
 
 	@Override
 	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2){
-		if (par1DamageSource.getSourceOfDamage() != null && par1DamageSource.getSourceOfDamage() instanceof EntityLivingBase){
+		if (par1DamageSource.getTrueSource() != null && par1DamageSource.getTrueSource() instanceof EntityLivingBase){
 			for (EntityLivingBase minion : minions.toArray(new EntityLivingBase[minions.size()])){
-				((EntityLiving)minion).setAttackTarget((EntityLivingBase)par1DamageSource.getSourceOfDamage());
+				((EntityLiving)minion).setAttackTarget((EntityLivingBase)par1DamageSource.getTrueSource());
 			}
 		}
 		return super.attackEntityFrom(par1DamageSource, par2);
@@ -99,7 +101,7 @@ public class EntityLifeGuardian extends AM2Boss{
 	@Override
 	public void onUpdate(){
 		//Minion management - add any queued minions to the minion list and prune out any fallen or nonexistant ones
-		if (!worldObj.isRemote){
+		if (!world.isRemote){
 			minions.addAll(queued_minions);
 			queued_minions.clear();
 			Iterator<EntityLiving> it = minions.iterator();
@@ -113,7 +115,7 @@ public class EntityLifeGuardian extends AM2Boss{
 
 			if (this.ticksExisted % 100 == 0){
 				for (EntityLivingBase e : minions)
-					ArsMagica2.proxy.particleManager.spawn(worldObj, "textures/blocks/oreblocksunstone.png", this, e);
+					ArsMagica2.proxy.particleManager.spawn(world, "textures/blocks/oreblocksunstone.png", this, e);
 			}
 		}
 
@@ -124,7 +126,7 @@ public class EntityLifeGuardian extends AM2Boss{
 	}
 
 	@Override
-	protected SoundEvent getHurtSound(){
+	protected SoundEvent getHurtSound(DamageSource source){
 		return AMSounds.LIFE_GUARDIAN_HIT;
 	}
 
@@ -151,7 +153,7 @@ public class EntityLifeGuardian extends AM2Boss{
 		int i = rand.nextInt(4);
 
 		for (int j = 0; j < i; j++){
-			this.entityDropItem(new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.LIFE)), 0.0f);
+			//todo this.entityDropItem(new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.LIFE)), 0.0f);
 		}
 		i = rand.nextInt(10);
 
@@ -168,5 +170,12 @@ public class EntityLifeGuardian extends AM2Boss{
 	@Override
 	protected Color getBarColor() {
 		return Color.GREEN;
+	}
+
+	@Override
+	public boolean attackEntityFromPart(MultiPartEntityPart dragonPart, DamageSource source, float damage) {
+		return false;
+
+		//todo
 	}
 }

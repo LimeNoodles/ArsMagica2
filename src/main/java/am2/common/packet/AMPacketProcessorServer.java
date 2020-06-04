@@ -54,7 +54,7 @@ public class AMPacketProcessorServer{
 			//constant details all packets share:  ID, player, and remaining data
 			packetID = bbis.readByte();
 			NetHandlerPlayServer srv = (NetHandlerPlayServer)event.getPacket().handler();
-			EntityPlayerMP player = srv.playerEntity;
+			EntityPlayerMP player = srv.player;
 			byte[] remaining = new byte[bbis.available()];
 			bbis.readFully(remaining);
 			switch (packetID){
@@ -151,17 +151,17 @@ public class AMPacketProcessorServer{
 		Entity target = player.getEntityWorld().getEntityByID(reader.getInt());
 		if (target == null || !(target instanceof EntityPlayer))
 			return;
-		AbstractAffinityAbility ability = ArsMagicaAPI.getAffinityAbilityRegistry().getObject(new ResourceLocation(reader.getString()));
-		if (ability != null && ability.canApply((EntityPlayer) target))
-			ability.applyKeyPress((EntityPlayer) target);
+		//todo AbstractAffinityAbility ability = ArsMagicaAPI.getAffinityAbilityRegistry().getObject(new ResourceLocation(reader.getString()));
+		//if (ability != null && ability.canApply((EntityPlayer) target))
+			//ability.applyKeyPress((EntityPlayer) target);
 	}
 
 	private void handleAbilityToggle(byte[] remaining, EntityPlayerMP player) {
 		AMDataReader reader = new AMDataReader(remaining, false);
 		String str = reader.getString();
 		boolean newState = !AffinityData.For(player).getAbilityBoolean(str);
-		String text = String.format(I18n.format("am2.chat.activation"), I18n.format("am2.chat.ability_" + str), I18n.format(newState ? "am2.chat.enabled" : "am2.chat.disabled"));
-		player.addChatComponentMessage(new TextComponentString(text));
+		//todo String text = String.format(I18n.format("am2.chat.activation"), I18n.format("am2.chat.ability_" + str), I18n.format(newState ? "am2.chat.enabled" : "am2.chat.disabled"));
+		//todo player.sendMessage(new TextComponentString(text));
 		AffinityData.For(player).addAbilityBoolean(str, newState);
 	}
 
@@ -188,16 +188,16 @@ public class AMPacketProcessorServer{
 		byte nom = rdr.getByte();
 		if (nom == 1){
 			AMVector3 loc = new AMVector3(rdr.getFloat(), rdr.getFloat(), rdr.getFloat());
-			TileEntity te = player.worldObj.getTileEntity(loc.toBlockPos());
+			TileEntity te = player.world.getTileEntity(loc.toBlockPos());
 			if (te != null && te instanceof IPowerNode){
-				AMNetHandler.INSTANCE.sendPowerResponseToClient(PowerNodeRegistry.For(player.worldObj).getDataCompoundForNode((IPowerNode<?>)te), player, te);
+				AMNetHandler.INSTANCE.sendPowerResponseToClient(PowerNodeRegistry.For(player.world).getDataCompoundForNode((IPowerNode<?>)te), player, te);
 			}
 		}
 	}
 
 	private void handleImbueArmor(byte[] data, EntityPlayerMP player){
 		AMDataReader rdr = new AMDataReader(data, false);
-		TileEntity te = player.worldObj.getTileEntity(new BlockPos (rdr.getInt(), rdr.getInt(), rdr.getInt()));
+		TileEntity te = player.world.getTileEntity(new BlockPos (rdr.getInt(), rdr.getInt(), rdr.getInt()));
 		if (te != null && te instanceof TileEntityArmorImbuer){
 			((TileEntityArmorImbuer)te).imbueCurrentArmor(new ResourceLocation(rdr.getString()));
 		}
@@ -209,7 +209,7 @@ public class AMPacketProcessorServer{
 		int y = rdr.getInt();
 		int z = rdr.getInt();
 
-		TileEntity te = player.worldObj.getTileEntity(new BlockPos(x, y, z));
+		TileEntity te = player.world.getTileEntity(new BlockPos(x, y, z));
 		if (te != null && te instanceof TileEntityMagiciansWorkbench){
 			((TileEntityMagiciansWorkbench)te).setRecipeLocked(rdr.getInt(), rdr.getBoolean());
 			te.getWorld().markAndNotifyBlock(te.getPos(), te.getWorld().getChunkFromBlockCoords(te.getPos()), te.getWorld().getBlockState(te.getPos()), te.getWorld().getBlockState(te.getPos()), 2);
@@ -255,7 +255,7 @@ public class AMPacketProcessorServer{
 	}
 
 	private void handleInscriptionTableUpdate(byte[] data, EntityPlayerMP player){
-		World world = player.worldObj;
+		World world = player.world;
 		AMDataReader rdr = new AMDataReader(data, false);
 		TileEntity te = world.getTileEntity(new BlockPos (rdr.getInt(), rdr.getInt(), rdr.getInt()));
 		if (te == null || !(te instanceof TileEntityInscriptionTable)) return;
@@ -265,7 +265,7 @@ public class AMPacketProcessorServer{
 	}
 
 	private void handleDecoBlockUpdate(byte[] data, EntityPlayerMP player){
-		World world = player.worldObj;
+		World world = player.world;
 		AMDataReader rdr = new AMDataReader(data, false);
 		TileEntity te = world.getTileEntity(new BlockPos (rdr.getInt(), rdr.getInt(), rdr.getInt()));
 		if (te == null || !(te instanceof TileEntityParticleEmitter)) return;

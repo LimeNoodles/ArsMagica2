@@ -21,8 +21,8 @@ public abstract class BlockAMContainer extends BlockContainer {
 	
 	public BlockAMContainer registerAndName(ResourceLocation rl) {
 		this.setUnlocalizedName(rl.toString());
-		GameRegistry.register(this, rl);
-		GameRegistry.register(new ItemBlockSubtypes(this), rl);
+		//todo GameRegistry.register(this, rl);
+		//todo GameRegistry.register(new ItemBlockSubtypes(this), rl);
 		return this;
 	}
 	
@@ -32,7 +32,7 @@ public abstract class BlockAMContainer extends BlockContainer {
 		boundingBox = new AxisAlignedBB(xStart, yStart, zStart, xEnd, yEnd, zEnd);
 	}
 	
-	@Override
+	//todo @Override
 	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
 		return getBoundingBox(blockState, worldIn, pos);
 	}

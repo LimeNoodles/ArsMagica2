@@ -49,13 +49,13 @@ public class Grow extends SpellComponent{
 
 		IBlockState block = world.getBlockState(pos);
 
-		BonemealEvent event = new BonemealEvent(DummyEntityPlayer.fromEntityLiving(caster), world, pos, world.getBlockState(pos));
-		if (MinecraftForge.EVENT_BUS.post(event)){
-			return false;
-		}
-		if (event.getResult() == Result.ALLOW){
-			return true;
-		}
+		//todo BonemealEvent event = new BonemealEvent(DummyEntityPlayer.fromEntityLiving(caster), world, pos, world.getBlockState(pos));
+		//if (MinecraftForge.EVENT_BUS.post(event)){
+		//	return false;
+		//}
+		//if (event.getResult() == Result.ALLOW){
+		//	return true;
+		//}
 
 		//EoD: Spawn AM2 flowers with 3% chance. This has to be the first one in the list to override all others
 		if (world.rand.nextInt(100) < 3 && block.isNormalCube()){

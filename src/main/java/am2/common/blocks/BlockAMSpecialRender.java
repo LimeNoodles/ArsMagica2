@@ -29,7 +29,7 @@ public class BlockAMSpecialRender extends BlockAM {
         return false;
     }
 	
-	@Override
+	//todo @Override
 	public boolean isBlockSolid(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
 		return true;
 	}

@@ -23,6 +23,11 @@ public class CraftingEssenceExtractor implements IInventory{
 	}
 
 	@Override
+	public boolean isEmpty() {
+		return false;
+	}
+
+	@Override
 	public String getName(){
 		return "Extracting";
 	}
@@ -51,14 +56,14 @@ public class CraftingEssenceExtractor implements IInventory{
 
 	public ItemStack decrStackSize(int i, int j){
 		if (stackList[i] != null){
-			if (stackList[i].stackSize <= j){
+			if (stackList[i].getCount() <= j){
 				ItemStack itemstack = stackList[i];
 				stackList[i] = null;
 				eventHandler.onCraftMatrixChanged(this);
 				return itemstack;
 			}
 			ItemStack itemstack1 = stackList[i].splitStack(j);
-			if (stackList[i].stackSize == 0){
+			if (stackList[i].getCount() == 0){
 				stackList[i] = null;
 			}
 			eventHandler.onCraftMatrixChanged(this);
@@ -80,7 +85,7 @@ public class CraftingEssenceExtractor implements IInventory{
 	public void onInventoryChanged(){
 	}
 
-	public boolean isUseableByPlayer(EntityPlayer entityplayer){
+	public boolean isUsableByPlayer(EntityPlayer entityplayer){
 		return true;
 	}
 

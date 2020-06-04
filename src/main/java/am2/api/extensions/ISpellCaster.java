@@ -163,10 +163,10 @@ public interface ISpellCaster {
 				NBTTagList parts = tmp.getTagList(KEY_PARTS, Constants.NBT.TAG_STRING);
 				ArrayList<AbstractSpellPart> pts = new ArrayList<>();
 				for (int j = 0; j < parts.tagCount(); j++) {
-					AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation(parts.getStringTagAt(j)));
-					if (part != null) {
-						pts.add(part);
-					}
+					//todo AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation(parts.getStringTagAt(j)));
+					//if (part != null) {
+					//	pts.add(part);
+					//}
 				}
 				NBTUtils.ensureSize(commonStages, id + 1);
 				commonStages.set(id, pts);
@@ -187,10 +187,10 @@ public interface ISpellCaster {
 					NBTTagList parts = tmp.getTagList(KEY_PARTS, Constants.NBT.TAG_STRING);
 					ArrayList<AbstractSpellPart> pts = new ArrayList<>();
 					for (int k = 0; k < parts.tagCount(); k++) {
-						AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation(parts.getStringTagAt(k)));
-						if (part != null) {
-							pts.add(part);
-						}
+						//todo AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation(parts.getStringTagAt(k)));
+						//if (part != null) {
+							//pts.add(part);
+						//}
 					}
 					NBTUtils.ensureSize(stages, id + 1);
 					stages.set(id, pts);
@@ -203,10 +203,10 @@ public interface ISpellCaster {
 			HashMap<Affinity, Float> affMap = new HashMap<>();
 			for (int i = 0; i < affinityShift.tagCount(); i++) {
 				NBTTagCompound tmp = affinityShift.getCompoundTagAt(i);
-				Affinity aff = ArsMagicaAPI.getAffinityRegistry().getObject(new ResourceLocation(tmp.getString(KEY_AFFINITY_TYPE)));
+				//todo Affinity aff = ArsMagicaAPI.getAffinityRegistry().getObject(new ResourceLocation(tmp.getString(KEY_AFFINITY_TYPE)));
 				float depth = tmp.getFloat(KEY_AFFINITY_DEPTH);
-				if (depth != 0 && aff != null)
-					affMap.put(aff, depth);
+				//if (depth != 0 && aff != null)
+				//	affMap.put(aff, depth);
 			}
 			instance.setAffinityShift(affMap);
 			instance.setCommonStoredData(compound.getCompoundTag(KEY_STORED_DATA));

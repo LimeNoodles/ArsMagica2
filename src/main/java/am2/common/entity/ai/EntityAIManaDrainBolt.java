@@ -40,7 +40,7 @@ public class EntityAIManaDrainBolt extends EntityAIBase{
 		rangedAttackTime = 0;
 		stuckTime = 0;
 		entityHost = par1EntityLiving;
-		worldObj = par1EntityLiving.worldObj;
+		worldObj = par1EntityLiving.world;
 		this.moveSpeed = moveSpeed;
 		maxRangedAttackTime = attackTime;
 		setMutexBits(3);
@@ -67,7 +67,7 @@ public class EntityAIManaDrainBolt extends EntityAIBase{
 	 * Returns whether an in-progress EntityAIBase should continue executing
 	 */
 	@Override
-	public boolean continueExecuting(){
+	public boolean shouldContinueExecuting(){
 		return shouldExecute() || !entityHost.getNavigator().noPath();
 	}
 
@@ -97,7 +97,7 @@ public class EntityAIManaDrainBolt extends EntityAIBase{
 		if (d1 > d || stuckTime < 20){
 			entityHost.getNavigator().tryMoveToEntityLiving(attackTarget, moveSpeed);
 		}else{
-			entityHost.getNavigator().clearPathEntity();
+			entityHost.getNavigator().clearPath();
 		}
 
 		entityHost.getLookHelper().setLookPositionWithEntity(attackTarget, 30F, 30F);
@@ -138,7 +138,7 @@ public class EntityAIManaDrainBolt extends EntityAIBase{
 
 			if (manaDrained > 100){
 				entityHost.heal(1);
-				if (entityHost.worldObj.getDifficulty() == EnumDifficulty.HARD){
+				if (entityHost.world.getDifficulty() == EnumDifficulty.HARD){
 					attackTarget.addPotionEffect(new PotionEffect(Potion.getPotionFromResourceLocation("slowness"), 40, 1, true, true));
 					entityHost.addPotionEffect(new PotionEffect(Potion.getPotionFromResourceLocation("speed"), 40, 3, true, true));
 				}

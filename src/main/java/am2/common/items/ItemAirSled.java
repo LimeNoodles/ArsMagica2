@@ -24,26 +24,26 @@ public class ItemAirSled extends ItemArsMagica{
 		setMaxStackSize(1);
 	}
 
-	@Override
+	//todo @Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List<String> par3List, boolean par4){
 		par3List.add(I18n.format("am2.tooltip.air_sled"));
-		super.addInformation(par1ItemStack, par2EntityPlayer, par3List, par4);
+		//todo super.addInformation(par1ItemStack, par2EntityPlayer, par3List, par4);
 	}
 
-	@Override
+	//todo @Override
 	public EnumActionResult onItemUseFirst(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand){
 		if (!world.isRemote){
 			EntityAirSled sled = new EntityAirSled(world);
 			sled.setPosition(pos.getX() + hitX, pos.getY() + hitY + 0.5, pos.getZ() + hitZ);
-			world.spawnEntityInWorld(sled);
+			world.spawnEntity(sled);
 			player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
 			return EnumActionResult.PASS;
 		}
 		return EnumActionResult.PASS;
 	}
 
-	@Override
+	//todo @Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List){
 		par3List.add(ItemDefs.airSledEnchanted.copy());

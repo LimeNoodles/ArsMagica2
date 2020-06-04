@@ -8,13 +8,14 @@ import am2.api.extensions.IArcaneCompendium;
 import am2.common.defs.ItemDefs;
 import am2.common.packet.AMDataReader;
 import am2.common.packet.AMDataWriter;
+
+import net.minecraft.advancements.Advancement;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
-import net.minecraft.stats.Achievement;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
@@ -26,8 +27,8 @@ public class ArcaneCompendium implements IArcaneCompendium, ICapabilityProvider,
 	@CapabilityInject(IArcaneCompendium.class)
 	public static Capability<IArcaneCompendium> INSTANCE = null;
 	
-	public static Achievement compendiumData = (new Achievement("am2_ach_data", "compendiumData", 0, 0, ItemDefs.arcaneCompendium, null));
-	public static Achievement componentUnlock = (new Achievement("am2_ach_unlock", "componentUnlock", 0, 0, ItemDefs.spellParchment, null));
+	//todo public static Advancement compendiumData = (new Advancement("am2_ach_data", "compendiumData", 0, 0, ItemDefs.arcaneCompendium, null));
+	//todo public static Advancement componentUnlock = (new Advancement("am2_ach_unlock", "componentUnlock", 0, 0, ItemDefs.spellParchment, null));
 	
 	public static final int SYNC_COMPENDIUM = 0x1;
 	
@@ -110,8 +111,8 @@ public class ArcaneCompendium implements IArcaneCompendium, ICapabilityProvider,
 				unlockEntry(entry.getID());
 			else if (obj instanceof Item && crafting.getItem() == obj)
 				unlockEntry(entry.getID());
-			else if (obj instanceof Block && crafting.getItem() instanceof ItemBlock && ((ItemBlock)crafting.getItem()).block == obj)
-				unlockEntry(entry.getID());
+			//todo else if (obj instanceof Block && crafting.getItem() instanceof ItemBlock && ((ItemBlock)crafting.getItem()).block == obj)
+				//todo unlockEntry(entry.getID());
 		}
 	}
 

@@ -206,19 +206,19 @@ public class CommonProxy implements IGuiHandler{
 	public BlockDefs blocks;
 	public AMEnchantments enchantments;
 	private int totalFlickerCount = 0;
-	
+
 	public PlayerTracker playerTracker;
 	public ItemFrameWatcher itemFrameWatcher;
 	private AM2WorldDecorator worldGen;
 	public NBTTagCompound cwCopyLoc = null;
-	
+
 	public static HashMap<PowerTypes, ArrayList<LinkedList<BlockPos>>> powerPathVisuals;
-	
+
 	public CommonProxy() {
 		playerTracker = new PlayerTracker();
 		itemFrameWatcher = new ItemFrameWatcher();
 	}
-	
+
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntity te = world.getTileEntity(new BlockPos(x, y, z));
@@ -226,7 +226,7 @@ public class CommonProxy implements IGuiHandler{
 		case GUI_OCCULUS: return null;
 		case GUI_SPELL_CUSTOMIZATION: return new ContainerSpellCustomization(player);
 		case GUI_RIFT: return new ContainerRiftStorage(player, RiftStorage.For(player));
-		case GUI_SPELL_BOOK: 
+		case GUI_SPELL_BOOK:
 			ItemStack bookStack = player.getHeldItemMainhand();
 			if (bookStack.getItem() == null || !(bookStack.getItem() instanceof ItemSpellBook)){
 				return null;
@@ -250,10 +250,10 @@ public class CommonProxy implements IGuiHandler{
 				runeBag = player.inventory.getStackInSlot(runeBagSlot);
 
 			return new ContainerKeystone(player.inventory, player.getHeldItemMainhand(), runeBag, keystone.ConvertToInventory(keystoneStack), runeBag == null ? null : ItemDefs.runeBag.ConvertToInventory(runeBag), runeBagSlot);
-		case GUI_KEYSTONE_LOCKABLE: return new ContainerKeystoneLockable(player.inventory, (IKeystoneLockable<?>)te);		
+		case GUI_KEYSTONE_LOCKABLE: return new ContainerKeystoneLockable(player.inventory, (IKeystoneLockable<?>)te);
 		case GUI_SPELL_SEALED_DOOR: return new ContainerSpellSealedDoor(player.inventory, (TileEntitySpellSealedDoor)te);
 		case GUI_KEYSTONE_CHEST: return ((TileEntityKeystoneChest)te).createContainer(player.inventory, player);
-		case GUI_RUNE_BAG: 
+		case GUI_RUNE_BAG:
 			ItemStack bagStack = player.getHeldItemMainhand();
 			if (bagStack.getItem() == null || !(bagStack.getItem() instanceof ItemRuneBag)){
 				return null;
@@ -270,7 +270,7 @@ public class CommonProxy implements IGuiHandler{
 		case GUI_SEER_STONE: return new ContainerSeerStone(player.inventory, (TileEntitySeerStone) te);
 		case GUI_INERT_SPAWNER: return new ContainerInertSpawner(player, (TileEntityInertSpawner) te);
 		case GUI_SUMMONER: return new ContainerSummoner(player.inventory, (TileEntitySummoner) te);
-		case GUI_ESSENCE_BAG: 
+		case GUI_ESSENCE_BAG:
 			bagStack = player.getHeldItemMainhand();
 			if (bagStack.getItem() == null || !(bagStack.getItem() instanceof ItemEssenceBag)){
 				return null;
@@ -287,11 +287,11 @@ public class CommonProxy implements IGuiHandler{
 	}
 
 	public void preInit() {
-		
+
 		ForgeChunkManager.setForcedChunkLoadingCallback(ArsMagica2.instance, AMChunkLoader.INSTANCE);
 		NetworkRegistry.INSTANCE.registerGuiHandler(ArsMagica2.instance, this);
 		SeventhSanctum.instance.init();
-		
+
 		initHandlers();
 		ArsMagica2.config.init();
 		serverTickHandler = new ServerTickHandler();
@@ -300,7 +300,7 @@ public class CommonProxy implements IGuiHandler{
 		enchantments = new AMEnchantments();
 		AMNetHandler.INSTANCE.init();
 		AMNetHandler.INSTANCE.registerChannels(packetProcessor);
-		
+
 		MinecraftForge.EVENT_BUS.register(serverTickHandler);
 		MinecraftForge.EVENT_BUS.register(new CompendiumUnlockHandler());
 		MinecraftForge.EVENT_BUS.register(new EntityHandler());
@@ -313,10 +313,10 @@ public class CommonProxy implements IGuiHandler{
 		MinecraftForge.EVENT_BUS.register(new FlickerEvents());
 		MinecraftForge.EVENT_BUS.register(new ShrinkHandler());
 		MinecraftForge.EVENT_BUS.register(new EventManager());
-		
+
 		registerInfusions();
 		registerFlickerOperators();
-				
+
 		GameRegistry.registerTileEntity(TileEntityOcculus.class, "TileEntityOcculus");
 		GameRegistry.registerTileEntity(TileEntityCraftingAltar.class, "TileEntityCraftingAltar");
 		GameRegistry.registerTileEntity(TileEntityLectern.class, "TileEntityLectern");
@@ -359,7 +359,7 @@ public class CommonProxy implements IGuiHandler{
 		GameRegistry.registerFuelHandler(new FuelHandler());
 		EntityManager.instance.registerEntities();
 		EntityManager.instance.initializeSpawns();
-		AMEnchantments.Init();
+		//todo AMEnchantments.Init();
 		SkillDefs.init();
 		SpellDefs.init();
 		PotionEffectsDefs.init();
@@ -367,7 +367,7 @@ public class CommonProxy implements IGuiHandler{
 		items = new ItemDefs();
 		ItemDefs.initEnchantedItems();
 		blocks = new BlockDefs();
-		blocks.preInit();
+		//todo blocks.preInit();
 		new CreativeTabsDefs();
 		initOreDict();
 		new LootTablesArsMagica();
@@ -379,47 +379,47 @@ public class CommonProxy implements IGuiHandler{
 		CapabilityManager.INSTANCE.register(IArcaneCompendium.class, new IArcaneCompendium.Storage(), new IArcaneCompendium.Factory());
 		CapabilityManager.INSTANCE.register(ISpellCaster.class, new ISpellCaster.Storage(), () -> null);
 	}
-	
+
 	public void init() {
 		if (ArsMagica2.config.getEnableWitchwoodForest()){
-			BiomeDictionary.registerBiomeType(BiomeWitchwoodForest.instance, Type.FOREST, Type.MAGICAL);
+			//todo BiomeDictionary.registerBiomeType(BiomeWitchwoodForest.instance, Type.FOREST, Type.MAGICAL);
 			BiomeManager.addBiome(BiomeType.COOL, new BiomeEntry(BiomeWitchwoodForest.instance, 6));
 			int id = (BiomeWitchwoodForest.getBiomeId() != -1) ? BiomeWitchwoodForest.getBiomeId() : BiomeWitchwoodForest.getNextFreeBiomeId();
 			Biome.registerBiome(id, BiomeWitchwoodForest.instance.getBiomeName(), BiomeWitchwoodForest.instance);
 		}
 	}
-	
+
 	public void postInit() {
 		playerTracker.postInit();
 		MinecraftForge.EVENT_BUS.register(playerTracker);
 		MinecraftForge.EVENT_BUS.register(new SpellUnlockManager());
 		SoundDefs.createSoundMaps();
-		LoreDefs.postInit();	
-		AMRecipes.addRecipes();
-		for (AbstractSpellPart part : ArsMagicaAPI.getSpellRegistry().getValues()) {
-			if (ArsMagicaAPI.getSkillRegistry().getValue(part.getRegistryName()) == null)
-				throw new IllegalStateException("Spell Part " + part.getRegistryName() + " is missing a skill, this would cause severe problems");
-		}
+		LoreDefs.postInit();
+		//todo AMRecipes.addRecipes();
+		//for (AbstractSpellPart part : ArsMagicaAPI.getSpellRegistry().getValues()) {
+			//if (ArsMagicaAPI.getSkillRegistry().getValue(part.getRegistryName()) == null)
+				//throw new IllegalStateException("Spell Part " + part.getRegistryName() + " is missing a skill, this would cause severe problems");
+		//}
 		ArsMagica2.disabledSkills.getDisabledSkills(true);
 	}
-	
+
 	public void initHandlers() {
 		particleManager = new ParticleManagerServer();
 		packetProcessor = new AMPacketProcessorServer();
 	}
-	
+
 	public void addDeferredTargetSet(EntityLiving ent, EntityLivingBase target){
 		serverTickHandler.addDeferredTarget(ent, target);
 	}
-	
+
 	public ImmutableMap<EntityLivingBase, ArrayList<PotionEffect>> getDeferredPotionEffects(){
 		return ImmutableMap.copyOf(deferredPotionEffects);
 	}
-	
+
 	public void clearDeferredPotionEffects(){
 		deferredPotionEffects.clear();
 	}
-	
+
 	public void clearDeferredDimensionTransfers(){
 		deferredDimensionTransfers.clear();
 	}
@@ -429,7 +429,7 @@ public class CommonProxy implements IGuiHandler{
 	}
 
 	public void renderGameOverlay() {}
-	
+
 	public void addDeferredDimensionTransfer(EntityLivingBase ent, int dimension){
 		deferredDimensionTransfers.put(ent, dimension);
 	}
@@ -437,7 +437,7 @@ public class CommonProxy implements IGuiHandler{
 	public boolean setMouseDWheel(int dwheel) {
 		return false;
 	}
-	
+
 	public void setTrackedPowerCompound(NBTTagCompound compound){
 	}
 
@@ -465,7 +465,7 @@ public class CommonProxy implements IGuiHandler{
 	public void blackoutArmorPiece(EntityPlayerMP player, EntityEquipmentSlot slot, int cooldown){
 		serverTickHandler.blackoutArmorPiece(player, slot, cooldown);
 	}
-	
+
 	public void registerInfusions(){
 		DamageReductionImbuement.registerAll();
 		GenericImbuement.registerAll();
@@ -486,7 +486,7 @@ public class CommonProxy implements IGuiHandler{
 	}
 
 	public void flashManaBar() {}
-	
+
 	public void incrementFlickerCount(){
 		this.totalFlickerCount++;
 	}
@@ -500,10 +500,10 @@ public class CommonProxy implements IGuiHandler{
 	public int getTotalFlickerCount(){
 		return this.totalFlickerCount;
 	}
-	
+
 	private void registerFlickerOperators(){
-		GameRegistry.register(FlickerOperatorItemTransport.instance, new ResourceLocation("arsmagica2", "item_transport"));
-		GameRegistry.register(FlickerOperatorButchery.instance, new ResourceLocation("arsmagica2", "butchery"));
+		//todo GameRegistry.register(FlickerOperatorItemTransport.instance, new ResourceLocation("arsmagica2", "item_transport"));
+		/*GameRegistry.register(FlickerOperatorButchery.instance, new ResourceLocation("arsmagica2", "butchery"));
 		GameRegistry.register(FlickerOperatorContainment.instance, new ResourceLocation("arsmagica2", "containment"));
 		GameRegistry.register(FlickerOperatorFelledOak.instance, new ResourceLocation("arsmagica2", "felled_oak"));
 		GameRegistry.register(FlickerOperatorFlatLands.instance, new ResourceLocation("arsmagica2", "flat_lands"));
@@ -515,8 +515,8 @@ public class CommonProxy implements IGuiHandler{
 		GameRegistry.register(FlickerOperatorPackedEarth.instance, new ResourceLocation("arsmagica2", "packed_earth"));
 		GameRegistry.register(FlickerOperatorProgeny.instance, new ResourceLocation("arsmagica2", "progeny"));
 		GameRegistry.register(FlickerOperatorFishing.instance, new ResourceLocation("arsmagica2", "fishing"));
-	}
-	
+	*/}
+
 	public AM2WorldDecorator getWorldGenerator() {
 		return worldGen;
 	}
@@ -527,7 +527,7 @@ public class CommonProxy implements IGuiHandler{
 
 	public void openParticleBlockGUI(World worldIn, EntityPlayer playerIn, TileEntityParticleEmitter te) {
 	}
-	
+
 	private void initOreDict() {
 		OreDictionary.registerOre("fenceWood", Blocks.ACACIA_FENCE);
 		OreDictionary.registerOre("fenceWood", Blocks.OAK_FENCE);
@@ -549,7 +549,7 @@ public class CommonProxy implements IGuiHandler{
 
 		OreDictionary.registerOre("chestWood", new ItemStack(Blocks.CHEST));
 		OreDictionary.registerOre("craftingTableWood", new ItemStack(Blocks.CRAFTING_TABLE));
-		
+
 		OreDictionary.registerOre("dustVinteum", new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_VINTEUM));
 		OreDictionary.registerOre("arcaneAsh", new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_ARCANEASH));
 		OreDictionary.registerOre("gemBlueTopaz", new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_BLUE_TOPAZ));

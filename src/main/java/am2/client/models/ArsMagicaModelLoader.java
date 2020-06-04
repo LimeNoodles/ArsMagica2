@@ -72,7 +72,7 @@ public class ArsMagicaModelLoader implements ICustomModelLoader {
 		    for (String s : ((Map<String,String>) ModelUtils.GSON.fromJson(reader, ModelUtils.mapType)).values()) {
 				builder.add(new ResourceLocation(s));
 			}
-			IModel model = new SpellModel(builder.build());
+			IModel model = (IModel) new SpellModel(builder.build());
 			return model;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -82,10 +82,10 @@ public class ArsMagicaModelLoader implements ICustomModelLoader {
 	
 	@SubscribeEvent
 	public void preStitch(TextureStitchEvent.Pre e) {
-		for (Affinity aff : ArsMagicaAPI.getAffinityRegistry().getValues()) {
-			e.getMap().registerSprite(new ResourceLocation(aff.getRegistryName().getResourceDomain(), "blocks/runes/rune_" + aff.getRegistryName().getResourcePath()));
-			sprites.put(aff, e.getMap().registerSprite(new ResourceLocation("arsmagica2", "items/particles/" + aff.getName().toLowerCase() + "_hand")));
-		}
+		//todo for (Affinity aff : ArsMagicaAPI.getAffinityRegistry().getValues()) {
+			//e.getMap().registerSprite(new ResourceLocation(aff.getRegistryName().getResourceDomain(), "blocks/runes/rune_" + aff.getRegistryName().getResourcePath()));
+		//	sprites.put(aff, e.getMap().registerSprite(new ResourceLocation("arsmagica2", "items/particles/" + aff.getName().toLowerCase() + "_hand")));
+		//}
 		registerParticle(e.getMap(), "arcane");
 		registerParticle(e.getMap(), "beam");
 		registerParticle(e.getMap(), "beam1");

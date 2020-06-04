@@ -90,13 +90,15 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.common.registry.IForgeRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.registries.IForgeRegistry;
 
 public class BlockDefs {
 	
@@ -166,19 +168,21 @@ public class BlockDefs {
 	public static HashMap<Integer, ArrayList<AMVector3>> KeystonePortalLocations = new HashMap<>();
 	public static Fluid liquid_essence = new Fluid("liquid_essence", new ResourceLocation("arsmagica2", "blocks/liquidEssenceStill"), new ResourceLocation("arsmagica2", "blocks/liquidEssenceFlowing")).setRarity(EnumRarity.RARE).setLuminosity(7);
 	
-	
-	public void preInit () {
+
+	@SubscribeEvent
+	public void preInit (RegistryEvent.Register<Block> ev) {
 		FluidRegistry.registerFluid(liquid_essence);
 		FluidRegistry.addBucketForFluid(liquid_essence);
 		liquid_essence = FluidRegistry.getFluid(BlockDefs.liquid_essence.getName());
 		Block blockliquid_essence = new BlockFluidClassic(liquid_essence, Material.WATER).setUnlocalizedName("arsmagica2:fluid_block_liquid_essence");
 		Item itemliquid_essence = new ItemBlock(blockliquid_essence);
-		GameRegistry.register(blockliquid_essence, new ResourceLocation("arsmagica2:liquid_essence"));
-		GameRegistry.register(itemliquid_essence, new ResourceLocation("arsmagica2:liquid_essence"));
+		ev.getRegistry().register(blockliquid_essence);
+		ev.getRegistry().register(Block.getBlockFromItem(itemliquid_essence));
 		
-		GameRegistry.register(witchwoodSingleSlab, new ResourceLocation("arsmagica2:witchwood_slab"));
-		GameRegistry.register(witchwoodDoubleSlab, new ResourceLocation("arsmagica2:witchwood_slab_double"));
-		GameRegistry.register(new ItemSlab(witchwoodSingleSlab, witchwoodSingleSlab, witchwoodDoubleSlab), new ResourceLocation("arsmagica2:witchwood_slab"));
+		ev.getRegistry().register(witchwoodSingleSlab);
+		ev.getRegistry().register(witchwoodDoubleSlab);
+		ev.getRegistry().register(witchwoodSingleSlab);
+		ev.getRegistry().register(witchwoodDoubleSlab);
 	}
 	
 	@SideOnly(Side.CLIENT)

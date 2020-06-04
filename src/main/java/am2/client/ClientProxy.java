@@ -161,9 +161,9 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 
 public class ClientProxy extends CommonProxy {
-	
+
 	public ClientTickHandler clientTickHandler;
-	
+
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntity te = world.getTileEntity(new BlockPos(x, y, z));
@@ -171,7 +171,7 @@ public class ClientProxy extends CommonProxy {
 		case GUI_OCCULUS: return new GuiOcculus(player);
 		case GUI_SPELL_CUSTOMIZATION: return new GuiSpellCustomization(player);
 		case GUI_RIFT: return new GuiRiftStorage(player, RiftStorage.For(player));
-		case GUI_SPELL_BOOK: 
+		case GUI_SPELL_BOOK:
 			ItemStack bookStack = player.getHeldItemMainhand();
 			if (bookStack.getItem() == null || !(bookStack.getItem() instanceof ItemSpellBook)){
 				return null;
@@ -179,7 +179,7 @@ public class ClientProxy extends CommonProxy {
 			ItemSpellBook item = (ItemSpellBook)bookStack.getItem();
 			return new GuiSpellBook(player.inventory, bookStack, item.ConvertToInventory(bookStack));
 		case GUI_OBELISK: return new GuiObelisk((TileEntityObelisk)world.getTileEntity(new BlockPos(x, y, z)), player);
-		case GUI_CRYSTAL_MARKER: return new GuiCrystalMarker(player, (TileEntityCrystalMarker)te);		
+		case GUI_CRYSTAL_MARKER: return new GuiCrystalMarker(player, (TileEntityCrystalMarker)te);
 		case GUI_INSCRIPTION_TABLE: return new GuiInscriptionTable(player.inventory, (TileEntityInscriptionTable)world.getTileEntity(new BlockPos(x, y, z)));
 		case GUI_ARMOR_INFUSION: return new GuiArmorImbuer(player, (TileEntityArmorImbuer) world.getTileEntity(new BlockPos(x, y, z)));
 		case GUI_KEYSTONE:
@@ -202,7 +202,7 @@ public class ClientProxy extends CommonProxy {
 			return new GuiKeystoneLockable(player.inventory, (IKeystoneLockable<?>)te);
 		case GUI_SPELL_SEALED_DOOR: return new GuiSpellSealedDoor(player.inventory, (TileEntitySpellSealedDoor)te);
 		case GUI_KEYSTONE_CHEST: return new GuiKeystoneChest(player.inventory, (TileEntityKeystoneChest)te);
-		case GUI_RUNE_BAG: 
+		case GUI_RUNE_BAG:
 			ItemStack bagStack = player.getHeldItemMainhand();
 			if (bagStack.getItem() == null || !(bagStack.getItem() instanceof ItemRuneBag)){
 				return null;
@@ -219,7 +219,7 @@ public class ClientProxy extends CommonProxy {
 		case GUI_SEER_STONE: return new GuiSeerStone(player.inventory, (TileEntitySeerStone) te);
 		case GUI_INERT_SPAWNER: return new GuiInertSpawner(player, (TileEntityInertSpawner) te);
 		case GUI_SUMMONER: return new GuiSummoner(player.inventory, (TileEntitySummoner) te);
-		case GUI_ESSENCE_BAG: 
+		case GUI_ESSENCE_BAG:
 			bagStack = player.getHeldItemMainhand();
 			if (bagStack.getItem() == null || !(bagStack.getItem() instanceof ItemEssenceBag)){
 				return null;
@@ -232,12 +232,12 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void preInit() {
 		super.preInit();
-		
+
 		OBJLoader.INSTANCE.addDomain("arsmagica2");
-		
+
 		AMParticleIcons.instance.toString();
 		SpellIconManager.INSTANCE.toString();
-		
+
 		ClientRegistry.registerKeyBinding(BindingsDefs.ICE_BRIDGE);
 		ClientRegistry.registerKeyBinding(BindingsDefs.ENDER_TP);
 		ClientRegistry.registerKeyBinding(BindingsDefs.AURA_CUSTOMIZATION);
@@ -245,7 +245,7 @@ public class ClientProxy extends CommonProxy {
 		ClientRegistry.registerKeyBinding(BindingsDefs.NIGHT_VISION);
 		ClientRegistry.registerKeyBinding(BindingsDefs.SPELL_BOOK_NEXT);
 		ClientRegistry.registerKeyBinding(BindingsDefs.SPELL_BOOK_PREV);
-		
+
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCraftingAltar.class, new TileCraftingAltarRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityObelisk.class, new TileObeliskRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCelestialPrism.class, new TileCelestialPrismRenderer());
@@ -266,26 +266,26 @@ public class ClientProxy extends CommonProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySummoner.class, new TileSummonerRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAstralBarrier.class, new TileAstralBarrierRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityOtherworldAura.class, new TileOtherworldAuraRenderer());
-		
+
 		ModelLoaderRegistry.registerLoader(new ArsMagicaModelLoader());
 		ModelLoaderRegistry.registerLoader(new CullfaceModelLoader());
 		ModelLoaderRegistry.registerLoader(new SpecialRenderModelLoader());
-		
+
 		MinecraftForge.EVENT_BUS.register(new ArsMagicaModelLoader());
 		MinecraftForge.EVENT_BUS.register(clientTickHandler);
 		MinecraftForge.EVENT_BUS.register(ItemRenderer.instance);
 		MinecraftForge.EVENT_BUS.register(new BakingHandler());
 		MinecraftForge.EVENT_BUS.register(new BindingsDefs());
 		MinecraftForge.EVENT_BUS.register(new AMIngameGUI());
-		
+
 		ArsMagica2.config.clientInit();
 		new AMSounds();
 		EntityManager.instance.registerRenderers();
 		blocks.preInitClient();
-		
+
 		ClientCommandHandler.instance.registerCommand(new ConfigureAMUICommand());
 	}
-	
+
 	@Override
 	public void initHandlers() {
 		particleManager = new ParticleManagerClient();
@@ -299,7 +299,7 @@ public class ClientProxy extends CommonProxy {
 		BlockDefs.initClient();
 		ItemDefs.initClient();
 	}
-	
+
 	@Override
 	public void setTrackedLocation(AMVector3 location){
 		clientTickHandler.setTrackLocation(location.toVec3D());
@@ -319,21 +319,21 @@ public class ClientProxy extends CommonProxy {
 	public PowerNodeEntry getTrackedData(){
 		return clientTickHandler.getTrackData();
 	}
-	
+
 	@Override
 	public boolean setMouseDWheel(int dwheel){
 		if (dwheel == 0) return false;
 
-		ItemStack stack = Minecraft.getMinecraft().thePlayer.getHeldItemMainhand();
+		ItemStack stack = Minecraft.getMinecraft().player.getHeldItemMainhand();
 		if (stack == null) return false;
 
 		boolean store = checkForTKMove(stack);
 		if (!store && stack.getItem() instanceof ItemSpellBook){
-			store = Minecraft.getMinecraft().thePlayer.isSneaking();
+			store = Minecraft.getMinecraft().player.isSneaking();
 		}
 
 		if (store){
-			clientTickHandler.setDWheel(dwheel / 120, Minecraft.getMinecraft().thePlayer.inventory.currentItem, Minecraft.getMinecraft().thePlayer.isHandActive());
+			clientTickHandler.setDWheel(dwheel / 120, Minecraft.getMinecraft().player.inventory.currentItem, Minecraft.getMinecraft().player.isHandActive());
 			return true;
 		}else{
 			clientTickHandler.setDWheel(0, -1, false);
@@ -347,7 +347,7 @@ public class ClientProxy extends CommonProxy {
 			if (activeStack != null)
 				stack = activeStack;
 		}
-		if (stack.getItem() instanceof ItemSpellBase && stack.hasCapability(SpellCaster.INSTANCE, null) && Minecraft.getMinecraft().thePlayer.isHandActive()){
+		if (stack.getItem() instanceof ItemSpellBase && stack.hasCapability(SpellCaster.INSTANCE, null) && Minecraft.getMinecraft().player.isHandActive()){
 			ISpellCaster caster = stack.getCapability(SpellCaster.INSTANCE, null);
 			for (List<AbstractSpellPart> components : caster.getSpellCommon()){
 				for (AbstractSpellPart component : components) {
@@ -359,17 +359,17 @@ public class ClientProxy extends CommonProxy {
 		}
 		return false;
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	@Override
 	public void drawPowerOnBlockHighlight(EntityPlayer player, RayTraceResult target, float partialTicks){
-		
-		if (Minecraft.getMinecraft().thePlayer.getItemStackFromSlot(EntityEquipmentSlot.HEAD) != null &&
-				(Minecraft.getMinecraft().thePlayer.getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem() == ItemDefs.magitechGoggles)
-					|| ArmorHelper.isInfusionPreset(Minecraft.getMinecraft().thePlayer.getItemStackFromSlot(EntityEquipmentSlot.HEAD), GenericImbuement.magitechGoggleIntegration)){
+
+		if (Minecraft.getMinecraft().player.getItemStackFromSlot(EntityEquipmentSlot.HEAD) != null &&
+				(Minecraft.getMinecraft().player.getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem() == ItemDefs.magitechGoggles)
+					|| ArmorHelper.isInfusionPreset(Minecraft.getMinecraft().player.getItemStackFromSlot(EntityEquipmentSlot.HEAD), GenericImbuement.magitechGoggleIntegration)){
 			if (target.getBlockPos() == null)
 				return;
-			TileEntity te = player.worldObj.getTileEntity(target.getBlockPos());
+			TileEntity te = player.world.getTileEntity(target.getBlockPos());
 			if (te != null && te instanceof IPowerNode){
 				ArsMagica2.proxy.setTrackedLocation(new AMVector3(target.getBlockPos()));
 			}else{
@@ -378,7 +378,7 @@ public class ClientProxy extends CommonProxy {
 
 			if (ArsMagica2.proxy.hasTrackedLocationSynced()){
 				PowerNodeEntry data = ArsMagica2.proxy.getTrackedData();
-				Block block = player.worldObj.getBlockState(target.getBlockPos()).getBlock();
+				Block block = player.world.getBlockState(target.getBlockPos()).getBlock();
 				float yOff = 0.5f;
 				if (data != null){
 					GlStateManager.pushAttrib();
@@ -393,14 +393,14 @@ public class ClientProxy extends CommonProxy {
 						if (target.getBlockPos().getY() <= player.posY + player.getEyeHeight()){
 							RenderUtils.drawTextInWorldAtOffset(String.format("%s%.2f (%.2f%%)", type.getChatColor(), pwr, pct),
 									target.getBlockPos().getX() - (player.prevPosX - (player.prevPosX - player.posX) * partialTicks) + 0.5f - offset.x,
-									target.getBlockPos().getY() + yOff - (player.prevPosY - (player.prevPosY - player.posY) * partialTicks) + block.getBoundingBox(player.worldObj.getBlockState(target.getBlockPos()), player.worldObj, target.getBlockPos()).maxY * 0.8f,
+									target.getBlockPos().getY() + yOff - (player.prevPosY - (player.prevPosY - player.posY) * partialTicks) + block.getBoundingBox(player.world.getBlockState(target.getBlockPos()), player.world, target.getBlockPos()).maxY * 0.8f,
 									target.getBlockPos().getZ() - (player.prevPosZ - (player.prevPosZ - player.posZ) * partialTicks) + 0.5f - offset.z,
 									0xFFFFFF);
 							yOff += 0.12f;
 						}else{
 							RenderUtils.drawTextInWorldAtOffset(String.format("%s%.2f (%.2f%%)", type.getChatColor(), pwr, pct),
 									target.getBlockPos().getX() - (player.prevPosX - (player.prevPosX - player.posX) * partialTicks) + 0.5f - offset.x,
-									target.getBlockPos().getY() - yOff - (player.prevPosY - (player.prevPosY - player.posY) * partialTicks) - block.getBoundingBox(player.worldObj.getBlockState(target.getBlockPos()), player.worldObj, target.getBlockPos()).maxY * 0.2f,
+									target.getBlockPos().getY() - yOff - (player.prevPosY - (player.prevPosY - player.posY) * partialTicks) - block.getBoundingBox(player.world.getBlockState(target.getBlockPos()), player.world, target.getBlockPos()).maxY * 0.2f,
 									target.getBlockPos().getZ() - (player.prevPosZ - (player.prevPosZ - player.posZ) * partialTicks) + 0.5f - offset.z,
 									0xFFFFFF);
 							yOff -= 0.12f;
@@ -412,12 +412,12 @@ public class ClientProxy extends CommonProxy {
 			}
 		}
 	}
-	
+
 	@Override
 	public void requestPowerPathVisuals(IPowerNode<?> node, EntityPlayerMP player){
 		AMNetHandler.INSTANCE.syncPowerPaths(node, player);
 	}
-	
+
 	@Override
 	public void flashManaBar() {
 		AMGuiHelper.instance.flashManaBar();
@@ -432,12 +432,12 @@ public class ClientProxy extends CommonProxy {
 	public HashMap<PowerTypes, ArrayList<LinkedList<BlockPos>>> getPowerPathVisuals(){
 		return powerPathVisuals;
 	}
-	
+
 	@Override
 	public EntityPlayer getLocalPlayer() {
-		return Minecraft.getMinecraft().thePlayer;
+		return Minecraft.getMinecraft().player;
 	}
-	
+
 	@Override
 	public void openParticleBlockGUI(World world, EntityPlayer player, TileEntityParticleEmitter te){
 		if (world.isRemote){

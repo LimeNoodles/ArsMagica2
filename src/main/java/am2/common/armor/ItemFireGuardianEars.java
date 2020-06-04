@@ -38,7 +38,7 @@ public class ItemFireGuardianEars extends AMArmor{
 		return 0;
 	}
 
-	@Override
+	//todo @Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List<String> par3List, boolean par4){
 		par3List.add(I18n.format("am2.tooltip.fire_ears"));
@@ -49,7 +49,7 @@ public class ItemFireGuardianEars extends AMArmor{
 		return "arsmagica2:textures/mobs/bosses/fire_guardian.png";
 	}
 
-	@Override
+	//todo @Override
 	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List){
 		par3List.add(ItemDefs.fireEarsEnchanted.copy());
 	}

@@ -41,7 +41,7 @@ public interface IRiftStorage extends IInventory {
 			for (int i = 0; i < list.tagCount(); i++) {
 				//LogHelper.info("Found a tag ");
 				NBTTagCompound compound = list.getCompoundTagAt(i);
-				instance.setInventorySlotContents(compound.getInteger("Slot"), ItemStack.loadItemStackFromNBT(compound));
+				//TODO instance.setInventorySlotContents(compound.getInteger("Slot"), ItemStack.loadItemStackFromNBT(compound));
 			}
 		}
 	}

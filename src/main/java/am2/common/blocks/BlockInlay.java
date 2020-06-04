@@ -106,7 +106,7 @@ public class BlockInlay extends BlockRailBase {
 		return false;
 	}
 	
-	@Override
+	//todo @Override
 	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
 		if (!worldIn.isRemote)
 			this.updateState(state, worldIn, pos, blockIn);
@@ -307,12 +307,12 @@ public class BlockInlay extends BlockRailBase {
 		return new AxisAlignedBB(0f, 0f, 0f, 1f, 0.01f, 1f);
 	}
 	
-	@Override
+	//todo @Override
 	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
 		return blockState.getBoundingBox(worldIn, pos);
 	}
 	
-	@Override
+	//todo @Override
 	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, Entity entityIn) {
 		if (entityIn instanceof EntityMinecart) return;
 		addCollisionBoxToList(pos, entityBox, collidingBoxes, state.getCollisionBoundingBox(worldIn, pos));
@@ -326,8 +326,8 @@ public class BlockInlay extends BlockRailBase {
 	
 	public BlockInlay registerAndName(ResourceLocation rl) {
 		this.setUnlocalizedName(rl.toString());
-		GameRegistry.register(this, rl);
-		GameRegistry.register(new ItemBlockSubtypes(this), rl);
+		//todo GameRegistry.register(this, rl);
+		//todo GameRegistry.register(new ItemBlockSubtypes(this), rl);
 		return this;
 	}
 }

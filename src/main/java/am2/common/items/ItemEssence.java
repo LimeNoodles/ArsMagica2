@@ -19,19 +19,20 @@ public class ItemEssence extends ItemArsMagica {
 		setMaxDamage(0);
 	}
 	
-	@Override
+	//@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
-		for (int i = 0; i < ArsMagicaAPI.getAffinityRegistry().getValues().size(); i++) {
-			if (ArsMagicaAPI.getAffinityRegistry().getValues().get(i).equals(Affinity.NONE))
-				continue;
-			subItems.add(new ItemStack(this, 1, i));
-		}
+		//todo for (int i = 0; i < ArsMagicaAPI.getAffinityRegistry().getValues().size(); i++) {
+			//if (ArsMagicaAPI.getAffinityRegistry().getValues().get(i).equals(Affinity.NONE))
+			//	continue;
+			//subItems.add(new ItemStack(this, 1, i));
+		//}
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public String getItemStackDisplayName(ItemStack stack) {
-		return I18n.format("item.arsmagica2:essence.name", ArsMagicaAPI.getAffinityRegistry().getObjectById(stack.getItemDamage()).getLocalizedName());
+		//todo return I18n.format("item.arsmagica2:essence.name", ArsMagicaAPI.getAffinityRegistry().getObjectById(stack.getItemDamage()).getLocalizedName());
+		return null;
 	}
 }

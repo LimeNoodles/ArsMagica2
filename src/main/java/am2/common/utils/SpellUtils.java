@@ -30,8 +30,8 @@ import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntitySkeleton;
+import net.minecraft.entity.monster.EntityWitherSkeleton;
 import net.minecraft.entity.monster.EntityZombie;
-import net.minecraft.entity.monster.SkeletonType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -63,21 +63,21 @@ public class SpellUtils {
 	
 	public static boolean attackTargetSpecial(SpellData spellStack, Entity target, DamageSource damagesource, float magnitude){
 
-		if (target.worldObj.isRemote)
+		if (target.world.isRemote)
 			return true;
 
 		EntityPlayer dmgSrcPlayer = null;
 
-		if (damagesource.getEntity() != null){
-			if (damagesource.getEntity() instanceof EntityLivingBase){
-				EntityLivingBase source = (EntityLivingBase)damagesource.getEntity();
+		if (damagesource.getTrueSource() != null){
+			if (damagesource.getTrueSource() instanceof EntityLivingBase){
+				EntityLivingBase source = (EntityLivingBase)damagesource.getTrueSource();
 				if ((source instanceof EntityLightMage || source instanceof EntityDarkMage) && target.getClass() == EntityCreeper.class){
 					return false;
 				}else if (source instanceof EntityLightMage && target instanceof EntityLightMage){
 					return false;
 				}else if (source instanceof EntityDarkMage && target instanceof EntityDarkMage){
 					return false;
-				}else  if (source instanceof EntityPlayer && target instanceof EntityPlayer && !target.worldObj.isRemote && (!FMLCommonHandler.instance().getMinecraftServerInstance().isPVPEnabled() || ((EntityPlayer)target).capabilities.isCreativeMode)){
+				}else  if (source instanceof EntityPlayer && target instanceof EntityPlayer && !target.world.isRemote && (!FMLCommonHandler.instance().getMinecraftServerInstance().isPVPEnabled() || ((EntityPlayer)target).capabilities.isCreativeMode)){
 					return false;
 				}
 
@@ -85,8 +85,8 @@ public class SpellUtils {
 					magnitude += 4;
 			}
 
-			if (damagesource.getEntity() instanceof EntityPlayer){
-				dmgSrcPlayer = (EntityPlayer)damagesource.getEntity();
+			if (damagesource.getTrueSource() instanceof EntityPlayer){
+				dmgSrcPlayer = (EntityPlayer)damagesource.getTrueSource();
 				int armorSet = ArmorHelper.getFullArsMagicaArmorSet(dmgSrcPlayer);
 				if (armorSet == ArsMagicaArmorMaterial.MAGE.getMaterialID()){
 					magnitude *= 1.05f;
@@ -122,12 +122,12 @@ public class SpellUtils {
 
 		if (dmgSrcPlayer != null){
 			if (spellStack != null && target instanceof EntityLivingBase){
-				if (!target.worldObj.isRemote &&
+				if (!target.world.isRemote &&
 						((EntityLivingBase)target).getHealth() <= 0 &&
 						spellStack.isModifierPresent(SpellModifiers.DISMEMBERING_LEVEL)){
-					double chance = spellStack.getModifiedValue(0, SpellModifiers.DISMEMBERING_LEVEL, Operation.ADD, dmgSrcPlayer.worldObj, dmgSrcPlayer, target);
-					if (dmgSrcPlayer.worldObj.rand.nextDouble() <= chance){
-						dropHead(target, dmgSrcPlayer.worldObj);
+					double chance = spellStack.getModifiedValue(0, SpellModifiers.DISMEMBERING_LEVEL, Operation.ADD, dmgSrcPlayer.world, dmgSrcPlayer, target);
+					if (dmgSrcPlayer.world.rand.nextDouble() <= chance){
+						dropHead(target, dmgSrcPlayer.world);
 					}
 				}
 			}
@@ -138,7 +138,8 @@ public class SpellUtils {
 	
 	private static void dropHead(Entity target, World world){
 		if (target.getClass() == EntitySkeleton.class){
-			if (((EntitySkeleton)target).getSkeletonType() == SkeletonType.WITHER){
+			if (target instanceof EntityWitherSkeleton)
+			{
 				dropHead_do(world, target.posX, target.posY, target.posZ, 1);
 			}else{
 				dropHead_do(world, target.posX, target.posY, target.posZ, 0);
@@ -155,9 +156,9 @@ public class SpellUtils {
 	private static void dropHead_do(World world, double x, double y, double z, int type){
 		EntityItem item = new EntityItem(world);
 		ItemStack stack = new ItemStack(Items.SKULL, 1, type);
-		item.setEntityItemStack(stack);
+		item.setItem(stack);
 		item.setPosition(x, y, z);
-		world.spawnEntityInWorld(item);
+		world.spawnEntity(item);
 	}
 	
 	public static NBTTagCompound encode(KeyValuePair<ArrayList<AbstractSpellPart>, NBTTagCompound> toEncode) {
@@ -208,7 +209,7 @@ public class SpellUtils {
 				NBTTagList stageTag = NBTUtils.addCompoundList(NBTUtils.getAM2Tag(stack.getTagCompound()), STAGE + j);
 				for (int i = 0; i < stageTag.tagCount(); i++) {
 					NBTTagCompound tag = stageTag.getCompoundTagAt(i);
-					mods.add(ArsMagicaAPI.getSpellRegistry().getValue(new ResourceLocation(tag.getString(ID))));
+					//todo mods.add(ArsMagicaAPI.getSpellRegistry().getValue(new ResourceLocation(tag.getString(ID))));
 				}
 			}
 			return mods;
@@ -267,9 +268,9 @@ public class SpellUtils {
 				NBTTagList list = group.getTagList(STAGE + j, Constants.NBT.TAG_COMPOUND);
 				for (int k = 0; k < list.tagCount(); k++) {
 					NBTTagCompound nbt = list.getCompoundTagAt(k);
-					AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation(nbt.getString(ID)));
-					if (part != null)
-						parts.add(part);
+					//todo AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation(nbt.getString(ID)));
+					//if (part != null)
+						//parts.add(part);
 				}
 			}
 			caster.setStoredData(i, groupData);
@@ -281,9 +282,9 @@ public class SpellUtils {
 			NBTTagList list = am2.getTagList(STAGE + i, Constants.NBT.TAG_COMPOUND);
 			for (int j = 0; j < list.tagCount(); j++) {
 				NBTTagCompound tmp = list.getCompoundTagAt(j);
-				AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation(tmp.getString(ID)));
-				if (part != null)
-					parts.add(part);				
+			//todo	AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation(tmp.getString(ID)));
+				//if (part != null)
+				//	parts.add(part);
 			}
 		}
 		caster.setCommonStoredData(commonData);

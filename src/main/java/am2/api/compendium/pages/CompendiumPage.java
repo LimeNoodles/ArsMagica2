@@ -20,12 +20,13 @@ import am2.common.power.PowerTypes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -170,7 +171,7 @@ public abstract class CompendiumPage<E> {
         GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
         GlStateManager.shadeModel(7425);
         Tessellator tessellator = Tessellator.getInstance();
-        VertexBuffer vertexbuffer = tessellator.getBuffer();
+        BufferBuilder vertexbuffer = tessellator.getBuffer();
         vertexbuffer.begin(7, DefaultVertexFormats.POSITION_COLOR);
         vertexbuffer.pos((double)right, (double)top, (double)this.zLevel).color(f1, f2, f3, f).endVertex();
         vertexbuffer.pos((double)left, (double)top, (double)this.zLevel).color(f1, f2, f3, f).endVertex();
@@ -185,19 +186,19 @@ public abstract class CompendiumPage<E> {
     
 	protected void renderItemToolTip(ItemStack stack, int x, int y){
 		try{
-			List<String> list = stack.getTooltip(this.mc.thePlayer, this.mc.gameSettings.advancedItemTooltips);
+			List<String> list = stack.getTooltip(this.mc.player, ITooltipFlag.TooltipFlags.ADVANCED);
 
 			if (stack.getItem() instanceof ItemBlock){
 			}else{
 				if (stack.getItem() == ItemDefs.spell_component){
 					list.clear();
-					Skill skill = ArsMagicaAPI.getSkillRegistry().getObjectById(stack.getItemDamage());
-					if (skill == null)
-						return;
-					list.add(skill.getName());
+					//todo Skill skill = ArsMagicaAPI.getSkillRegistry().getObjectById(stack.getItemDamage());
+					//if (skill == null)
+					//	return;
+					//list.add(skill.getName());
 				}else if (stack.getItem() == ItemDefs.etherium){
 					list.clear();
-					list.add(stack.stackSize + " " + I18n.format("item.arsmagica2:etherium.name"));
+					list.add(stack.getCount() + " " + I18n.format("item.arsmagica2:etherium.name"));
 					ArrayList<String> subList = new ArrayList<>();
 					for (PowerTypes type : PowerTypes.all()) {
 						if ((stack.getItemDamage() & type.ID()) == type.ID()) {
@@ -234,7 +235,7 @@ public abstract class CompendiumPage<E> {
 			}
 
 			FontRenderer font = stack.getItem().getFontRenderer(stack);
-			drawHoveringText(list, x, y, (font == null ? this.mc.fontRendererObj : font));
+			drawHoveringText(list, x, y, (font == null ? this.mc.fontRenderer : font));
 		}catch (Throwable t){
 		}
 	}

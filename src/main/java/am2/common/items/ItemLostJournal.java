@@ -68,7 +68,7 @@ public class ItemLostJournal extends ItemWritableBook{
 		return -1;
 	}
 	
-	@Override
+	//todo @Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
 		if (worldIn.isRemote){
 			AMGuiHelper.OpenBookGUI(itemStackIn);
@@ -76,11 +76,11 @@ public class ItemLostJournal extends ItemWritableBook{
 		return new ActionResult<>(EnumActionResult.SUCCESS, itemStackIn);
 	}
 
-	@Override
+	//todo @Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item item, CreativeTabs par2CreativeTabs, List<ItemStack> par3List){
 
-		super.getSubItems(item, par2CreativeTabs, par3List);
+		//todo super.getSubItems(item, par2CreativeTabs, par3List);
 
 		int sCount = 0;
 		for (Story s : StoryManager.INSTANCE.allStories()){
@@ -98,7 +98,7 @@ public class ItemLostJournal extends ItemWritableBook{
 	
 	public ItemLostJournal registerAndName(String name) {
 		this.setUnlocalizedName(new ResourceLocation("arsmagica2", name).toString());
-		GameRegistry.register(this, new ResourceLocation("arsmagica2", name));
+		//todo GameRegistry.register(this, new ResourceLocation("arsmagica2", name));
 		return this;
 	}
 }

@@ -67,11 +67,11 @@ public class AffinityShiftUtils {
 	
 	public static ItemStack getEssenceForAffinity (Affinity affinity) {
 		int meta = 0;
-		for (Affinity aff : ArsMagicaAPI.getAffinityRegistry().getValues()) {
-			if (aff.equals(affinity))
-				break;
-			meta++;
-		}
+		//todo for (Affinity aff : ArsMagicaAPI.getAffinityRegistry().getValues()) {
+			//if (aff.equals(affinity))
+			//	break;
+			//meta++;
+		//}
 		return new ItemStack(ItemDefs.essence, 1, meta);
 	}
 
@@ -86,14 +86,14 @@ public class AffinityShiftUtils {
 			parts.sort(Comparator.naturalOrder());
 			for (AbstractSpellPart part : parts) {
 				float __multiplier = 0.1F;
-				Skill skill = ArsMagicaAPI.getSkillRegistry().getObject(part.getRegistryName());
-				if (skill != null) {
-					SkillPoint point = skill.getPoint();
-					if (point.getTier() > 0) {
-						multiplier *= extension.getCurrentLevel() > point.getMinEarnLevel() + 10 ? Math.max(1F / (extension.getCurrentLevel() - point.getMinEarnLevel() - 10F), 0.1F) : 1F;
-					} else
-						multiplier *= 2F;
-				}
+				//todo Skill skill = ArsMagicaAPI.getSkillRegistry().getObject(part.getRegistryName());
+				//if (skill != null) {
+				//	SkillPoint point = skill.getPoint();
+				//	if (point.getTier() > 0) {
+				//		multiplier *= extension.getCurrentLevel() > point.getMinEarnLevel() + 10 ? Math.max(1F / (extension.getCurrentLevel() - point.getMinEarnLevel() - 10F), 0.1F) : 1F;
+				//	} else
+				//		multiplier *= 2F;
+				//}
 				if (part instanceof SpellModifier) {
 					multiplier *= (1+__multiplier);
 				} else if (part instanceof SpellShape) {

@@ -155,7 +155,7 @@ public class BlockFlickerHabitat extends BlockAMPowered{
 			entityItem.motionX = (float)worldIn.rand.nextGaussian() * force;
 			entityItem.motionY = (float)worldIn.rand.nextGaussian() * force + 0.2F;
 			entityItem.motionZ = (float)worldIn.rand.nextGaussian() * force;
-			worldIn.spawnEntityInWorld(entityItem);
+			worldIn.spawnEntity(entityItem);
 		}
 
 		if (!habitat.isUpgrade()){

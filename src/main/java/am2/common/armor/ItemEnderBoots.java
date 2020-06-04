@@ -26,9 +26,9 @@ public class ItemEnderBoots extends AMArmor{
 			EntityExtension.For(player).setInverted(!EntityExtension.For(player).isInverted());
 	}
 
-	@Override
+	//todo @Override
 	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List<String> par3List, boolean par4){
 		par3List.add(I18n.format("am2.tooltip.ender_boots"));
-		super.addInformation(par1ItemStack, par2EntityPlayer, par3List, par4);
+		//todo super.addInformation(par1ItemStack, par2EntityPlayer, par3List, par4);
 	}
 }

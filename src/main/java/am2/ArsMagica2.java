@@ -25,7 +25,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 
 
-@Mod(modid=ArsMagica2.MODID, version=ArsMagica2.VERSION, guiFactory=ArsMagica2.GUIFACTORY, canBeDeactivated=false, acceptedMinecraftVersions = "[1.10.2,1.11)")
+@Mod(modid=ArsMagica2.MODID, version=ArsMagica2.VERSION, guiFactory=ArsMagica2.GUIFACTORY, canBeDeactivated=false, acceptedMinecraftVersions = "[1.12.2]")
 public class ArsMagica2 {
 	
 	public static final String MODID = "arsmagica2";
@@ -56,7 +56,7 @@ public class ArsMagica2 {
 		config = new AMConfig(new File(configDir, "am2.cfg"));
 		//config = new AMConfig(new File(e.getModConfigurationDirectory() + "\\ArsMagica2\\am2.cfg"));
 		disabledSkills = new SpellPartConfiguration(new File(configDir, "skills.cfg"));
-		proxy.preInit();
+		//proxy.preInit();
 		network = NetworkRegistry.INSTANCE.newSimpleChannel("AM2");
 		network.registerMessage(MessageBoolean.IceBridgeHandler.class, MessageBoolean.class, 1, Side.SERVER);
 		network.registerMessage(MessageCapabilities.class, MessageCapabilities.class, 3, Side.SERVER);
@@ -64,12 +64,13 @@ public class ArsMagica2 {
 	
 	@EventHandler
 	public void init (FMLInitializationEvent e) {
-		proxy.init();
+		//proxy.init();
 	}
 	
 	@EventHandler
 	public void postInit (FMLPostInitializationEvent e) {
-		proxy.postInit();
+
+		//proxy.postInit();
 	}
 	
 	@EventHandler

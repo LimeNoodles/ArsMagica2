@@ -55,7 +55,7 @@ public class Blink extends SpellComponent{
 
 		double d = motionX, d1 = motionY, d2 = motionZ;
 
-		float f2 = MathHelper.sqrt_double(d * d + d1 * d1 + d2 * d2);
+		float f2 = MathHelper.sqrt(d * d + d1 * d1 + d2 * d2);
 		d /= f2;
 		d1 /= f2;
 		d2 /= f2;
@@ -107,7 +107,7 @@ public class Blink extends SpellComponent{
 				d1 = motionY;
 				d2 = motionZ;
 
-				f2 = MathHelper.sqrt_double(d * d + d1 * d1 + d2 * d2);
+				f2 = MathHelper.sqrt(d * d + d1 * d1 + d2 * d2);
 				d /= f2;
 				d1 /= f2;
 				d2 /= f2;
@@ -213,7 +213,7 @@ public class Blink extends SpellComponent{
 			d1 = motionY;
 			d2 = motionZ;
 
-			f2 = MathHelper.sqrt_double(d * d + d1 * d1 + d2 * d2);
+			f2 = MathHelper.sqrt(d * d + d1 * d1 + d2 * d2);
 			d /= f2;
 			d1 /= f2;
 			d2 /= f2;
@@ -240,7 +240,7 @@ public class Blink extends SpellComponent{
 
 		if (!world.isRemote){
 			if (!coordsValid && target instanceof EntityPlayer){
-				((EntityPlayer)target).addChatMessage(new TextComponentString("Can't find a place to blink forward to."));
+				((EntityPlayer)target).sendMessage(new TextComponentString("Can't find a place to blink forward to."));
 				return false;
 			}
 		}

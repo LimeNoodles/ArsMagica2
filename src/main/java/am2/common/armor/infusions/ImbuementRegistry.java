@@ -24,29 +24,30 @@ public class ImbuementRegistry implements IImbuementRegistry{
 
 	@Override
 	public void registerImbuement(ArmorImbuement imbuementInstance) {
-		GameRegistry.register(imbuementInstance, new ResourceLocation(ArsMagicaAPI.getCurrentModId(), imbuementInstance.getID()));
+		//todo GameRegistry.register(imbuementInstance, new ResourceLocation(ArsMagicaAPI.getCurrentModId(), imbuementInstance.getID()));
 		LogHelper.info(String.format("Registered imbuement: %s", imbuementInstance.getID()));
 	}
 
 	@Override
 	public ArmorImbuement getImbuementByID(ResourceLocation ID){
-		return ArsMagicaAPI.getArmorImbuementRegistry().getObject(ID);
+		//todo return ArsMagicaAPI.getArmorImbuementRegistry().getObject(ID);
+		return null;
 	}
 
 	@Override
 	public ArmorImbuement[] getImbuementsForTier(ImbuementTiers tier, EntityEquipmentSlot armorType){
 		ArrayList<ArmorImbuement> list = new ArrayList<ArmorImbuement>();
 
-		for (ArmorImbuement imbuement : ArsMagicaAPI.getArmorImbuementRegistry().getValues()){
-			if (imbuement.getTier() == tier){
-				for (EntityEquipmentSlot i : imbuement.getValidSlots()){
-					if (i == armorType){
-						list.add(imbuement);
-						break;
-					}
-				}
-			}
-		}
+//todoo		for (ArmorImbuement imbuement : ArsMagicaAPI.getArmorImbuementRegistry().getValues()){
+		//	if (imbuement.getTier() == tier){
+		//		for (EntityEquipmentSlot i : imbuement.getValidSlots()){
+		//			if (i == armorType){
+		//				list.add(imbuement);
+		//				break;
+		//			}
+		//		}
+		//	}
+		//}
 
 		return list.toArray(new ArmorImbuement[list.size()]);
 	}

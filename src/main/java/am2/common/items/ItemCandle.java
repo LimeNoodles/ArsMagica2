@@ -39,7 +39,7 @@ public class ItemCandle extends ItemArsMagica{
 		setMaxDamage(18000); //15 minutes (20 * 60 * 15)
 	}
 	
-	@Override
+	//todo @Override
 	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (!stack.hasTagCompound() || !stack.getTagCompound().hasKey("search_block")){
 			IBlockState block = worldIn.getBlockState(pos);
@@ -61,7 +61,7 @@ public class ItemCandle extends ItemArsMagica{
 		if (!worldIn.isRemote){
 
 			if (stack.hasTagCompound() && stack.getTagCompound().hasKey("search_block")){
-				playerIn.addChatMessage(new TextComponentString(I18n.format("am2.tooltip.candlecantplace")));
+				playerIn.sendMessage(new TextComponentString(I18n.format("am2.tooltip.candlecantplace")));
 				return EnumActionResult.PASS;
 			}
 
@@ -251,7 +251,7 @@ public class ItemCandle extends ItemArsMagica{
 		return slotChanged;
 	}
 
-	@Override
+	//todo @Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List){
 		ItemStack unattuned = new ItemStack(this, 1, 0);

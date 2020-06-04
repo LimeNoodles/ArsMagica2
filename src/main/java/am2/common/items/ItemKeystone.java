@@ -93,7 +93,7 @@ public class ItemKeystone extends ItemArsMagica{
 		return new KeystoneCombination(name, metas);
 	}
 
-	@Override
+	//todo @Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand){
 		if (player.isSneaking()){
 			FMLNetworkHandler.openGui(player, ArsMagica2.instance, IDDefs.GUI_KEYSTONE, world, (int)player.posX, (int)player.posY, (int)player.posZ);
@@ -161,7 +161,7 @@ public class ItemKeystone extends ItemArsMagica{
 		return true;
 	}
 
-	@Override
+	//todo @Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List<String> par3List, boolean par4){
 		ItemStack[] items = getMyInventory(par1ItemStack);

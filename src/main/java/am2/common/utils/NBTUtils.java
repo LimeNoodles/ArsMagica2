@@ -32,9 +32,9 @@ public class NBTUtils {
 	}
 	
 	public static void writeVecToNBT(Vec3d vec, NBTTagCompound nbt) {
-		nbt.setDouble("X", vec.xCoord);
-		nbt.setDouble("Y", vec.yCoord);
-		nbt.setDouble("Z", vec.zCoord);
+		nbt.setDouble("X", vec.x);
+		nbt.setDouble("Y", vec.y);
+		nbt.setDouble("Z", vec.z);
 	}
 	
 	public static void writeBlockPosToNBT(BlockPos pos, NBTTagCompound nbt) {
@@ -135,10 +135,10 @@ public class NBTUtils {
 		ItemStack[] array = new ItemStack[list.tagCount()];
 		for (int i = 0; i < list.tagCount(); i++) {
 			NBTTagCompound tmp = list.getCompoundTagAt(i);
-			ItemStack is = ItemStack.loadItemStackFromNBT(tmp);
-			if (is != null)
-				is.stackSize = tmp.getInteger("ActualStackSize");
-			array[tmp.getInteger("ID")] = is;
+			//todo ItemStack is = ItemStack.loadItemStackFromNBT(tmp);
+			//if (is != null)
+				//is.stackSize = tmp.getInteger("ActualStackSize");
+			//todo array[tmp.getInteger("ID")] = is;
 		}
 		return array;
 	}
@@ -148,7 +148,7 @@ public class NBTUtils {
 		for (int i = 0; i < recipeData.length; i++) {
 			NBTTagCompound tmp = new NBTTagCompound();
 			tmp.setInteger("ID", i);
-			tmp.setInteger("ActualStackSize", recipeData[i].stackSize);
+			tmp.setInteger("ActualStackSize", recipeData[i].getCount());
 			recipeData[i].writeToNBT(tmp);
 			list.appendTag(tmp);
 		}

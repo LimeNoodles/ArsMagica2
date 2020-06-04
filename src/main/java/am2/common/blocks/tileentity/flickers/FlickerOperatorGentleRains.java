@@ -100,7 +100,7 @@ public class FlickerOperatorGentleRains extends AbstractFlickerFunctionality{
 				" B ",
 				Character.valueOf('C'), BlockDefs.essenceConduit,
 				Character.valueOf('T'), BlockDefs.tarmaRoot,
-				Character.valueOf('W'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.WATER)),
+				//todo Character.valueOf('W'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.WATER)),
 				Character.valueOf('B'), new ItemStack(ItemDefs.rune, 1, EnumDyeColor.BLUE.getDyeDamage())
 		};
 	}

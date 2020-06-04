@@ -45,7 +45,7 @@ public class BlockArsMagicaOre extends BlockAM {
 		return drop + (isChimerite ? 1 : 2) * fortuneBonus;
 	}
 	
-	@Override
+	//todo @Override
 	public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
 		for (int i = 0; i < EnumOreType.values().length; i++) {
 			list.add(new ItemStack(this, 1, i));
@@ -80,14 +80,14 @@ public class BlockArsMagicaOre extends BlockAM {
 	
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
-		return getDefaultState().withProperty(ORE_TYPE, EnumOreType.values()[MathHelper.clamp_int(meta, 0, EnumOreType.values().length - 1)]);
+		return getDefaultState().withProperty(ORE_TYPE, EnumOreType.values()[MathHelper.clamp(meta, 0, EnumOreType.values().length - 1)]);
 	}
 	
 	@Override
 	public BlockAM registerAndName(ResourceLocation rl) {
 		this.setUnlocalizedName(rl.getResourcePath());
-		GameRegistry.register(this, rl);
-		GameRegistry.register(new ItemBlockOre(this), rl);
+		//todo GameRegistry.register(this, rl);
+		//todo GameRegistry.register(new ItemBlockOre(this), rl);
 		return this;
 	}
 	

@@ -45,9 +45,9 @@ public abstract class BlockAMPowered extends BlockAMContainer{
 		return I18n.format("am2.gui.powerType" + type.name());
 	}
 	
-	@Override
+	//todo @Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
-		super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
+		//super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
 		
 		if (HandleSpecialItems(worldIn, playerIn, pos))
 			return false;
@@ -88,9 +88,9 @@ public abstract class BlockAMPowered extends BlockAMContainer{
         return false;
     }
 	
-	@Override
+	//todeo @Override
 	public boolean isBlockSolid(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
-		if (defaultRender) return super.isBlockSolid(worldIn, pos, side);
+		//if (defaultRender) return super.isBlockSolid(worldIn, pos, side);
 		return true;
 	}
 	

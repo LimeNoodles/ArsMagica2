@@ -34,8 +34,8 @@ public class BlockWakebloom extends BlockAMFlower{
 	@Override
 	public BlockAMFlower registerAndName(ResourceLocation loc) {
 		setUnlocalizedName(loc.toString());
-		GameRegistry.register(this, loc);
-		GameRegistry.register(new ItemWakebloom(this), loc);
+		//todo GameRegistry.register(this, loc);
+		//todo GameRegistry.register(new ItemWakebloom(this), loc);
 		return this;
 	}
 }

@@ -38,9 +38,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityDarkMage extends EntityMob{
 
-	private static ItemStack diminishedHeldItem = new ItemStack(ItemDefs.affinityTome, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.NONE));
-	private static ItemStack normalHeldItem = new ItemStack(ItemDefs.affinityTome, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.NONE));
-	private static ItemStack augmentedHeldItem = new ItemStack(ItemDefs.affinityTome, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.NONE));
+	//todo private static ItemStack diminishedHeldItem = new ItemStack(ItemDefs.affinityTome, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.NONE));
+	//todo private static ItemStack normalHeldItem = new ItemStack(ItemDefs.affinityTome, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.NONE));
+	//toso private static ItemStack augmentedHeldItem = new ItemStack(ItemDefs.affinityTome, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.NONE));
 
 	public static final DataParameter<Integer> MAGE_SKIN = EntityDataManager.createKey(EntityDarkMage.class, DataSerializers.VARINT);
 	public static final DataParameter<Integer> MAGE_BOOK = EntityDataManager.createKey(EntityDarkMage.class, DataSerializers.VARINT);
@@ -84,11 +84,11 @@ public class EntityDarkMage extends EntityMob{
 		if (cm == -1)
 			return null;
 		else if (cm == 0)
-			return diminishedHeldItem;
+			return null; //diminishedHeldItem;
 		else if (cm == 1)
-			return normalHeldItem;
+			return null; //normalHeldItem;
 		else
-			return augmentedHeldItem;
+			return null; //augmentedHeldItem;
 	}
 
 	private void initAI(){
@@ -98,7 +98,7 @@ public class EntityDarkMage extends EntityMob{
 		this.tasks.addTask(5, new EntityAIWander(this, this.MovementSpeed()));
 		this.tasks.addTask(1, new EntityAIAvoidEntity<EntityManaVortex>(this, EntityManaVortex.class, 10, this.MovementSpeed(), this.ActionSpeed()));
 		
-		this.tasks.addTask(3, new EntityAIRangedAttackSpell(this, this.MovementSpeed(), 40, NPCSpells.instance.darkMage_DiminishedAttack));
+//todo 		this.tasks.addTask(3, new EntityAIRangedAttackSpell(this, this.MovementSpeed(), 40, NPCSpells.instance.darkMage_DiminishedAttack));
 		this.tasks.addTask(4, new EntityAIAttackMelee(this, this.MovementSpeed(), false));
 		
 		this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
@@ -154,8 +154,8 @@ public class EntityDarkMage extends EntityMob{
 	}
 
 	private int getAverageNearbyPlayerMagicLevel(){
-		if (this.worldObj == null) return 0;
-		List<EntityPlayer> players = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(this.posX - 250, 0, this.posZ - 250, this.posX + 250, 250, this.posZ + 250));
+		if (this.world == null) return 0;
+		List<EntityPlayer> players = this.world.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(this.posX - 250, 0, this.posZ - 250, this.posX + 250, 250, this.posZ + 250));
 		if (players.size() == 0) return 0;
 		int avgLvl = 0;
 		for (EntityPlayer player : players){
@@ -166,7 +166,7 @@ public class EntityDarkMage extends EntityMob{
 
 	@Override
 	public boolean getCanSpawnHere(){
-		if (!SpawnBlacklists.entityCanSpawnHere(this.getPosition(), this.worldObj, this))
+		if (!SpawnBlacklists.entityCanSpawnHere(this.getPosition(), this.world, this))
 			return false;
 		if (this.getAverageNearbyPlayerMagicLevel() < 8){
 			return false;
@@ -178,16 +178,16 @@ public class EntityDarkMage extends EntityMob{
 			avgLevel = Integer.MAX_VALUE / 2 - 1;
 		if (avgLevel == 0){
 			if (this.rand.nextInt(100) < 10){
-				this.tasks.addTask(3, new EntityAIRangedAttackSpell(this, this.MovementSpeed(), 80, NPCSpells.instance.darkMage_NormalAttack));
+				//todo this.tasks.addTask(3, new EntityAIRangedAttackSpell(this, this.MovementSpeed(), 80, NPCSpells.instance.darkMage_NormalAttack));
 				this.dataManager.set(MAGE_BOOK, 1);
 			}
 		}else{
 			int levelRand = this.rand.nextInt(Math.min(avgLevel * 2, Integer.MAX_VALUE));
 			if (levelRand > 60){
-				this.tasks.addTask(2, new EntityAIRangedAttackSpell(this, this.MovementSpeed(), 160, NPCSpells.instance.darkMage_AugmentedAttack));
+				//todo this.tasks.addTask(2, new EntityAIRangedAttackSpell(this, this.MovementSpeed(), 160, NPCSpells.instance.darkMage_AugmentedAttack));
 				this.dataManager.set(MAGE_BOOK, 2);
 			}else if (levelRand > 30){
-				this.tasks.addTask(3, new EntityAIRangedAttackSpell(this, this.MovementSpeed(), 80, NPCSpells.instance.darkMage_NormalAttack));
+				//todo this.tasks.addTask(3, new EntityAIRangedAttackSpell(this, this.MovementSpeed(), 80, NPCSpells.instance.darkMage_NormalAttack));
 				this.dataManager.set(MAGE_BOOK, 1);
 			}
 		}

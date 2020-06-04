@@ -41,17 +41,17 @@ public class ItemNatureGuardianSickle extends ItemArsMagica{
 	public Multimap<String, AttributeModifier> getItemAttributeModifiers(EntityEquipmentSlot slot){
 		Multimap<String, AttributeModifier> multimap = HashMultimap.<String, AttributeModifier>create();
 		if (slot.equals(EntityEquipmentSlot.MAINHAND)) {
-			multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getAttributeUnlocalizedName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", 9, 0));
-			multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getAttributeUnlocalizedName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -3, 0));
+			//todo multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getAttributeUnlocalizedName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", 9, 0));
+			//todo multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getAttributeUnlocalizedName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -3, 0));
 		}
 		return multimap;
 	}
 
-	@Override
+	//todo @Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List<String> par3List, boolean par4){
 		par3List.add(I18n.format("am2.tooltip.nature_scythe"));
-		super.addInformation(par1ItemStack, par2EntityPlayer, par3List, par4);
+		//todo super.addInformation(par1ItemStack, par2EntityPlayer, par3List, par4);
 	}
 	
 	@Override
@@ -82,7 +82,7 @@ public class ItemNatureGuardianSickle extends ItemArsMagica{
 		return false;
 	}
 
-	@Override
+	//todo @Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer, EnumHand hand){
 		if (flingSickle(par1ItemStack, par2World, par3EntityPlayer)){
 			par3EntityPlayer.setItemStackToSlot(hand == EnumHand.MAIN_HAND ? EntityEquipmentSlot.MAINHAND : EntityEquipmentSlot.OFFHAND, null);//inventory.setInventorySlotContents(par3EntityPlayer.inventory.currentItem, null);
@@ -102,13 +102,13 @@ public class ItemNatureGuardianSickle extends ItemArsMagica{
 			projectile.setThrowingEntity(player);
 			projectile.setProjectileSpeed(2.0);
 			//projectile.setInMotion(1.25);
-			world.spawnEntityInWorld(projectile);
+			world.spawnEntity(projectile);
 			EntityExtension.For(player).deductMana(250f);
 		}
 		return true;
 	}
 
-	@Override
+	//todo @Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List){
 		par3List.add(ItemDefs.natureScytheEnchanted.copy());

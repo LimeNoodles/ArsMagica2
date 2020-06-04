@@ -76,13 +76,13 @@ public class BanishRain extends SpellComponent implements IRitualInteraction{
 	@Override
 	public ItemStack[] reagents(EntityLivingBase caster){
 		int waterMeta = 0;
-		for (Affinity aff : ArsMagicaAPI.getAffinityRegistry().getValues()) {
-			if (aff.equals(Affinity.NONE))
-				continue;				
-			if (aff.equals(Affinity.WATER))
-				break;
-			waterMeta++;
-		}
+		//todo for (Affinity aff : ArsMagicaAPI.getAffinityRegistry().getValues()) {
+			//if (aff.equals(Affinity.NONE))
+			//	continue;
+		//	if (aff.equals(Affinity.WATER))
+		//		break;
+		//	waterMeta++;
+		//}
 		return new ItemStack[]{new ItemStack(ItemDefs.essence, 1, waterMeta)};
 	}
 

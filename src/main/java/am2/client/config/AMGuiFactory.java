@@ -21,6 +21,18 @@ public class AMGuiFactory implements IModGuiFactory {
 	}
 
 	@Override
+	public boolean hasConfigGui() {
+		//todo
+		return false;
+	}
+
+	@Override
+	public GuiScreen createConfigGui(GuiScreen parentScreen) {
+		//todo
+		return null;
+	}
+
+	//todo @Override
 	public Class<? extends GuiScreen> mainConfigGuiClass() {
 		return AMGuiConfig.class;
 	}
@@ -31,10 +43,10 @@ public class AMGuiFactory implements IModGuiFactory {
 	}
 
 	@SuppressWarnings("deprecation")
-	@Override
-	public RuntimeOptionGuiHandler getHandlerFor(RuntimeOptionCategoryElement element) {
-		return null;
-	}
+	//todo @Override
+	//public //RuntimeOptionGuiHandler getHandlerFor(RuntimeOptionCategoryElement element) {
+		//return null;
+	//}
 	
 	public static class AMGuiConfig extends GuiConfig {
 

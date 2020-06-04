@@ -53,7 +53,7 @@ public class ItemBindingCatalyst extends ItemArsMagica{
 		return baseName;
 	}
 
-	@Override
+	//todo @Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List){
 		par3List.add(new ItemStack(par1, 1, META_PICK));

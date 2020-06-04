@@ -42,7 +42,7 @@ public class ItemLightningCharm extends ItemArsMagica{
 			stack.getTagCompound().setByte(KEY_ACTIVE, (byte)1);
 	}
 
-	@Override
+	//todo @Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer, EnumHand hand){
 		if (par3EntityPlayer.isSneaking())
 			toggleActive(par1ItemStack);
@@ -92,10 +92,10 @@ public class ItemLightningCharm extends ItemArsMagica{
 		return isActive(stack);
 	}
 
-	@Override
+	//todo @Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List<String> par3List, boolean par4){
 		par3List.add(I18n.format("am2.tooltip.lightning_charm"));
-		super.addInformation(par1ItemStack, par2EntityPlayer, par3List, par4);
+		//todo super.addInformation(par1ItemStack, par2EntityPlayer, par3List, par4);
 	}
 }

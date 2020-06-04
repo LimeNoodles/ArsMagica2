@@ -2,6 +2,7 @@ package am2.client.blocks.render;
 
 import static net.minecraft.client.renderer.texture.TextureMap.LOCATION_BLOCKS_TEXTURE;
 
+import net.minecraft.client.renderer.BufferBuilder;
 import org.lwjgl.opengl.GL11;
 
 import am2.client.texture.SpellIconManager;
@@ -11,7 +12,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
@@ -26,7 +26,7 @@ public class TileCraftingAltarRenderer extends TileEntitySpecialRenderer<TileEnt
 	private TextureAtlasSprite def;
 	private TextureAtlasSprite runeStone;
 	
-	@Override
+	//todo @Override
 	public void renderTileEntityAt(TileEntityCraftingAltar te, double x, double y, double z, float partialTicks, int destroyStage) {
 		Minecraft.getMinecraft().mcProfiler.startSection("crafting-altar");
 		Minecraft.getMinecraft().mcProfiler.startSection("definitions");
@@ -53,7 +53,7 @@ public class TileCraftingAltarRenderer extends TileEntitySpecialRenderer<TileEnt
 			Minecraft.getMinecraft().renderEngine.bindTexture(LOCATION_BLOCKS_TEXTURE);
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			Minecraft.getMinecraft().mcProfiler.endStartSection("buffering");
-			Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelRenderer().renderModel(Minecraft.getMinecraft().theWorld, model, te.getMimicState(), pos, t.getBuffer(), false);
+			Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelRenderer().renderModel(Minecraft.getMinecraft().world, model, te.getMimicState(), pos, t.getBuffer(), false);
 			Minecraft.getMinecraft().mcProfiler.endStartSection("drawing");
 			t.draw();
 			GlStateManager.popMatrix();
@@ -87,7 +87,7 @@ public class TileCraftingAltarRenderer extends TileEntitySpecialRenderer<TileEnt
 		RenderHelper.disableStandardItemLighting();
 		//GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		Tessellator tessellator = Tessellator.getInstance();
-		VertexBuffer buffer = tessellator.getBuffer();
+		BufferBuilder buffer = tessellator.getBuffer();
 		buffer.begin(7, DefaultVertexFormats.POSITION_TEX);
 		buffer.pos(0, 1, 0).tex(maxU, minV).endVertex();
 		buffer.pos(1, 1, 0).tex(minU, minV).endVertex();

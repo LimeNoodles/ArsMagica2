@@ -39,7 +39,7 @@ public class BlockKeystoneTrapdoor extends BlockTrapDoor implements ITileEntityP
 		return new TileEntityKeystoneDoor();
 	}
 	
-	@Override
+	//todo @Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
 			EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ){
 		TileEntity te = worldIn.getTileEntity(pos);
@@ -53,7 +53,7 @@ public class BlockKeystoneTrapdoor extends BlockTrapDoor implements ITileEntityP
 				FMLNetworkHandler.openGui(playerIn, ArsMagica2.instance, IDDefs.GUI_KEYSTONE_LOCKABLE, worldIn, pos.getX(), pos.getY(), pos.getZ());
 			}else{
 				//worldIn.playSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_WOODEN_DOOR_OPEN, SoundCategory.BLOCKS, 1.0f, 1.0f, true);
-				return super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
+				//todo return super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
 			}
 		}
 
@@ -72,8 +72,8 @@ public class BlockKeystoneTrapdoor extends BlockTrapDoor implements ITileEntityP
 	
 	public Block registerAndName(ResourceLocation rl) {
 		this.setUnlocalizedName(rl.toString());
-		GameRegistry.register(this, rl);
-		GameRegistry.register(new ItemBlockSubtypes(this), rl);
+		//todo GameRegistry.register(this, rl);
+		//todo GameRegistry.register(new ItemBlockSubtypes(this), rl);
 		return this;
 	}
 	

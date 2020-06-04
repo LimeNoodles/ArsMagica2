@@ -5,15 +5,19 @@ import net.minecraft.enchantment.Enchantment.Rarity;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class AMEnchantments{
 	public static EnchantMagicResist magicResist = new EnchantMagicResist(Rarity.COMMON);
 	public static EnchantmentSoulbound soulbound = new EnchantmentSoulbound(Rarity.RARE);
 
-	public static void Init(){
-		GameRegistry.register(magicResist, new ResourceLocation("arsmagica2", "magicResist"));
-		GameRegistry.register(soulbound, new ResourceLocation("arsmagica2", "soulbound"));
+	@SubscribeEvent
+	public static void Init(RegistryEvent.Register<Enchantment> ev)
+	{
+		ev.getRegistry().register(magicResist);  //, new ResourceLocation("arsmagica2", "magicResist"));
+		ev.getRegistry().register(soulbound);//, new ResourceLocation("arsmagica2", "soulbound"));
 	}
 
 	public static int GetEnchantmentLevelSpecial(Enchantment ench, ItemStack stack){

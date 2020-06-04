@@ -37,7 +37,7 @@ public class EntityAIRangedAttackSpell extends EntityAIBase{
 		rangedAttackTime = 0;
 		field_48367_f = 0;
 		entityHost = host;
-		worldObj = host.worldObj;
+		worldObj = host.world;
 		field_48370_e = moveSpeed;
 		maxRangedAttackTime = cooldown;
 		this.spellStack = spellStack;
@@ -65,7 +65,7 @@ public class EntityAIRangedAttackSpell extends EntityAIBase{
 	 * Returns whether an in-progress EntityAIBase should continue executing
 	 */
 	@Override
-	public boolean continueExecuting(){
+	public boolean shouldContinueExecuting(){
 		return shouldExecute() && !entityHost.getNavigator().noPath();
 	}
 
@@ -102,11 +102,11 @@ public class EntityAIRangedAttackSpell extends EntityAIBase{
 			double newZ = attackTarget.posZ + (Math.sin(angle) * 6);
 
 			if (!entityHost.getNavigator().tryMoveToXYZ(newX, attackTarget.posY, newZ, 0.5f)){
-				entityHost.getNavigator().clearPathEntity();
+				entityHost.getNavigator().clearPath();
 				entityHost.setAttackTarget(null);
 			}
 		}else{
-			entityHost.getNavigator().clearPathEntity();
+			entityHost.getNavigator().clearPath();
 		}
 
 		entityHost.getLookHelper().setLookPositionWithEntity(attackTarget, 30F, 30F);

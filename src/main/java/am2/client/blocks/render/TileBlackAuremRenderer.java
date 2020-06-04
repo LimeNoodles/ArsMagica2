@@ -13,7 +13,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class TileBlackAuremRenderer extends TileEntitySpecialRenderer<TileEntityBlackAurem> {
 	
-	@Override
+	//todo @Override
 	public void renderTileEntityAt(TileEntityBlackAurem te, double x, double y, double z, float partialTicks, int destroyStage) {
 		GlStateManager.pushAttrib();
 		GlStateManager.pushMatrix();

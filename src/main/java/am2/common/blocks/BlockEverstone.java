@@ -139,7 +139,7 @@ public class BlockEverstone extends BlockAMPowered{
 			}
 			if (everstone.getFacade() == null && block != null){
 				everstone.setFacade(block);
-				world.notifyBlockOfStateChange(pos, this);
+				//todo world.notifyBlockOfStateChange(pos, this);
 				return true;
 			}
 		}

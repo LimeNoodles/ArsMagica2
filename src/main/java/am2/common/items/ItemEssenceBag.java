@@ -31,14 +31,14 @@ public class ItemEssenceBag extends ItemArsMagica{
 		return true;
 	}
 
-	@Override
+	//todo @Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List<String> par3List, boolean par4){
 		par3List.add(I18n.format("am2.tooltip.rupees"));
 	}
 
 	
-	@Override
+	//todo @Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn,
 			EnumHand hand){
 		FMLNetworkHandler.openGui(playerIn, ArsMagica2.instance, IDDefs.GUI_ESSENCE_BAG, worldIn, (int)playerIn.posX, (int)playerIn.posY, (int)playerIn.posZ);
@@ -60,7 +60,7 @@ public class ItemEssenceBag extends ItemArsMagica{
 				itemStack.getTagCompound().removeTag("essencebagmeta" + i);
 				continue;
 			}else{
-				itemStack.getTagCompound().setInteger("essencebagstacksize" + i, stack.stackSize);
+				itemStack.getTagCompound().setInteger("essencebagstacksize" + i, stack.getCount());
 				itemStack.getTagCompound().setInteger("essencebagmeta" + i, stack.getItemDamage());
 			}
 		}
@@ -75,7 +75,7 @@ public class ItemEssenceBag extends ItemArsMagica{
 			if (stack == null){
 				continue;
 			}else{
-				itemStack.getTagCompound().setInteger("essencebagstacksize" + i, stack.stackSize);
+				itemStack.getTagCompound().setInteger("essencebagstacksize" + i, stack.getCount());
 				itemStack.getTagCompound().setInteger("essencebagmeta" + i, stack.getItemDamage());
 			}
 		}

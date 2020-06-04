@@ -10,6 +10,7 @@ import am2.common.extensions.EntityExtension;
 import am2.common.extensions.SkillData;
 import am2.common.lore.ArcaneCompendium;
 import am2.common.utils.SpellUtils;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -27,12 +28,12 @@ public class CommandArsMagica extends CommandBase {
 	}
 
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return "am2";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender sender) {
+	public String getUsage(ICommandSender sender) {
 		return "commands.am2.usage";
 	}
 	
@@ -60,7 +61,7 @@ public class CommandArsMagica extends CommandBase {
 					SpellUtils.updateSpell(stack);
 				}
 			} catch (Throwable t) {
-				throw new CommandException("Error updating item.");
+				throw new CommandException(I18n.format("Error updating item."));
 			}
 		}
 	}
@@ -85,12 +86,12 @@ public class CommandArsMagica extends CommandBase {
 	}
 	
 	@Override
-	public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
+	public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
 		if (args.length == 1) return getListOfStringsMatchingLastWord(args, Lists.newArrayList("magiclevel", "forcesync", "updatespells"));
 		else if (args.length == 2) {
 			if (args[0].equalsIgnoreCase("magiclevel")) return Collections.emptyList();
 		} else if (args.length == 3) {
-			if (args[0].equalsIgnoreCase("magiclevel")) return getListOfStringsMatchingLastWord(args, server.getAllUsernames());
+			if (args[0].equalsIgnoreCase("magiclevel")) return getListOfStringsMatchingLastWord(args, server.getOnlinePlayerNames());
 		}
 		return Collections.emptyList();
 	}

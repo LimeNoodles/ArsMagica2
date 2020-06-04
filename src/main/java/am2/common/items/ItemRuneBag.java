@@ -18,12 +18,13 @@ public class ItemRuneBag extends ItemArsMagica{
 		super();
 	}
 
-	@Override
+	//todo @Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer entityplayer, EnumHand hand){
 		if (entityplayer.isSneaking()){
 			FMLNetworkHandler.openGui(entityplayer, ArsMagica2.instance, IDDefs.GUI_RUNE_BAG, world, (int)entityplayer.posX, (int)entityplayer.posY, (int)entityplayer.posZ);
 		}
-		return super.onItemRightClick(stack, world, entityplayer, hand);
+		//todo return super.onItemRightClick(stack, world, entityplayer, hand);
+		return null;
 	}
 
 	private ItemStack[] getMyInventory(ItemStack itemStack){

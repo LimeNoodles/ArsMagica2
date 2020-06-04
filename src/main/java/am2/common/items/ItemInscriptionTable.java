@@ -16,7 +16,7 @@ public class ItemInscriptionTable extends ItemBlock {
 		super(block);
 	}
 	
-	@Override
+	//todo @Override
 	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (!block.isReplaceable(worldIn, pos))
         {
@@ -24,8 +24,9 @@ public class ItemInscriptionTable extends ItemBlock {
         }
 		BlockPos placePos = pos.offset(playerIn.getHorizontalFacing().rotateY());
 		if (worldIn.isAirBlock(placePos) || worldIn.getBlockState(placePos).getBlock().isReplaceable(worldIn, placePos))
-			return super.onItemUse(stack, playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ);
+			//todo return super.onItemUse(stack, playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ);
 		return EnumActionResult.FAIL;
+		return null; //todo remove this
 	}
 
 }

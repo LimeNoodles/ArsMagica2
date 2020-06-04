@@ -34,7 +34,7 @@ public class PageSkill extends CompendiumPage<Skill> {
 			AMGuiHelper.DrawIconAtXY(icon, cx, cy, zLevel, 16, 16, false);
 		if (mouseX > cx && mouseX < cx + 16){
 			if (mouseY > cy && mouseY < cy + 16){
-				renderItemToolTip(new ItemStack(ItemDefs.spell_component, 1, ArsMagicaAPI.getSkillRegistry().getId(element.getRegistryName())), mouseX, mouseY);
+				///todo renderItemToolTip(new ItemStack(ItemDefs.spell_component, 1, ArsMagicaAPI.getSkillRegistry().getId(element.getRegistryName())), mouseX, mouseY);
 			}
 		}
 		mc.renderEngine.bindTexture(new ResourceLocation("arsmagica2", "textures/gui/ArcaneCompendiumGuiExtras.png"));

@@ -40,8 +40,8 @@ public class FlickerOperatorButchery extends AbstractFlickerFunctionality{
 	public boolean DoOperation(World worldObj, IFlickerController<?> habitat, boolean powered){
 		HashMap<Class<?>, Integer> entityCount = new HashMap<>();
 		int radius = 6;
-		List<EntityAnimal> creatures = worldObj.getEntitiesWithinAABB(EntityAnimal.class, new AxisAlignedBB(((TileEntity)habitat).getPos()).expandXyz(radius));
-		for (EntityAnimal creature : creatures){
+		//todo List<EntityAnimal> creatures = worldObj.getEntitiesWithinAABB(EntityAnimal.class, new AxisAlignedBB(((TileEntity)habitat).getPos()).expandXyz(radius));
+		/*for (EntityAnimal creature : creatures){
 			Class<? extends EntityAnimal> clazz = creature.getClass();
 			if (!SpawnBlacklists.canButcheryAffect(clazz))
 				continue;
@@ -59,11 +59,11 @@ public class FlickerOperatorButchery extends AbstractFlickerFunctionality{
 						particle.AddParticleController(new ParticleFloatUpward(particle, 0, 0.05f, 1, false));
 					}
 				}else{
-					creature.attackEntityFrom(DamageSource.generic, 500);
+					creature.attackEntityFrom(DamageSource.GENERIC, 500);
 				}
 				return true;
 			}
-		}
+		}*/
 		return false;
 	}
 
@@ -95,10 +95,10 @@ public class FlickerOperatorButchery extends AbstractFlickerFunctionality{
 				Character.valueOf('P'), new ItemStack(Items.PORKCHOP),
 				Character.valueOf('B'), new ItemStack(Items.BEEF),
 				Character.valueOf('C'), new ItemStack(Items.CHICKEN),
-				Character.valueOf('F'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.FIRE)),
+				//todo Character.valueOf('F'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.FIRE)),
 				Character.valueOf('G'), new ItemStack(Items.GOLDEN_SWORD),
-				Character.valueOf('L'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.LIFE)),
-				Character.valueOf('R'), new ItemStack(ItemDefs.rune, 1, EnumDyeColor.RED.getDyeDamage()),
+				//todo Character.valueOf('L'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.LIFE)),
+				//todo Character.valueOf('R'), new ItemStack(ItemDefs.rune, 1, EnumDyeColor.RED.getDyeDamage()),
 				Character.valueOf('E'), new ItemStack(ItemDefs.evilBook)
 		};
 	}

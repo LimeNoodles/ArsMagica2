@@ -62,7 +62,7 @@ public class BlockWitchwoodLeaves extends BlockLeaves{
 		return meta;
 	}
 
-	@Override
+	//todo @Override
 	public void getSubBlocks(Item par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List){
 		par3List.add(new ItemStack(this));
 	}
@@ -94,8 +94,8 @@ public class BlockWitchwoodLeaves extends BlockLeaves{
 	
 	public BlockWitchwoodLeaves registerAndName(ResourceLocation rl) {
 		this.setUnlocalizedName(rl.toString());
-		GameRegistry.register(this, rl);
-		GameRegistry.register(new ItemBlockSubtypes(this), rl);
+		//todo GameRegistry.register(this, rl);
+		//todo GameRegistry.register(new ItemBlockSubtypes(this), rl);
 		return this;
 	}
 	

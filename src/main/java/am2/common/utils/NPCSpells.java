@@ -15,7 +15,7 @@ import net.minecraft.util.ResourceLocation;
 public class NPCSpells{
 	public static final NPCSpells instance = new NPCSpells();
 
-	public final ItemStack lightMage_DiminishedAttack;
+	/*public final ItemStack lightMage_DiminishedAttack;
 	public final ItemStack lightMage_NormalAttack;
 	public final ItemStack lightMage_AugmentedAttack;
 
@@ -38,9 +38,10 @@ public class NPCSpells{
 	public final ItemStack nauseate;
 	public final ItemStack lightningRune;
 	public final ItemStack scrambleSynapses;
-	public final ItemStack manaLink;
+	public final ItemStack manaLink;*/ //todo all of this class
 
 	private NPCSpells(){
+		/*
 		lightMage_DiminishedAttack = createSpell(Lists.newArrayList(Projectile(), PhysicalDamage()));
 		lightMage_NormalAttack = createSpell(Lists.newArrayList(Projectile(), FrostDamage(), Slow()));
 		lightMage_AugmentedAttack = createSpell(Lists.newArrayList(Projectile(), MagicDamage(), Blind(), Damage()));
@@ -65,6 +66,7 @@ public class NPCSpells{
 		lightningRune = createSpell(Lists.newArrayList(Projectile(), Rune(), AoE(), LightningDamage(), Damage()));
 		scrambleSynapses = createSpell(Lists.newArrayList(Projectile(), LightningDamage(), AoE(), ScrambleSynapses(), Radius(), Radius(), Radius(), Radius(), Radius()));
 		manaLink = createSpell(Lists.newArrayList(ArsMagicaAPI.getSpellRegistry().getValue(new ResourceLocation("arsmagica2", "touch")), ArsMagicaAPI.getSpellRegistry().getValue(new ResourceLocation("arsmagica2", "mana_link"))));
+		*/
 	}
 	
 	public final ItemStack createSpell(List<AbstractSpellPart> parts) {
@@ -75,7 +77,8 @@ public class NPCSpells{
 		}
 		return is;
 	}
-	
+	//todo below
+	/*
 	private AbstractSpellPart AoE() {return ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "aoe"));}
 	private AbstractSpellPart FrostDamage() {return ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "frost_damage"));}
 	private AbstractSpellPart MagicDamage() {return ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "magic_damage"));}
@@ -105,4 +108,5 @@ public class NPCSpells{
 	private AbstractSpellPart Heal() {return ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "heal"));}
 	private AbstractSpellPart Nauseate() {return ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "nauseate"));}
 	private AbstractSpellPart Rune() {return ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "rune"));}
+	*/
 }

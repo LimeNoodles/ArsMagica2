@@ -43,9 +43,9 @@ public class BlockManaBattery extends BlockAMPowered{
 			TileEntityManaBattery te = getTileEntity(worldIn, pos);
 			if (te != null){
 				if (ArsMagica2.config.colourblindMode()){
-					playerIn.addChatMessage(new TextComponentString(String.format("Charge Level: %.2f %% [%s]", PowerNodeRegistry.For(worldIn).getPower(te, te.getPowerType()) / te.getCapacity() * 100, getColorNameFromPowerType(te.getPowerType()))));
+					playerIn.sendMessage(new TextComponentString(String.format("Charge Level: %.2f %% [%s]", PowerNodeRegistry.For(worldIn).getPower(te, te.getPowerType()) / te.getCapacity() * 100, getColorNameFromPowerType(te.getPowerType()))));
 				}else{
-					playerIn.addChatMessage(new TextComponentString(String.format("Charge Level: %s%.2f \u00A7f%%", te.getPowerType().getChatColor(), PowerNodeRegistry.For(worldIn).getPower(te, te.getPowerType()) / te.getCapacity() * 100)));
+					playerIn.sendMessage(new TextComponentString(String.format("Charge Level: %s%.2f \u00A7f%%", te.getPowerType().getChatColor(), PowerNodeRegistry.For(worldIn).getPower(te, te.getPowerType()) / te.getCapacity() * 100)));
 				}
 			}
 		}
@@ -131,7 +131,7 @@ public class BlockManaBattery extends BlockAMPowered{
 		return true;
 	}
 
-	@Override
+	//todo @Override
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List){
 		ItemStack stack = new ItemStack(this);

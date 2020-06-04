@@ -112,12 +112,12 @@ public class ModelUtils {
 	}
 	
 	public static void transform(IModelState state, TransformType type, boolean leftHand) {
-		TRSRTransformation transform = state.apply(Optional.fromNullable(type)).orNull();
-		if (transform != null) {
-			GlStateManager.translate(transform.getTranslation().x, transform.getTranslation().y, transform.getTranslation().z);
-			GlStateManager.scale(transform.getScale().x, transform.getScale().y, transform.getScale().z);
-			GlStateManager.rotate(new Quaternion(transform.getLeftRot().x, transform.getLeftRot().y, transform.getLeftRot().z, transform.getLeftRot().w));
-		}
+		//todo TRSRTransformation transform = state.apply(Optional.fromNullable(type)).orNull();
+		//if (transform != null) {
+		//	GlStateManager.translate(transform.getTranslation().x, transform.getTranslation().y, transform.getTranslation().z);
+		//	GlStateManager.scale(transform.getScale().x, transform.getScale().y, transform.getScale().z);
+		//	GlStateManager.rotate(new Quaternion(transform.getLeftRot().x, transform.getLeftRot().y, transform.getLeftRot().z, transform.getLeftRot().w));
+		//}
 //		if (transform != null) {
 //			Matrix4f flipX = new Matrix4f();
 //			flipX.setIdentity();

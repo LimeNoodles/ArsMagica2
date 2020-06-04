@@ -30,7 +30,7 @@ public abstract class BlockAMSpecialRenderContainer extends BlockAMContainer {
         return false;
     }
 	
-	@Override
+	//todo E@Override
 	public boolean isBlockSolid(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
 		return true;
 	}

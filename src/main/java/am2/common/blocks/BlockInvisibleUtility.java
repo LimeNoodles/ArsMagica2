@@ -84,7 +84,7 @@ public class BlockInvisibleUtility extends BlockAM{
 	}
 	
 	@SuppressWarnings("incomplete-switch")
-	@Override
+	//todo @Override
 	public void addCollisionBoxToList(IBlockState state, World world, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, Entity entity){
 
 		if (entity == null || world == null || entity instanceof EntityPlayer) // || entity instanceof EntityBroom
@@ -240,14 +240,14 @@ public class BlockInvisibleUtility extends BlockAM{
 	public void updateTick(World world, BlockPos pos, IBlockState state, Random rand) {
 		if (getType(state).type == EnumType.LIGHT){
 			float r = 1.5f;
-			List<EntityLivingBase> ents = world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(pos).expandXyz(r));
+			//todo List<EntityLivingBase> ents = world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(pos).expandXyz(r));
 			boolean buffNearby = false;
-			for (EntityLivingBase ent : ents){
-				buffNearby |= ent.isPotionActive(PotionEffectsDefs.ILLUMINATION) ||
-						(ent instanceof EntityPlayer &&
-								((EntityPlayer)ent).inventory.getCurrentItem() != null &&
-								((EntityPlayer)ent).inventory.getCurrentItem().getItem() == ItemDefs.wardingCandle);
-			}
+			//for (EntityLivingBase ent : ents){
+			//	buffNearby |= ent.isPotionActive(PotionEffectsDefs.ILLUMINATION) ||
+			//			(ent instanceof EntityPlayer &&
+			//					((EntityPlayer)ent).inventory.getCurrentItem() != null &&
+			//					((EntityPlayer)ent).inventory.getCurrentItem().getItem() == ItemDefs.wardingCandle);
+			//}
 			if (!buffNearby && world.getBlockState(pos).getBlock() == this)
 				world.setBlockToAir(pos);
 
@@ -258,10 +258,10 @@ public class BlockInvisibleUtility extends BlockAM{
 	@Override
 	public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand) {
 		if (worldIn.rand.nextInt(10) < 3 && getType(stateIn).type == EnumType.COLLISION){
-			List<Entity> ents = worldIn.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(pos).expandXyz(0.2F));
-			if (ents.size() > 0){
-				spawnBlockParticles(worldIn, pos);
-			}
+			//List<Entity> ents = worldIn.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(pos).expandXyz(0.2F));
+			//if (ents.size() > 0){
+			//	spawnBlockParticles(worldIn, pos);
+			//}
 		}
 	}
 		
@@ -308,7 +308,7 @@ public class BlockInvisibleUtility extends BlockAM{
 	@Override
 	public BlockAM registerAndName(ResourceLocation rl) {
 		this.setUnlocalizedName(rl.toString());
-		GameRegistry.register(this, rl);
+		//todo GameRegistry.register(this, rl);
 		return this;
 	}
 	

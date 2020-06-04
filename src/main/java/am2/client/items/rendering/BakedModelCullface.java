@@ -18,10 +18,10 @@ import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformT
 import net.minecraft.client.renderer.block.model.ItemOverrideList;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.EnumFacing;
-import net.minecraftforge.client.model.IPerspectiveAwareModel;
 import net.minecraftforge.common.model.TRSRTransformation;
 
-public class BakedModelCullface implements IPerspectiveAwareModel{
+public class BakedModelCullface //todo implements IPerspectiveAwareModel
+{
 	
 	IBakedModel parent;
 	private ImmutableMap<TransformType, TRSRTransformation> transforms;
@@ -31,47 +31,48 @@ public class BakedModelCullface implements IPerspectiveAwareModel{
 		this.transforms = transforms;
 	}
 	
-	@Override
+	//todo @Override
 	public List<BakedQuad> getQuads(IBlockState state, EnumFacing side, long rand) {
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		return parent.getQuads(state, side, rand);
 	}
 
-	@Override
+	//todo @Override
 	public boolean isAmbientOcclusion() {
 		return parent.isAmbientOcclusion();
 	}
 
-	@Override
+	//todo @Override
 	public boolean isGui3d() {
 		return parent.isGui3d();
 	}
 
-	@Override
+	//todo @Override
 	public boolean isBuiltInRenderer() {
 		return parent.isBuiltInRenderer();
 	}
 
-	@Override
+	//todo @Override
 	public TextureAtlasSprite getParticleTexture() {
 		return parent.getParticleTexture();
 	}
 
 	@SuppressWarnings("deprecation")
-	@Override
+	//todo @Override
 	public ItemCameraTransforms getItemCameraTransforms() {
 		return parent.getItemCameraTransforms();
 	}
 
-	@Override
+	//todo @Override
 	public ItemOverrideList getOverrides() {
 		GlStateManager.disableCull();
 		return parent.getOverrides();
 	}
 
-	@Override
+	//todo @Override
 	public Pair<? extends IBakedModel, Matrix4f> handlePerspective(TransformType cameraTransformType) {
-		return IPerspectiveAwareModel.MapWrapper.handlePerspective(this, transforms, cameraTransformType);
+		//todo return IPerspectiveAwareModel.MapWrapper.handlePerspective(this, transforms, cameraTransformType);
+		return null;
 	}
 
 }

@@ -45,7 +45,7 @@ public class BlockInscriptionTable extends BlockAMSpecialRenderContainer{
 		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(LEFT, false).withProperty(TIER_1, false).withProperty(TIER_2, false).withProperty(TIER_3, false));
 	}
 	
-	@Override
+	//todo @Override
 	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
 		return this.getStateFromMeta(meta).withProperty(FACING, placer.getHorizontalFacing().rotateY());
 	}
@@ -69,9 +69,9 @@ public class BlockInscriptionTable extends BlockAMSpecialRenderContainer{
 		return EnumBlockRenderType.MODEL;
 	}
 	
-	@Override
+	//todo @Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
-		super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
+		//todo super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
 		if (worldIn.isRemote){
 			return true;
 		}
@@ -92,7 +92,7 @@ public class BlockInscriptionTable extends BlockAMSpecialRenderContainer{
 			return true;
 		
 		if (te.isInUse(playerIn)){
-			playerIn.addChatMessage(new TextComponentString("Someone else is using this."));
+			playerIn.sendMessage(new TextComponentString("Someone else is using this."));
 			return true;
 		}
 
@@ -153,21 +153,21 @@ public class BlockInscriptionTable extends BlockAMSpecialRenderContainer{
 		float f1 = world.rand.nextFloat() * 0.8F + 0.1F;
 		float f2 = world.rand.nextFloat() * 0.8F + 0.1F;
 		do{
-			if (itemstack.stackSize <= 0){
+			if (itemstack.getCount() <= 0){
 				break;
 			}
 			int i1 = world.rand.nextInt(21) + 10;
-			if (i1 > itemstack.stackSize){
-				i1 = itemstack.stackSize;
+			if (i1 > itemstack.getCount()){
+				i1 = itemstack.getCount();
 			}
-			itemstack.stackSize -= i1;
+			itemstack.setCount(i1);
 			ItemStack newItem = new ItemStack(itemstack.getItem(), i1, itemstack.getItemDamage());
 			EntityItem entityitem = new EntityItem(world, pos.getX() + f, pos.getY() + f1, pos.getZ() + f2, newItem);
 			float f3 = 0.05F;
 			entityitem.motionX = (float)world.rand.nextGaussian() * f3;
 			entityitem.motionY = (float)world.rand.nextGaussian() * f3 + 0.2F;
 			entityitem.motionZ = (float)world.rand.nextGaussian() * f3;
-			world.spawnEntityInWorld(entityitem);
+			world.spawnEntity(entityitem);
 		}while (true);
 	}
 	
@@ -192,8 +192,8 @@ public class BlockInscriptionTable extends BlockAMSpecialRenderContainer{
 	@Override
 	public BlockAMContainer registerAndName(ResourceLocation rl) {
 		this.setUnlocalizedName(rl.toString());
-		GameRegistry.register(this, rl);
-		GameRegistry.register(new ItemInscriptionTable(this), rl);
+		//todo GameRegistry.register(this, rl);
+		//todo GameRegistry.register(new ItemInscriptionTable(this), rl);
 		return this;
 	}
 }

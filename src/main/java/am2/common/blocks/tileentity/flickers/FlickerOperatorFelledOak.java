@@ -151,19 +151,19 @@ public class FlickerOperatorFelledOak extends AbstractFlickerFunctionality{
 			offset = new AMVector3(reader.getInt(), te.getPos().getY() - radius_vert, reader.getInt());
 		}
 
-		Block treeBlock = ((ItemBlock)sapling.getItem()).block;
+		//TODO Block treeBlock = ((ItemBlock)sapling.getItem()).BLOCK;
 
 		for (int i = (int)offset.x; i <= te.getPos().getX() + radius_horiz; i += 2){
 			for (int k = (int)offset.z; k <= te.getPos().getZ() + radius_horiz; k += 2){
 				for (int j = (int)offset.y; j <= te.getPos().getY() + radius_vert; ++j){
 					BlockPos newPos = new BlockPos(i, j, k);
 					IBlockState block = worldObj.getBlockState(newPos);
-					if (block.getBlock().isReplaceable(worldObj, newPos) && treeBlock.canPlaceBlockAt(worldObj, newPos)){
-						AMDataWriter writer = new AMDataWriter();
-						writer.add(i).add(k);
-						habitat.setMetadata(this, writer.generate());
-						return new AMVector3(i, j, k);
-					}
+					//if (block.getBlock().isReplaceable(worldObj, newPos) && treeBlock.canPlaceBlockAt(worldObj, newPos)){
+					//	AMDataWriter writer = new AMDataWriter();
+					//	writer.add(i).add(k);
+					//	habitat.setMetadata(this, writer.generate());
+					//	return new AMVector3(i, j, k);
+					//}
 				}
 			}
 		}
@@ -188,7 +188,7 @@ public class FlickerOperatorFelledOak extends AbstractFlickerFunctionality{
 			int index = InventoryUtilities.getInventorySlotIndexFor(inv, new ItemStack(Blocks.SAPLING, 1, Short.MAX_VALUE));
 			if (index > -1){
 				ItemStack stack = inv.getStackInSlot(index).copy();
-				stack.stackSize = 1;
+				stack.setCount(1);
 				return stack;
 			}
 		}
@@ -287,9 +287,9 @@ public class FlickerOperatorFelledOak extends AbstractFlickerFunctionality{
 				"NCL",
 				" OW",
 				Character.valueOf('W'), BlockDefs.witchwoodLog,
-				Character.valueOf('G'), new ItemStack(ItemDefs.rune, 1, EnumDyeColor.GREEN.getDyeDamage()),
-				Character.valueOf('N'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.NATURE)),
-				Character.valueOf('L'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.LIGHTNING)),
+				//TODO Character.valueOf('G'), new ItemStack(ItemDefs.rune, 1, EnumDyeColor.GREEN.getDyeDamage()),
+				//TODO Character.valueOf('N'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.NATURE)),
+				//todo Character.valueOf('L'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.LIGHTNING)),
 				Character.valueOf('G'), new ItemStack(ItemDefs.rune, 1, EnumDyeColor.ORANGE.getDyeDamage()),
 				Character.valueOf('G'), new ItemStack(ItemDefs.bindingCatalyst, 1, ItemBindingCatalyst.META_AXE)
 		};

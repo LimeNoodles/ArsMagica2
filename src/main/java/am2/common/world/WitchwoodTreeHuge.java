@@ -100,8 +100,8 @@ public class WitchwoodTreeHuge extends WorldGenAbstractTree{
 				for (double d0 = 0.5D; j1 < i; ++j1){
 					double d1 = this.scaleWidth * (double)f * ((double)this.rand.nextFloat() + 0.328D);
 					double d2 = (double)this.rand.nextFloat() * 2.0D * Math.PI;
-					int k1 = MathHelper.floor_double(d1 * Math.sin(d2) + (double)this.basePos[0] + d0);
-					int l1 = MathHelper.floor_double(d1 * Math.cos(d2) + (double)this.basePos[2] + d0);
+					int k1 = MathHelper.floor(d1 * Math.sin(d2) + (double)this.basePos[0] + d0);
+					int l1 = MathHelper.floor(d1 * Math.cos(d2) + (double)this.basePos[2] + d0);
 					int[] aint1 = new int[]{k1, j, l1};
 					int[] aint2 = new int[]{k1, j + this.leafDistanceLimit, l1};
 
@@ -241,9 +241,9 @@ public class WitchwoodTreeHuge extends WorldGenAbstractTree{
 			int j = 0;
 
 			for (int k = aint2[b1] + b4; j != k; j += b4){
-				aint3[b1] = MathHelper.floor_double((double)(par1ArrayOfInteger[b1] + j) + 0.5D);
-				aint3[b2] = MathHelper.floor_double((double)par1ArrayOfInteger[b2] + (double)j * d0 + 0.5D);
-				aint3[b3] = MathHelper.floor_double((double)par1ArrayOfInteger[b3] + (double)j * d1 + 0.5D);
+				aint3[b1] = MathHelper.floor((double)(par1ArrayOfInteger[b1] + j) + 0.5D);
+				aint3[b2] = MathHelper.floor((double)par1ArrayOfInteger[b2] + (double)j * d0 + 0.5D);
+				aint3[b3] = MathHelper.floor((double)par1ArrayOfInteger[b3] + (double)j * d1 + 0.5D);
 				int l = Math.abs(aint3[0] - par1ArrayOfInteger[0]);
 				int i1 = Math.abs(aint3[2] - par1ArrayOfInteger[2]);
 				int j1 = Math.max(l, i1);
@@ -363,8 +363,8 @@ public class WitchwoodTreeHuge extends WorldGenAbstractTree{
 
 			for (j = aint2[b1] + b4; i != j; i += b4){
 				aint3[b1] = par1ArrayOfInteger[b1] + i;
-				aint3[b2] = MathHelper.floor_double((double)par1ArrayOfInteger[b2] + (double)i * d0);
-				aint3[b3] = MathHelper.floor_double((double)par1ArrayOfInteger[b3] + (double)i * d1);
+				aint3[b2] = MathHelper.floor((double)par1ArrayOfInteger[b2] + (double)i * d0);
+				aint3[b3] = MathHelper.floor((double)par1ArrayOfInteger[b3] + (double)i * d1);
 				Block k = this.worldObj.getBlockState(new BlockPos(aint3[0], aint3[1], aint3[2])).getBlock();
 
 				if (k != Blocks.AIR && k != BlockDefs.witchwoodLeaves){

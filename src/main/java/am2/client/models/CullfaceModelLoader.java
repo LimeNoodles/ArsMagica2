@@ -26,7 +26,7 @@ public class CullfaceModelLoader implements ICustomModelLoader {
 			return ModelLoaderRegistry.getMissingModel();
 		}
 		IModel newModel = OBJLoader.INSTANCE.loadModel(new ResourceLocation(modelLocation.getResourceDomain(), modelLocation.getResourcePath().replaceAll("_cullface", "").replaceAll(".json", ".obj")));
-		return new ModelCullface(newModel);
+		return (IModel) new ModelCullface(newModel);
 	}
 
 }

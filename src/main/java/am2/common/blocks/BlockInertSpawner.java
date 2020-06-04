@@ -64,7 +64,7 @@ public class BlockInertSpawner extends BlockAMPowered{
 			entityItem.motionX = (float)world.rand.nextGaussian() * force;
 			entityItem.motionY = (float)world.rand.nextGaussian() * force + 0.2F;
 			entityItem.motionZ = (float)world.rand.nextGaussian() * force;
-			world.spawnEntityInWorld(entityItem);
+			world.spawnEntity(entityItem);
 		}
 
 		super.breakBlock(world, pos, state);

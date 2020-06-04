@@ -168,9 +168,9 @@ public class FlickerOperatorContainment extends AbstractFlickerFunctionality{
 				"IWI",
 				Character.valueOf('F'), "fenceWood",
 				Character.valueOf('W'), Blocks.COBBLESTONE_WALL,
-				Character.valueOf('A'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.AIR)),
-				Character.valueOf('R'), new ItemStack(ItemDefs.rune, 1, EnumDyeColor.BLUE.getDyeDamage()),
-				Character.valueOf('N'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.ENDER)),
+				//todo Character.valueOf('A'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.AIR)),
+				//todo Character.valueOf('R'), new ItemStack(ItemDefs.rune, 1, EnumDyeColor.BLUE.getDyeDamage()),
+				//todo Character.valueOf('N'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.ENDER)),
 				Character.valueOf('I'), Blocks.IRON_BARS
 
 		};

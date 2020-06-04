@@ -28,7 +28,7 @@ public class ItemBoundShield extends ItemShield implements IBoundItem {
 
 	@Override
 	public boolean onDroppedByPlayer(ItemStack item, EntityPlayer player) {
-		item.setItem(ItemDefs.spell);
+		//todo item.setItem(ItemDefs.spell);
 		return false;
 	}
 
@@ -45,7 +45,7 @@ public class ItemBoundShield extends ItemShield implements IBoundItem {
 
 	public ItemBoundShield registerAndName(String name) {
 		this.setUnlocalizedName(new ResourceLocation("arsmagica2", name).toString());
-		GameRegistry.register(this, new ResourceLocation("arsmagica2", name));
+		//todo GameRegistry.register(this, new ResourceLocation("arsmagica2", name));
 		return this;
 	}
 	

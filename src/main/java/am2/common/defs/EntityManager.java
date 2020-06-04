@@ -53,6 +53,7 @@ import am2.common.entity.EntityWhirlwind;
 import am2.common.entity.EntityWinterGuardianArm;
 import am2.common.utils.RenderFactory;
 import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biome.SpawnListEntry;
 import net.minecraftforge.common.BiomeDictionary;
@@ -68,44 +69,44 @@ public class EntityManager {
 		
 	}
 	
-	public void registerEntities() {
-		EntityRegistry.registerModEntity(EntitySpellProjectile.class, "SpellProjectile", 0, ArsMagica2.instance, 64, 2, true);
-		EntityRegistry.registerModEntity(EntityRiftStorage.class, "RiftStorage", 1, ArsMagica2.instance, 64, 2, false);
-		EntityRegistry.registerModEntity(EntitySpellEffect.class, "SpellEffect", 2, ArsMagica2.instance, 64, 2, true);
-		EntityRegistry.registerModEntity(EntityThrownRock.class, "ThrownRock", 3, ArsMagica2.instance, 64, 2, true);
-		EntityRegistry.registerModEntity(EntityBoundArrow.class, "BoundArrow", 4, ArsMagica2.instance, 64, 2, true);
-		EntityRegistry.registerModEntity(EntityDarkling.class, "Darkling", 5, ArsMagica2.instance, 64, 2, true);
-		EntityRegistry.registerModEntity(EntityDarkMage.class, "DarkMage", 6, ArsMagica2.instance, 64, 2, true, 0xaa00ff, 0x660066);
-		EntityRegistry.registerModEntity(EntityDryad.class, "Dryad", 7, ArsMagica2.instance, 64, 2, true, 0x00ff00, 0x34e122);
-		EntityRegistry.registerModEntity(EntityEarthElemental.class, "EarthElemental", 8, ArsMagica2.instance, 64, 2, true, 0x61330b, 0x00ff00);
-		EntityRegistry.registerModEntity(EntityFireElemental.class, "FireElemental", 9, ArsMagica2.instance, 64, 2, true, 0xef260b, 0xff0000);
-		EntityRegistry.registerModEntity(EntityLightMage.class, "LightMage", 10, ArsMagica2.instance, 64, 2, true, 0xaa00ff, 0xff00ff);
-		EntityRegistry.registerModEntity(EntityManaElemental.class, "ManaElemental", 11, ArsMagica2.instance, 64, 2, true, 0xcccccc, 0xb935cd);
-		EntityRegistry.registerModEntity(EntityManaVortex.class, "ManaVortex", 12, ArsMagica2.instance, 64, 2, true);
-		EntityRegistry.registerModEntity(EntityShockwave.class, "Shockwave", 13, ArsMagica2.instance, 64, 2, true);
-		EntityRegistry.registerModEntity(EntityThrownSickle.class, "ThrownSickle", 14, ArsMagica2.instance, 64, 2, true);
-		EntityRegistry.registerModEntity(EntityWhirlwind.class, "Whirlwind", 15, ArsMagica2.instance, 64, 2, true);
-		EntityRegistry.registerModEntity(EntityWinterGuardianArm.class, "WinterGuardianArm", 16, ArsMagica2.instance, 64, 2, true);
+	public void registerEntities() { ;
+		EntityRegistry.registerModEntity(new ResourceLocation("arsmagica2"), EntitySpellProjectile.class, "SpellProjectile", 0, ArsMagica2.instance, 64, 2, true);
+		EntityRegistry.registerModEntity(new ResourceLocation("arsmagica2"), EntityRiftStorage.class, "RiftStorage", 1, ArsMagica2.instance, 64, 2, false);
+		EntityRegistry.registerModEntity(new ResourceLocation("arsmagica2"), EntitySpellEffect.class, "SpellEffect", 2, ArsMagica2.instance, 64, 2, true);
+		EntityRegistry.registerModEntity(new ResourceLocation("arsmagica2"), EntityThrownRock.class, "ThrownRock", 3, ArsMagica2.instance, 64, 2, true);
+		EntityRegistry.registerModEntity(new ResourceLocation("arsmagica2"), EntityBoundArrow.class, "BoundArrow", 4, ArsMagica2.instance, 64, 2, true);
+		EntityRegistry.registerModEntity(new ResourceLocation("arsmagica2"), EntityDarkling.class, "Darkling", 5, ArsMagica2.instance, 64, 2, true);
+		EntityRegistry.registerModEntity(new ResourceLocation("arsmagica2"), EntityDarkMage.class, "DarkMage", 6, ArsMagica2.instance, 64, 2, true, 0xaa00ff, 0x660066);
+		EntityRegistry.registerModEntity(new ResourceLocation("arsmagica2"), EntityDryad.class, "Dryad", 7, ArsMagica2.instance, 64, 2, true, 0x00ff00, 0x34e122);
+		EntityRegistry.registerModEntity(new ResourceLocation("arsmagica2"), EntityEarthElemental.class, "EarthElemental", 8, ArsMagica2.instance, 64, 2, true, 0x61330b, 0x00ff00);
+		EntityRegistry.registerModEntity(new ResourceLocation("arsmagica2"), EntityFireElemental.class, "FireElemental", 9, ArsMagica2.instance, 64, 2, true, 0xef260b, 0xff0000);
+		EntityRegistry.registerModEntity(new ResourceLocation("arsmagica2"), EntityLightMage.class, "LightMage", 10, ArsMagica2.instance, 64, 2, true, 0xaa00ff, 0xff00ff);
+		EntityRegistry.registerModEntity(new ResourceLocation("arsmagica2"), EntityManaElemental.class, "ManaElemental", 11, ArsMagica2.instance, 64, 2, true, 0xcccccc, 0xb935cd);
+		EntityRegistry.registerModEntity(new ResourceLocation("arsmagica2"), EntityManaVortex.class, "ManaVortex", 12, ArsMagica2.instance, 64, 2, true);
+		EntityRegistry.registerModEntity(new ResourceLocation("arsmagica2"), EntityShockwave.class, "Shockwave", 13, ArsMagica2.instance, 64, 2, true);
+		EntityRegistry.registerModEntity(new ResourceLocation("arsmagica2"), EntityThrownSickle.class, "ThrownSickle", 14, ArsMagica2.instance, 64, 2, true);
+		EntityRegistry.registerModEntity(new ResourceLocation("arsmagica2"), EntityWhirlwind.class, "Whirlwind", 15, ArsMagica2.instance, 64, 2, true);
+		EntityRegistry.registerModEntity(new ResourceLocation("arsmagica2"), EntityWinterGuardianArm.class, "WinterGuardianArm", 16, ArsMagica2.instance, 64, 2, true);
 		
-		EntityRegistry.registerModEntity(EntityAirGuardian.class, "AirGuardian", 17, ArsMagica2.instance, 64, 2, true, 0xFFFFFF, 0xFFCC00);
-		EntityRegistry.registerModEntity(EntityArcaneGuardian.class, "ArcaneGuardian", 18, ArsMagica2.instance, 64, 2, true, 0x999999, 0xcc00cc);
-		EntityRegistry.registerModEntity(EntityEarthGuardian.class, "EarthGuardian", 19, ArsMagica2.instance, 64, 2, true, 0x663300, 0x339900);
-		EntityRegistry.registerModEntity(EntityEnderGuardian.class, "EnderGuardian", 20, ArsMagica2.instance, 64, 2, true, 0x000000, 0x6633);
-		EntityRegistry.registerModEntity(EntityFireGuardian.class, "FireGuardian", 21, ArsMagica2.instance, 64, 2, true, 0xFFFFFF, 0xFF0000);
-		EntityRegistry.registerModEntity(EntityLifeGuardian.class, "LifeGuardian", 22, ArsMagica2.instance, 64, 2, true, 0x00E6FF, 0xFFE600);
-		EntityRegistry.registerModEntity(EntityLightningGuardian.class, "LightningGuardian", 23, ArsMagica2.instance, 64, 2, true, 0xFFE600, 0x00C4FF);
-		EntityRegistry.registerModEntity(EntityNatureGuardian.class, "NatureGuardian", 24, ArsMagica2.instance, 64, 2, true, 0x44FF00, 0x307D0F);
-		EntityRegistry.registerModEntity(EntityWaterGuardian.class, "WaterGuardian", 25, ArsMagica2.instance, 64, 2, true, 0x0F387D, 0x0097CE);
-		EntityRegistry.registerModEntity(EntityWinterGuardian.class, "WinterGuardian", 26, ArsMagica2.instance, 64, 2, true, 0x00CEBA, 0x104742);
-		
-		EntityRegistry.registerModEntity(EntityAirSled.class, "AirSled", 27, ArsMagica2.instance, 64, 2, true);
-		EntityRegistry.registerModEntity(EntityBroom.class, "Broom", 28, ArsMagica2.instance, 64, 2, true);
-		EntityRegistry.registerModEntity(EntityWaterElemental.class, "WaterElemental", 29, ArsMagica2.instance, 64, 2, true, 0x0b5cef, 0x0000ff);
-		EntityRegistry.registerModEntity(EntityManaCreeper.class, "ManaCreeper", 30, ArsMagica2.instance, 64, 2, true, 0x0b5cef, 0xb935cd);
-		EntityRegistry.registerModEntity(EntityHecate.class, "Hecate", 31, ArsMagica2.instance, 64, 2, true, 0xef260b, 0x3f043d);
-		EntityRegistry.registerModEntity(EntityFlicker.class, "Flicker", 32, ArsMagica2.instance, 64, 2, true);
-		EntityRegistry.registerModEntity(EntityHellCow.class, "HellCow", 33, ArsMagica2.instance, 64, 2, true);
-		EntityRegistry.registerModEntity(EntityShadowHelper.class, "ShadowHelper", 34, ArsMagica2.instance, 64, 2, true);
+		EntityRegistry.registerModEntity(new ResourceLocation("arsmagica2"), EntityAirGuardian.class, "AirGuardian", 17, ArsMagica2.instance, 64, 2, true, 0xFFFFFF, 0xFFCC00);
+		EntityRegistry.registerModEntity(new ResourceLocation("arsmagica2"), EntityArcaneGuardian.class, "ArcaneGuardian", 18, ArsMagica2.instance, 64, 2, true, 0x999999, 0xcc00cc);
+		EntityRegistry.registerModEntity(new ResourceLocation("arsmagica2"), EntityEarthGuardian.class, "EarthGuardian", 19, ArsMagica2.instance, 64, 2, true, 0x663300, 0x339900);
+		EntityRegistry.registerModEntity(new ResourceLocation("arsmagica2"), EntityEnderGuardian.class, "EnderGuardian", 20, ArsMagica2.instance, 64, 2, true, 0x000000, 0x6633);
+		EntityRegistry.registerModEntity(new ResourceLocation("arsmagica2"), EntityFireGuardian.class, "FireGuardian", 21, ArsMagica2.instance, 64, 2, true, 0xFFFFFF, 0xFF0000);
+		EntityRegistry.registerModEntity(new ResourceLocation("arsmagica2"), EntityLifeGuardian.class, "LifeGuardian", 22, ArsMagica2.instance, 64, 2, true, 0x00E6FF, 0xFFE600);
+		EntityRegistry.registerModEntity(new ResourceLocation("arsmagica2"), EntityLightningGuardian.class, "LightningGuardian", 23, ArsMagica2.instance, 64, 2, true, 0xFFE600, 0x00C4FF);
+		EntityRegistry.registerModEntity(new ResourceLocation("arsmagica2"), EntityNatureGuardian.class, "NatureGuardian", 24, ArsMagica2.instance, 64, 2, true, 0x44FF00, 0x307D0F);
+		EntityRegistry.registerModEntity(new ResourceLocation("arsmagica2"), EntityWaterGuardian.class, "WaterGuardian", 25, ArsMagica2.instance, 64, 2, true, 0x0F387D, 0x0097CE);
+		EntityRegistry.registerModEntity(new ResourceLocation("arsmagica2"), EntityWinterGuardian.class, "WinterGuardian", 26, ArsMagica2.instance, 64, 2, true, 0x00CEBA, 0x104742);
+
+		EntityRegistry.registerModEntity(new ResourceLocation("arsmagica2"), EntityAirSled.class, "AirSled", 27, ArsMagica2.instance, 64, 2, true);
+		EntityRegistry.registerModEntity(new ResourceLocation("arsmagica2"), EntityBroom.class, "Broom", 28, ArsMagica2.instance, 64, 2, true);
+		EntityRegistry.registerModEntity(new ResourceLocation("arsmagica2"), EntityWaterElemental.class, "WaterElemental", 29, ArsMagica2.instance, 64, 2, true, 0x0b5cef, 0x0000ff);
+		EntityRegistry.registerModEntity(new ResourceLocation("arsmagica2"), EntityManaCreeper.class, "ManaCreeper", 30, ArsMagica2.instance, 64, 2, true, 0x0b5cef, 0xb935cd);
+		EntityRegistry.registerModEntity(new ResourceLocation("arsmagica2"), EntityHecate.class, "Hecate", 31, ArsMagica2.instance, 64, 2, true, 0xef260b, 0x3f043d);
+		EntityRegistry.registerModEntity(new ResourceLocation("arsmagica2"), EntityFlicker.class, "Flicker", 32, ArsMagica2.instance, 64, 2, true);
+		EntityRegistry.registerModEntity(new ResourceLocation("arsmagica2"), EntityHellCow.class, "HellCow", 33, ArsMagica2.instance, 64, 2, true);
+		EntityRegistry.registerModEntity(new ResourceLocation("arsmagica2"), EntityShadowHelper.class, "ShadowHelper", 34, ArsMagica2.instance, 64, 2, true);
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -151,7 +152,7 @@ public class EntityManager {
 	}
 	
 	public void initializeSpawns(){
-		BiomeDictionary.registerAllBiomes();
+		//todo BiomeDictionary.registerAllBiomes();
 
 		//SpawnListEntry wisps = new SpawnListEntry(EntityWisp.class, 1, 1, 1);
 		SpawnListEntry manaElementals = new SpawnListEntry(EntityManaElemental.class, ArsMagica2.config.GetManaElementalSpawnRate(), 1, 1);
@@ -189,7 +190,7 @@ public class EntityManager {
 		initSpawnsForBiomeTypes(earthElementals, EnumCreatureType.MONSTER, new Type[]{Type.HILLS, Type.MOUNTAIN}, new Type[]{Type.MUSHROOM});
 		initSpawnsForBiomeTypes(fireElementals, EnumCreatureType.MONSTER, new Type[]{Type.NETHER}, new Type[]{Type.MUSHROOM});
 		
-		initSpawnsForBiomeTypes(flickers, EnumCreatureType.AMBIENT, Type.values(), new Type[0]);
+		//todo initSpawnsForBiomeTypes(flickers, EnumCreatureType.AMBIENT, Type.values(), new Type[0]);
 
 	}
 
@@ -199,7 +200,7 @@ public class EntityManager {
 			return;
 		}
 		for (Type type : types){
-			initSpawnsForBiomes(BiomeDictionary.getBiomesForType(type), spawnListEntry, creatureType, exclusions);
+			//todo initSpawnsForBiomes(BiomeDictionary.getBiomesForType(type), spawnListEntry, creatureType, exclusions);
 		}
 	}
 
@@ -214,12 +215,12 @@ public class EntityManager {
 
 	private boolean biomeIsExcluded(Biome biome, Type[] exclusions){
 
-		Type biomeTypes[] = BiomeDictionary.getTypesForBiome(biome);
+		//todo Type biomeTypes[] = BiomeDictionary.getBiomes(biome);
 
-		for (Type exclusion : exclusions){
-			for (Type biomeType : biomeTypes){
-				if (biomeType == exclusion) return true;
-			}
-		}
+		//for (Type exclusion : exclusions){
+		//	for (Type biomeType : biomeTypes){
+		//		if (biomeType == exclusion) return true;
+		//	}
+		//}
 		return false;
 	}}

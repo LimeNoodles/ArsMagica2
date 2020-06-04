@@ -49,10 +49,10 @@ public class EntityAIProtect extends AIAnimation{
 		cooldownTicks = 20;
 		EntityLivingBase ent = getEntity();
 		ent.extinguish();
-		ISpellCaster spell = NPCSpells.instance.dispel.getCapability(SpellCaster.INSTANCE, null);
-		if (spell != null) {
-			spell.cast(NPCSpells.instance.dispel, ent.worldObj, ent);
-		}
+//todo		ISpellCaster spell = NPCSpells.instance.dispel.getCapability(SpellCaster.INSTANCE, null);
+	//	if (spell != null) {
+	//		spell.cast(NPCSpells.instance.dispel, ent.world, ent);
+	//	}
 		super.resetTask();
 	}
 

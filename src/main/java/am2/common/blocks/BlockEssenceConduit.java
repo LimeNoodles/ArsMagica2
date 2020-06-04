@@ -22,7 +22,7 @@ public class BlockEssenceConduit extends BlockAMPowered{
 		setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.UP));
 	}
 	
-	@Override
+	//todo @Override
 	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
 		return getStateFromMeta(meta).withProperty(FACING, facing.getOpposite());
 	}

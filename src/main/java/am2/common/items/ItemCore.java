@@ -15,7 +15,7 @@ public class ItemCore extends ItemArsMagica {
 	public static final int META_HIGH_CORE = 1;
 	public static final int META_PURE = 2;
 	
-	@Override
+	//todo @Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
 		subItems.add(new ItemStack(this, 1, META_BASE_CORE));

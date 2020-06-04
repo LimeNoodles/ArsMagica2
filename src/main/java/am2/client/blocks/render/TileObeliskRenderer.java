@@ -59,7 +59,7 @@ public class TileObeliskRenderer extends TileEntitySpecialRenderer<TileEntityObe
 		runesBakedModel = runesModel.bake(TRSRTransformation.identity(), DefaultVertexFormats.ITEM, getter);
     }
 	
-	@Override
+	//todo @Override
 	public void renderTileEntityAt(TileEntityObelisk te, double x, double y, double z, float partialTicks, int destroyStage) {
         if (!te.getWorld().isBlockLoaded(te.getPos(), false) || te.getWorld().getBlockState(te.getPos()).getBlock() != BlockDefs.obelisk)
             return;
@@ -70,7 +70,7 @@ public class TileObeliskRenderer extends TileEntitySpecialRenderer<TileEntityObe
         GlStateManager.pushMatrix();
         RenderHelper.disableStandardItemLighting();
         EnumFacing facing = EnumFacing.NORTH;
-        if (te.hasWorldObj()) {
+        if (te.hasWorld()) {
             IBlockState state = te.getWorld().getBlockState(te.getPos());
             facing = state.getValue(BlockEssenceGenerator.FACING);
         }
@@ -87,10 +87,10 @@ public class TileObeliskRenderer extends TileEntitySpecialRenderer<TileEntityObe
         Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
         Tessellator tessellator = Tessellator.getInstance();
         tessellator.getBuffer().begin(GL11.GL_QUADS, DefaultVertexFormats.BLOCK);
-        if (te.hasWorldObj())
+        if (te.hasWorld())
             Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelRenderer().renderModel(te.getWorld(), getBakedModel(te), te.getWorld().getBlockState(te.getPos()), te.getPos(), tessellator.getBuffer(), false);
         else
-            Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelRenderer().renderModel(Minecraft.getMinecraft().theWorld, getBakedModel(te), BlockDefs.obelisk.getDefaultState(), new BlockPos(0, 0, 0), tessellator.getBuffer(), false);
+            Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelRenderer().renderModel(Minecraft.getMinecraft().world, getBakedModel(te), BlockDefs.obelisk.getDefaultState(), new BlockPos(0, 0, 0), tessellator.getBuffer(), false);
         tessellator.draw();
         if (te.isActive()) {
             GlStateManager.matrixMode(GL11.GL_TEXTURE);

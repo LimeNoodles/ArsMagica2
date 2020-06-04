@@ -42,7 +42,7 @@ public class ItemBoundAxe extends ItemAxe implements IBoundItem {
 	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onDroppedByPlayer(ItemStack item, EntityPlayer player) {
-		item.setItem(ItemDefs.spell);
+		//todo item.setItem(ItemDefs.spell);
 		return false;
 	}
 
@@ -53,7 +53,7 @@ public class ItemBoundAxe extends ItemAxe implements IBoundItem {
 
 	public ItemBoundAxe registerAndName(String name) {
 		this.setUnlocalizedName(new ResourceLocation("arsmagica2", name).toString());
-		GameRegistry.register(this, new ResourceLocation("arsmagica2", name));
+	//tddo 	GameRegistry.register(this, new ResourceLocation("arsmagica2", name));
 		return this;
 	}
 

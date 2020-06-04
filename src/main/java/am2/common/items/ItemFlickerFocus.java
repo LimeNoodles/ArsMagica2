@@ -22,17 +22,18 @@ public class ItemFlickerFocus extends ItemArsMagica{
 	@SideOnly(Side.CLIENT)
 	public String getItemStackDisplayName(ItemStack stack){
 		int meta = stack.getItemDamage();
-		AbstractFlickerFunctionality operator = ArsMagicaAPI.getFlickerFocusRegistry().getObjectById(meta);
-		if (operator == null)
-			return "Trash";
-		return I18n.format("item.arsmagica2:FlickerFocusPrefix", I18n.format("item.arsmagica2:" + operator.getClass().getSimpleName() + ".name"));
+		//todo AbstractFlickerFunctionality operator = ArsMagicaAPI.getFlickerFocusRegistry().getObjectById(meta);
+		//if (operator == null)
+			//return "Trash";
+		//return I18n.format("item.arsmagica2:FlickerFocusPrefix", I18n.format("item.arsmagica2:" + operator.getClass().getSimpleName() + ".name"));
+		return null;
 	}
 
-	@Override
+	//todo @Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List){
-		for (AbstractFlickerFunctionality func : ArsMagicaAPI.getFlickerFocusRegistry().getValues()){
-			par3List.add(new ItemStack(this, 1, ArsMagicaAPI.getFlickerFocusRegistry().getId(func)));
-		}
+		//for (AbstractFlickerFunctionality func : ArsMagicaAPI.getFlickerFocusRegistry().getValues()){
+		//	par3List.add(new ItemStack(this, 1, ArsMagicaAPI.getFlickerFocusRegistry().getId(func)));
+		//}
 	}
 }

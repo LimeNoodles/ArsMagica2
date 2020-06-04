@@ -26,7 +26,6 @@ import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntitySkeleton;
-import net.minecraft.entity.monster.SkeletonType;
 import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -55,13 +54,13 @@ public class Summon extends SpellComponent{
 			return null;
 		}
 		if (entity instanceof EntitySkeleton){
-			((EntitySkeleton)entity).setSkeletonType(SkeletonType.NORMAL);
+			//todo ((EntitySkeleton)entity).setSkeletonType(SkeletonType.NORMAL);
 			((EntitySkeleton)entity).setHeldItem(EnumHand.MAIN_HAND, new ItemStack(Items.BOW));
 		}else if (entity instanceof EntityHorse && caster instanceof EntityPlayer){
 			((EntityHorse)entity).setTamedBy(((EntityPlayer)caster));
 		}
 		entity.setPosition(x, y, z);
-		world.spawnEntityInWorld(entity);
+		world.spawnEntity(entity);
 		if (caster instanceof EntityPlayer){
 			EntityUtils.makeSummon_PlayerFaction((EntityCreature)entity, (EntityPlayer)caster, false);
 		}else{
@@ -106,33 +105,35 @@ public class Summon extends SpellComponent{
 		String s = spell.getStoredData().getString("SummonType");
 		if (s == null || s == "")
 			s = "Skeleton"; //default!  default!  default!
-		Class<? extends Entity> clazz = (Class<? extends Entity>)EntityList.NAME_TO_CLASS.get(s);
-		return clazz;
+		//todo Class<? extends Entity> clazz = (Class<? extends Entity>)EntityList.NAME_TO_CLASS.get(s);
+		//return clazz;
+		return null;
 	}
 	
 	public Class<? extends Entity> getSummonType(ISpellCaster spell){
 		String s = spell.getCommonStoredData().getString("SummonType");
 		if (s == null || s == "")
 			s = "Skeleton"; //default!  default!  default!
-		Class<? extends Entity> clazz = (Class<? extends Entity>)EntityList.NAME_TO_CLASS.get(s);
-		return clazz;
+		//todo Class<? extends Entity> clazz = (Class<? extends Entity>)EntityList.NAME_TO_CLASS.get(s);
+		//return clazz;
+		return null;
 	}
 
 
 	public void setSummonType(NBTTagCompound stack, String s){
-		Class<? extends Entity> clazz = (Class<? extends Entity>)EntityList.NAME_TO_CLASS.get(s);
-		setSummonType(stack, clazz);
+		//todo Class<? extends Entity> clazz = (Class<? extends Entity>)EntityList.NAME_TO_CLASS.get(s);
+		//setSummonType(stack, clazz);
 	}
 
 	public void setSummonType(NBTTagCompound stack, Class<? extends Entity> clazz){
 		clazz = checkForSpecialSpawns(stack, clazz);
 
-		String s = (String)EntityList.CLASS_TO_NAME.get(clazz);
-		if (s == null)
-			s = "";
+		//todo String s = (String)EntityList.get.CLASS_TO_NAME.get(clazz);
+		//if (s == null)
+			//s = "";
 
-		stack.setString("SpawnClassName", s);
-		stack.setString("SummonType", s);
+		//stack.setString("SpawnClassName", s);
+		//stack.setString("SummonType", s);
 	}
 
 	private Class<? extends Entity> checkForSpecialSpawns(NBTTagCompound tag, Class<? extends Entity> clazz){
@@ -157,7 +158,7 @@ public class Summon extends SpellComponent{
 				}
 			}else{
 				if (caster instanceof EntityPlayer){
-					((EntityPlayer)caster).addChatMessage(new TextComponentString(I18n.format("am2.tooltip.noMoreSummons")));
+					((EntityPlayer)caster).sendMessage(new TextComponentString(I18n.format("am2.tooltip.noMoreSummons")));
 				}
 			}
 		}
@@ -178,7 +179,7 @@ public class Summon extends SpellComponent{
 				}
 			}else{
 				if (caster instanceof EntityPlayer){
-					((EntityPlayer)caster).addChatComponentMessage(new TextComponentString(I18n.format("am2.tooltip.noMoreSummons")));
+					((EntityPlayer)caster).sendMessage(new TextComponentString(I18n.format("am2.tooltip.noMoreSummons")));
 				}
 			}
 		}

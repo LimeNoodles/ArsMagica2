@@ -80,10 +80,10 @@ public class EntityBroom extends EntityCreature{
 
 	@Override
 	public void onUpdate(){
-		if (worldObj.isRemote){
+		if (world.isRemote){
 			updateRotations();
 			if (isMoving()){
-				AMParticle particle = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, "smoke", posX, posY, posZ);
+				AMParticle particle = (AMParticle)ArsMagica2.proxy.particleManager.spawn(world, "smoke", posX, posY, posZ);
 				if (particle != null){
 					particle.addRandomOffset(0.5, 0.5, 0.5);
 					particle.setRGBColorF(0.8f, 0.6f, 0.4f);
@@ -173,12 +173,12 @@ public class EntityBroom extends EntityCreature{
 			chestLocation = new AMVector3(posX, posY, posZ);
 	}
 	
-	@Override
+	//todo @Override
 	public EnumActionResult applyPlayerInteraction(EntityPlayer player, Vec3d vec, ItemStack stack, EnumHand hand){
 		if (player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() == ItemDefs.spellStaffMagitech){
-			if (this.worldObj.isRemote){
+			if (this.world.isRemote){
 				for (int i = 0; i < ArsMagica2.config.getGFXLevel() * 2; ++i){
-					AMParticle particle = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, "smoke", posX, posY, posZ);
+					AMParticle particle = (AMParticle)ArsMagica2.proxy.particleManager.spawn(world, "smoke", posX, posY, posZ);
 					if (particle != null){
 						particle.AddParticleController(new ParticleFloatUpward(particle, 0.1f, 0.3f, 1, false));
 						particle.addRandomOffset(0.3, 1, 0.3);

@@ -28,12 +28,12 @@ public class ItemLifeWard extends ItemArsMagica{
 		}
 	}
 
-	@Override
+	//todo @Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List<String> par3List, boolean par4){
 		par3List.add(I18n.format("am2.tooltip.life_ward"));
 		par3List.add(I18n.format("am2.tooltip.life_ward2"));
-		super.addInformation(par1ItemStack, par2EntityPlayer, par3List, par4);
+		//todo super.addInformation(par1ItemStack, par2EntityPlayer, par3List, par4);
 	}
 
 }

@@ -48,7 +48,7 @@ public class ParticlePendulum extends ParticleController{
 		lastDeltaX = deltaX;
 		lastDeltaZ = deltaZ;
 
-		particle.moveEntity(posX, posY, posZ);
+		particle.move(posX, posY, posZ);
 	}
 
 	@Override

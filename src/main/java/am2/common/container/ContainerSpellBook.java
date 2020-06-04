@@ -71,7 +71,7 @@ public class ContainerSpellBook extends Container{
 
 	@Override
 	public void onContainerClosed(EntityPlayer entityplayer){
-		World world = entityplayer.worldObj;
+		World world = entityplayer.world;
 
 		if (!world.isRemote){
 			ItemStack spellBookItemStack = bookStack;
@@ -86,7 +86,7 @@ public class ContainerSpellBook extends Container{
 
 	@Override
 	public boolean canInteractWith(EntityPlayer entityplayer){
-		return spellBookStack.isUseableByPlayer(entityplayer);
+		return spellBookStack.isUsableByPlayer(entityplayer);
 	}
 
 	@Override
@@ -111,8 +111,8 @@ public class ContainerSpellBook extends Container{
 
 						scrollSlot.putStack(newStack);
 						scrollSlot.onSlotChanged();
-						itemstack1.stackSize--;
-						if (itemstack1.stackSize == 0){
+						//todo itemstack1.stackSize--;
+						if (itemstack1.getCount() == 0){
 							slot.putStack(null);
 							slot.onSlotChanged();
 						}
@@ -133,8 +133,8 @@ public class ContainerSpellBook extends Container{
 
 						scrollSlot.putStack(newStack);
 						scrollSlot.onSlotChanged();
-						itemstack1.stackSize--;
-						if (itemstack1.stackSize == 0){
+						//todo itemstack1.stackSize--;
+						if (itemstack1.getCount() == 0){
 							slot.putStack(null);
 							slot.onSlotChanged();
 						}
@@ -147,12 +147,12 @@ public class ContainerSpellBook extends Container{
 			}else if (!mergeItemStack(itemstack1, 40, 75, false)){
 				return null;
 			}
-			if (itemstack1.stackSize == 0){
+			if (itemstack1.getCount() == 0){
 				slot.putStack(null);
 			}else{
 				slot.onSlotChanged();
 			}
-			if (itemstack1.stackSize != itemstack.stackSize){
+			if (itemstack1.getCount() != itemstack.getCount()){
 				slot.onSlotChange(itemstack1, itemstack);
 			}else{
 				return null;
